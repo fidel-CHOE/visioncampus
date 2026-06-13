@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -85,6 +84,18 @@ nav {
   transition: background .2s !important;
 }
 .nav-cta:hover { background: var(--amber-light) !important; }
+.nav-admin {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.nav-admin:hover { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.3); }
 
 /* ── HERO ── */
 .hero {
@@ -527,6 +538,24 @@ footer {
   transition: opacity .6s ease, transform .6s ease;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── 포트폴리오 오버레이 ── */
+.portfolio-panel {
+  display: none;
+  position: fixed;
+  top: 60px; left: 0; right: 0; bottom: 0;
+  z-index: 90;
+  background: var(--bg);
+  flex-direction: column;
+}
+.portfolio-panel.show { display: flex; }
+.nav-links a.nav-active {
+  color: #fff !important;
+}
+.nav-links a.nav-active:not(.nav-cta) {
+  border-bottom: 2px solid var(--amber);
+  padding-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -543,19 +572,39 @@ footer {
     <span class="nav-name">Vision Campus</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#who">이런 분께</a></li>
-    <li><a href="#pillars">세 가지 축</a></li>
-    <li><a href="#instructor">강사 소개</a></li>
-    <li><a href="#subscribe" class="nav-cta">소식 받기</a></li>
+    <li><a href="#who" onclick="showMain()">이런 분께</a></li>
+    <li><a href="#pillars" onclick="showMain()">세 가지 축</a></li>
+    <li><a href="#instructor" onclick="showMain()">강사 소개</a></li>
+    <li><a href="#subscribe" class="nav-cta" onclick="showMain()">소식 받기</a></li>
+    <li>
+      <a href="admin.html" class="nav-admin" title="관리자">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="7.5" cy="5" r="2.8"/>
+          <path d="M2 13c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/>
+        </svg>
+      </a>
+    </li>
   </ul>
 </nav>
+
+<!-- 포트폴리오 패널 (네비 아래 전체화면) -->
+<div class="portfolio-panel" id="portfolio-panel">
+  <div style="height:36px;background:#f0ede8;border-bottom:1px solid #E2E0D8;display:flex;align-items:center;padding:0 16px;flex-shrink:0;">
+    <button onclick="showMain()" style="display:flex;align-items:center;gap:5px;background:none;border:none;color:#7A7A8C;font-size:12.5px;cursor:pointer;padding:4px 8px;border-radius:5px;transition:all .15s;"
+      onmouseover="this.style.background='rgba(45,58,92,0.08)';this.style.color='#2D3A5C'"
+      onmouseout="this.style.background='none';this.style.color='#7A7A8C'">
+      ← 메인으로 돌아가기
+    </button>
+  </div>
+  <iframe id="portfolio-frame" src="" title="강사 포트폴리오" style="flex:1;border:none;width:100%;height:calc(100% - 36px);"></iframe>
+</div>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">
       <span class="dot"></span>
-      <span>2034년 론칭 준비 중</span>
+      <span>2027년 론칭 준비 중</span>
     </div>
     <h1>
       당신은 지금<br>
@@ -715,64 +764,28 @@ footer {
 
 <!-- INSTRUCTOR -->
 <section class="instructor-section" id="instructor">
-  <div class="instructor-inner">
-    <div class="instructor-card reveal">
-      <div class="instructor-avatar">F</div>
-      <div class="instructor-name">최민욱 (Fidel)</div>
-      <div class="instructor-role">강사 · 작가 · 비전캠퍼스 설계자</div>
-      <div class="instructor-tags">
-        <span class="itag">버크만 공인강사</span>
-        <span class="itag">KPC 전문코치</span>
-        <span class="itag">AI-POT 1급</span>
-        <span class="itag">ADsP</span>
-        <span class="itag">MBTI</span>
-        <span class="itag">eDISC</span>
-      </div>
-      <div class="instructor-contact">
-        문의: <a href="mailto:minook@kakao.com">minook@kakao.com</a>
-      </div>
+  <div style="max-width:1080px;margin:0 auto;">
+    <div class="reveal" style="text-align:center;margin-bottom:40px;">
+      <p class="section-eyebrow">강사 소개</p>
+      <h2 class="section-title">최민욱 (Fidel)</h2>
+      <p class="section-desc" style="margin:0 auto;">
+        LG전자 22년 — R&D, 마케팅, HRD·DX를 거친 강사·작가·코치.<br>
+        버크만 공인강사, KPC 전문코치, AI-POT 1급.
+      </p>
     </div>
-    <div class="instructor-bio reveal">
-      <div class="bio-block">
-        <h3>커리어</h3>
-        <div class="bio-timeline">
-          <div class="bio-item">
-            <span class="bio-year">2003~2004</span>
-            <span class="bio-text">LG전자 입사 — 초콜릿폰·샤인폰 R&D</span>
-          </div>
-          <div class="bio-item">
-            <span class="bio-year">2010년대</span>
-            <span class="bio-text">브라질·중남미 스마트폰 마케팅 (연 120만 대 판매 달성)</span>
-          </div>
-          <div class="bio-item">
-            <span class="bio-year">2020년대</span>
-            <span class="bio-text">생산기술원 조직문화 설계, DX Academy AI인증 과정, HRD 총괄</span>
-          </div>
-          <div class="bio-item">
-            <span class="bio-year">2026~</span>
-            <span class="bio-text">프리랜서 강사·작가 독립. 기업·기관 AI 교육, 버크만 코칭, 비전캠퍼스 설계 중</span>
-          </div>
+    <div class="reveal" style="display:flex;justify-content:center;">
+      <div style="display:flex;align-items:center;gap:24px;padding:28px 36px;background:var(--surface);border:1px solid var(--border);border-radius:14px;max-width:560px;width:100%;">
+        <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#2D3A5C,#1e2840);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#E07B39;flex-shrink:0;">F</div>
+        <div style="flex:1;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">최민욱 (Fidel)</div>
+          <div style="font-size:12.5px;color:var(--muted);line-height:1.5;">버크만 코칭 · AI 교육 · HRD 설계</div>
         </div>
-      </div>
-      <div class="bio-block">
-        <h3>자격·전문성</h3>
-        <div class="cert-grid">
-          <span class="cert-chip">버크만 공인강사</span>
-          <span class="cert-chip">KPC 전문코치</span>
-          <span class="cert-chip">AI-POT 1급</span>
-          <span class="cert-chip">ADsP</span>
-          <span class="cert-chip">MBTI 강사</span>
-          <span class="cert-chip">eDISC</span>
-          <span class="cert-chip">Gallup 강점코치</span>
-          <span class="cert-chip">사회복지사</span>
-          <span class="cert-chip">GITC 조직위원 15년</span>
-        </div>
-      </div>
-      <div class="bio-block">
-        <h3>한 마디</h3>
-        <p style="font-size:14px;color:var(--text);line-height:1.8;padding:20px;background:var(--bg);border-radius:10px;border-left:3px solid var(--amber);">
-          "22년을 LG에서 일했습니다. 퇴직 후 처음으로 '내가 진짜 뭘 잘하지?'라는 질문이 무서워지더군요. 버크만을 만나고, AI를 써보고, 투자를 공부하면서 — 세 개가 합쳐질 때 비로소 두렵지 않아졌습니다. 그 과정을 함께 걷고 싶어 비전캠퍼스를 만들고 있습니다."
-        </p>
+        <button onclick="showPortfolio(event)"
+          style="display:flex;align-items:center;gap:6px;padding:9px 18px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .15s;"
+          onmouseover="this.style.background='#3a4a74'"
+          onmouseout="this.style.background='#2D3A5C'">
+          포트폴리오 확인 →
+        </button>
       </div>
     </div>
   </div>
@@ -783,7 +796,7 @@ footer {
   <div class="cta-inner reveal">
     <p class="section-eyebrow" style="color:rgba(224,123,57,0.8)">소식 받기</p>
     <h2 class="section-title">론칭 전 가장 먼저 알려드릴게요</h2>
-    <p>비전캠퍼스는 2034년 공식 론칭을 목표로 준비 중입니다.<br>얼리버드 소식, 무료 콘텐츠, 파일럿 과정 안내를 먼저 받아보세요.</p>
+    <p>비전캠퍼스는 2027년 파일럿 론칭을 목표로 준비 중입니다.<br>얼리버드 소식, 무료 콘텐츠, 파일럿 과정 안내를 먼저 받아보세요.</p>
     <div class="cta-form">
       <input type="email" placeholder="이메일 주소를 입력하세요" id="email-input">
       <button class="btn-primary" onclick="handleSubscribe()">구독하기</button>
@@ -806,7 +819,7 @@ footer {
   <ul class="footer-links">
     <li><a href="#who">소개</a></li>
     <li><a href="#pillars">프로그램</a></li>
-    <li><a href="#instructor">강사</a></li>
+    <li><a href="https://fidel-choe.github.io/fidel_course" target="_blank" rel="noopener">강사</a></li>
     <li><a href="mailto:minook@kakao.com">문의</a></li>
   </ul>
   <span class="footer-copy">© 2026 Vision Campus · Fidel Choe</span>
@@ -818,6 +831,25 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// 포트폴리오 패널 토글
+function showPortfolio(e) {
+  if(e) e.preventDefault();
+  const panel = document.getElementById('portfolio-panel');
+  const frame = document.getElementById('portfolio-frame');
+  if (!frame.getAttribute('data-loaded')) {
+    frame.src = 'portfolio.html';
+    frame.setAttribute('data-loaded', '1');
+  }
+  panel.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function showMain() {
+  const panel = document.getElementById('portfolio-panel');
+  panel.classList.remove('show');
+  document.body.style.overflow = '';
+}
 
 // 구독 처리 (실제 연동 전 임시)
 function handleSubscribe() {
