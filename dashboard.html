@@ -6,228 +6,91 @@
 <title>Vision Campus — Dashboard</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600&display=swap');
-
   :root {
-    --navy: #2D3A5C;
-    --navy-dark: #1e2840;
-    --amber: #E07B39;
-    --green: #1D9E75;
-    --bg: #F7F6F2;
-    --surface: #FFFFFF;
-    --text: #1A1A2E;
-    --muted: #7A7A8C;
-    --border: #E2E0D8;
-    --nav-w: 220px;
-    --nav-bg: #1e2840;
+    --navy:#2D3A5C; --navy-dark:#1e2840; --amber:#E07B39;
+    --green:#1D9E75; --bg:#F7F6F2; --surface:#fff;
+    --text:#1A1A2E; --muted:#7A7A8C; --border:#E2E0D8;
+    --nav-w:236px; --nav-bg:#1e2840;
   }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);height:100vh;display:flex;overflow:hidden;}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* ── 사이드바 ── */
+  .sidebar{width:var(--nav-w);background:var(--nav-bg);display:flex;flex-direction:column;flex-shrink:0;height:100vh;overflow:hidden;}
+  .sidebar-header{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,0.07);flex-shrink:0;}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .brand-icon{width:30px;height:30px;background:var(--amber);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .brand-icon svg{width:16px;height:16px;}
+  .brand-name{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:#fff;line-height:1.2;}
+  .brand-sub{font-size:9.5px;color:rgba(255,255,255,0.35);font-family:'Space Grotesk',sans-serif;}
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    height: 100vh;
-    display: flex;
-    overflow: hidden;
-  }
+  /* ── 스크롤 영역 ── */
+  .nav-section{flex:1;overflow-y:auto;padding:12px 8px 8px;}
+  .nav-section::-webkit-scrollbar{width:3px;}
+  .nav-section::-webkit-scrollbar-track{background:transparent;}
+  .nav-section::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px;}
 
-  /* ── 사이드 네비게이션 ── */
-  .sidebar {
-    width: var(--nav-w);
-    background: var(--nav-bg);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    height: 100vh;
-  }
+  /* ── 섹션 라벨 ── */
+  .nav-label{font-size:9.5px;font-weight:600;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:1px;padding:4px 8px 6px;margin-top:8px;}
 
-  .sidebar-header {
-    padding: 24px 20px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-  }
+  /* ── 기본 nav-item ── */
+  .nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;cursor:pointer;color:rgba(255,255,255,0.58);font-size:12.5px;font-weight:400;transition:all .14s;text-decoration:none;border:none;background:none;width:100%;text-align:left;}
+  .nav-item:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.88);}
+  .nav-item.active{background:rgba(224,123,57,0.18);color:#fff;}
+  .nav-item .icon{width:16px;height:16px;opacity:0.65;flex-shrink:0;}
+  .nav-item.active .icon{opacity:1;}
+  .nav-item .dot{width:5px;height:5px;border-radius:50%;background:var(--amber);margin-left:auto;display:none;flex-shrink:0;}
+  .nav-item.active .dot{display:block;}
 
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
+  /* ── 트리 구조 ── */
+  .tree-group{margin-bottom:2px;}
 
-  .brand-icon {
-    width: 32px;
-    height: 32px;
-    background: var(--amber);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+  /* 카테고리 헤더 (접기/펼치기) */
+  .tree-cat{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;cursor:pointer;color:rgba(255,255,255,0.65);font-size:12px;font-weight:600;transition:all .14s;width:100%;text-align:left;border:none;background:none;}
+  .tree-cat:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.9);}
+  .tree-cat .icon{width:15px;height:15px;opacity:0.6;flex-shrink:0;}
+  .tree-cat .chevron{margin-left:auto;font-size:9px;color:rgba(255,255,255,0.3);transition:transform .18s;flex-shrink:0;}
+  .tree-cat.open .chevron{transform:rotate(90deg);}
+  .tree-cat.open{color:rgba(255,255,255,0.9);}
 
-  .brand-icon svg { width: 18px; height: 18px; }
+  /* 서브 카테고리 컨테이너 */
+  .tree-children{display:none;padding-left:14px;}
+  .tree-children.open{display:block;}
 
-  .brand-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #fff;
-    line-height: 1.2;
-  }
+  /* 서브카테고리 헤더 */
+  .tree-subcat{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:5px;cursor:pointer;color:rgba(255,255,255,0.5);font-size:11.5px;font-weight:600;transition:all .14s;width:100%;text-align:left;border:none;background:none;}
+  .tree-subcat:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.8);}
+  .tree-subcat .chevron{margin-left:auto;font-size:8px;color:rgba(255,255,255,0.25);transition:transform .18s;flex-shrink:0;}
+  .tree-subcat.open .chevron{transform:rotate(90deg);}
+  .tree-subcat.open{color:rgba(255,255,255,0.8);}
 
-  .brand-sub {
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
-    font-family: 'Space Grotesk', sans-serif;
-  }
+  /* 서브카테고리 하위 아이템 */
+  .tree-leaf-wrap{display:none;padding-left:12px;}
+  .tree-leaf-wrap.open{display:block;}
 
-  .nav-section {
-    padding: 16px 12px 8px;
-    flex: 1;
-    overflow-y: auto;
-  }
+  /* 리프 노드 (클릭 가능한 최하단 항목) */
+  .tree-leaf{display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:4px;cursor:pointer;color:rgba(255,255,255,0.42);font-size:11.5px;transition:all .13s;width:100%;text-align:left;border:none;background:none;}
+  .tree-leaf:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.78);}
+  .tree-leaf.active{color:var(--amber);background:rgba(224,123,57,0.1);}
+  .tree-leaf::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.2);flex-shrink:0;}
+  .tree-leaf.active::before{background:var(--amber);}
 
-  .nav-label {
-    font-size: 10px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.3);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0 8px 8px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    color: rgba(255,255,255,0.6);
-    font-size: 13.5px;
-    font-weight: 400;
-    transition: all 0.15s;
-    text-decoration: none;
-    margin-bottom: 2px;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-  }
-
-  .nav-item:hover {
-    background: rgba(255,255,255,0.07);
-    color: rgba(255,255,255,0.9);
-  }
-
-  .nav-item.active {
-    background: rgba(224,123,57,0.18);
-    color: #fff;
-  }
-
-  .nav-item .icon {
-    width: 18px;
-    height: 18px;
-    opacity: 0.7;
-    flex-shrink: 0;
-  }
-
-  .nav-item.active .icon { opacity: 1; }
-
-  .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--amber);
-    margin-left: auto;
-    display: none;
-  }
-
-  .nav-item.active .dot { display: block; }
-
-  .sidebar-footer {
-    padding: 16px 12px;
-    border-top: 1px solid rgba(255,255,255,0.07);
-  }
-
-  .logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    color: rgba(255,255,255,0.4);
-    font-size: 12px;
-    background: none;
-    border: none;
-    width: 100%;
-    transition: all 0.15s;
-  }
-
-  .logout-btn:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
+  /* ── 푸터 ── */
+  .sidebar-footer{padding:12px 8px;border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0;}
+  .logout-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;cursor:pointer;color:rgba(255,255,255,0.35);font-size:11.5px;background:none;border:none;width:100%;transition:all .14s;}
+  .logout-btn:hover{color:rgba(255,255,255,0.65);background:rgba(255,255,255,0.05);}
 
   /* ── 메인 콘텐츠 ── */
-  .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .topbar {
-    height: 52px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    gap: 12px;
-    flex-shrink: 0;
-  }
-
-  .page-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--navy);
-  }
-
-  .page-badge {
-    font-size: 11px;
-    background: rgba(29,158,117,0.12);
-    color: var(--green);
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  .content-frame {
-    flex: 1;
-    overflow: hidden;
-  }
-
-  .content-frame iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  .placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: var(--muted);
-    gap: 12px;
-  }
-
-  .placeholder svg { opacity: 0.3; }
-  .placeholder p { font-size: 14px; }
+  .main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+  .topbar{height:50px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0;}
+  .page-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--navy);}
+  .page-badge{font-size:10.5px;background:rgba(29,158,117,0.12);color:var(--green);padding:2px 8px;border-radius:20px;font-weight:500;}
+  .content-frame{flex:1;overflow:hidden;}
+  .content-frame iframe{width:100%;height:100%;border:none;}
 </style>
 </head>
 <body>
 
-<!-- 사이드바 -->
 <nav class="sidebar">
   <div class="sidebar-header">
     <a href="#" class="brand">
@@ -245,46 +108,122 @@
   </div>
 
   <div class="nav-section">
-    <div class="nav-label">내 로드맵</div>
 
-    <button class="nav-item active" onclick="loadPage('roadmap.html', '인생 로드맵', this)">
+    <!-- ── 내 로드맵 ── -->
+    <div class="nav-label">내 로드맵</div>
+    <button class="nav-item active" id="nav-roadmap" onclick="loadPage('roadmap.html','인생 로드맵','WBS v2',this)">
       <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M2 14L6 10L9 13L13 7L16 10"/>
-        <path d="M2 4h14M2 8h8"/>
+        <path d="M2 14L6 10L9 13L13 7L16 10"/><path d="M2 4h14M2 8h8"/>
       </svg>
       인생 로드맵
       <span class="dot"></span>
     </button>
 
-    <!-- 나중에 추가될 메뉴들 (비활성) -->
-    <div class="nav-label" style="margin-top:16px">준비 중</div>
-
-    <button class="nav-item" style="opacity:0.4;cursor:default">
+    <!-- ── 강사 포트폴리오 ── -->
+    <button class="nav-item" onclick="loadPortfolio(this)">
       <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
-        <rect x="2" y="2" width="14" height="14" rx="3"/>
-        <path d="M6 9h6M9 6v6"/>
+        <rect x="2" y="4" width="14" height="11" rx="2"/>
+        <path d="M6 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/>
+        <path d="M9 9v2M7 9h4"/>
       </svg>
-      강의 트래커
+      강사 포트폴리오
+      <span class="dot"></span>
     </button>
 
-    <button class="nav-item" style="opacity:0.4;cursor:default">
+    <!-- ── 강의안 트리 ── -->
+    <div class="nav-label" style="margin-top:12px">강의안</div>
+
+    <!-- AI 강의 -->
+    <div class="tree-group">
+      <button class="tree-cat" onclick="toggleCat(this)">
+        <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="9" cy="9" r="7"/><path d="M9 6v3l2 2"/>
+        </svg>
+        AI 강의
+        <span class="chevron">▶</span>
+      </button>
+      <div class="tree-children">
+        <button class="tree-leaf" onclick="loadPage('lectures/ai-vibecoding.html','바이브코딩','AI 강의',this)">바이브코딩</button>
+        <button class="tree-leaf" onclick="loadPage('lectures/ai-python.html','파이썬 코드 독해','AI 강의',this)">파이썬</button>
+      </div>
+    </div>
+
+    <!-- 경제/재테크 강의 -->
+    <div class="tree-group">
+      <button class="tree-cat" onclick="toggleCat(this)">
+        <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 13V7M8 13V4M12 13V9M16 13V6"/>
+        </svg>
+        경제/재테크 강의
+        <span class="chevron">▶</span>
+      </button>
+      <div class="tree-children">
+        <button class="tree-leaf" onclick="loadPage('lectures/econ-retiree.html','퇴직자 대상','경제/재테크',this)">퇴직자 대상</button>
+        <button class="tree-leaf" onclick="loadPage('lectures/econ-worker.html','직장인 대상','경제/재테크',this)">직장인 대상</button>
+      </div>
+    </div>
+
+    <!-- 사람에 대한 이해 -->
+    <div class="tree-group">
+      <button class="tree-cat" onclick="toggleCat(this)">
+        <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="9" cy="6" r="3"/><path d="M3 16c0-3 2.7-5 6-5s6 2 6 5"/>
+        </svg>
+        사람에 대한 이해
+        <span class="chevron">▶</span>
+      </button>
+      <div class="tree-children">
+        <button class="tree-leaf" onclick="loadPage('lectures/people-strengths.html','강점혁명','사람에 대한 이해',this)">강점혁명</button>
+        <button class="tree-leaf" onclick="loadPage('lectures/people-birkman.html','버크만','사람에 대한 이해',this)">버크만</button>
+        <button class="tree-leaf" onclick="loadPage('lectures/people-brain-mbti.html','뇌파와 MBTI','사람에 대한 이해',this)">뇌파와 MBTI</button>
+      </div>
+    </div>
+
+    <!-- 저자 강연 (서브카테고리 있음) -->
+    <div class="tree-group">
+      <button class="tree-cat" onclick="toggleCat(this)">
+        <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 2h10a1 1 0 011 1v13l-3-2-3 2-3-2-3 2V3a1 1 0 011-1z"/>
+          <path d="M7 7h5M7 10h3"/>
+        </svg>
+        저자 강연
+        <span class="chevron">▶</span>
+      </button>
+      <div class="tree-children">
+        <!-- 시작의 자격 (서브카테고리) -->
+        <div>
+          <button class="tree-subcat" onclick="toggleSubcat(this)">
+            시작의 자격
+            <span class="chevron">▶</span>
+          </button>
+          <div class="tree-leaf-wrap">
+            <button class="tree-leaf" onclick="loadPage('lectures/talk-0611.html','저자강연 0611','시작의 자격',this)">0611 저자강연</button>
+            <button class="tree-leaf" onclick="loadPage('lectures/talk-0613.html','출간기념회 0613','시작의 자격',this)">0613 출간기념회</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 준비 중 ── -->
+    <div class="nav-label" style="margin-top:12px">준비 중</div>
+    <button class="nav-item" style="opacity:0.35;cursor:default;pointer-events:none;">
       <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M9 2L11 7h5l-4 3 1.5 5L9 12l-4.5 3L6 10 2 7h5z"/>
       </svg>
       비전캠퍼스 KPI
     </button>
-
-    <button class="nav-item" style="opacity:0.4;cursor:default">
+    <button class="nav-item" style="opacity:0.35;cursor:default;pointer-events:none;">
       <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M4 13V7M8 13V4M12 13V9M16 13V6"/>
+        <rect x="2" y="2" width="14" height="14" rx="3"/><path d="M6 9h6M9 6v6"/>
       </svg>
       수입 현황
     </button>
+
   </div>
 
   <div class="sidebar-footer">
     <button class="logout-btn" onclick="logout()">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M5 2H2v10h3M10 4l3 3-3 3M13 7H6"/>
       </svg>
       로그아웃
@@ -299,7 +238,7 @@
     <span class="page-badge" id="top-badge">WBS v2</span>
   </div>
   <div class="content-frame">
-    <iframe id="main-frame" src="roadmap.html" title="인생 로드맵"></iframe>
+    <iframe id="main-frame" src="roadmap.html" title="콘텐츠"></iframe>
   </div>
 </div>
 
@@ -309,11 +248,56 @@
     window.location.href = 'admin.html';
   }
 
-  function loadPage(url, title, el) {
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
+  const PORTFOLIO_URL = 'https://fidel-choe.github.io/fidel_course';
+
+  // 포트폴리오 로드 (외부 URL — iframe 차단 여부 감지)
+  function loadPortfolio(el) {
+    document.querySelectorAll('.nav-item, .tree-leaf').forEach(i => i.classList.remove('active'));
+    if (el) el.classList.add('active');
+    document.getElementById('top-title').textContent = '강사 포트폴리오';
+    document.getElementById('top-badge').textContent = 'fidel';
+
+    const frame = document.getElementById('main-frame');
+    frame.src = PORTFOLIO_URL;
+
+    // iframe 로드 후 접근 가능 여부 체크
+    frame.onload = function() {
+      try {
+        // 같은 도메인이면 접근 가능, 다른 도메인이면 SecurityError
+        const _ = frame.contentDocument;
+        // 접근 가능 = 차단 안 됨 (드문 케이스)
+      } catch(e) {
+        // SecurityError = CORS로 막혔지만 iframe 자체는 로드됨 → 정상
+        // X-Frame-Options으로 막히면 빈 페이지가 로드되므로 별도 처리
+      }
+    };
+  }
+
+  // 일반 페이지 로드
+  function loadPage(url, title, badge, el) {
+    document.querySelectorAll('.nav-item, .tree-leaf').forEach(i => i.classList.remove('active'));
+    if (el) el.classList.add('active');
     document.getElementById('top-title').textContent = title;
-    document.getElementById('main-frame').src = url;
+    document.getElementById('top-badge').textContent = badge || '';
+    const frame = document.getElementById('main-frame');
+    frame.onload = null;
+    frame.src = url;
+  }
+
+  // 1단계 카테고리 토글
+  function toggleCat(btn) {
+    const children = btn.nextElementSibling;
+    const isOpen = children.classList.contains('open');
+    btn.classList.toggle('open', !isOpen);
+    children.classList.toggle('open', !isOpen);
+  }
+
+  // 2단계 서브카테고리 토글
+  function toggleSubcat(btn) {
+    const leaves = btn.nextElementSibling;
+    const isOpen = leaves.classList.contains('open');
+    btn.classList.toggle('open', !isOpen);
+    leaves.classList.toggle('open', !isOpen);
   }
 
   function logout() {
