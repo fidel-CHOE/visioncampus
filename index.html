@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision Campus — 나를 알고, 할수록 힘이 나는 일</title>
+<meta name="description" content="진단·AI·투자 세 축으로 자신만의 커리어를 설계하는 교육 프로그램. 40~55세 전환기 직장인을 위한 비전캠퍼스.">
+<meta property="og:title" content="Vision Campus">
+<meta property="og:description" content="나를 알고, 할수록 힘이 나는 나만의 일을 찾아 죽을 때까지 재미있게.">
+<meta property="og:url" content="https://visioncampus.co.kr">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+:root {
+  --navy: #2D3A5C;
+  --navy-dark: #1e2840;
+  --amber: #E07B39;
+  --amber-light: #f0935a;
+  --green: #1D9E75;
+  --green-light: #24c490;
+  --bg: #F7F6F2;
+  --text: #1A1A2E;
+  --muted: #6B6B80;
+  --surface: #fff;
+  --border: #E2E0D8;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(30, 40, 64, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-icon {
+  width: 32px; height: 32px;
+  background: var(--amber);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-icon svg { width: 18px; height: 18px; }
+.nav-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: #fff; letter-spacing: -0.3px;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color .2s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-cta {
+  padding: 7px 18px;
+  background: var(--amber);
+  color: #fff !important;
+  border-radius: 7px;
+  font-weight: 500 !important;
+  font-size: 13px;
+  transition: background .2s !important;
+}
+.nav-cta:hover { background: var(--amber-light) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: var(--navy-dark);
+  display: flex; align-items: center;
+  padding: 100px 6% 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 70% 50%, rgba(224,123,57,0.12) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 40% at 20% 80%, rgba(29,158,117,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+/* 배경 그리드 패턴 */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 720px;
+  position: relative; z-index: 1;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(224,123,57,0.15);
+  border: 1px solid rgba(224,123,57,0.3);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 32px;
+}
+.hero-eyebrow span {
+  font-size: 11.5px; font-weight: 600;
+  color: var(--amber); letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.hero-eyebrow .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--amber);
+  position: relative;
+}
+.hero h1 em::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 0; right: 0;
+  height: 2px;
+  background: var(--amber);
+  opacity: 0.4;
+  border-radius: 1px;
+}
+.hero-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.75;
+  max-width: 540px;
+  margin-bottom: 40px;
+}
+.hero-sub strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+.hero-actions {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px;
+  background: var(--amber);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+  border: none; cursor: pointer;
+}
+.btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.8);
+  border-radius: 9px;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: all .2s;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.13); color: #fff; }
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: rgba(255,255,255,0.3);
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+  animation: scrollDown 1.8s ease-in-out infinite;
+}
+@keyframes scrollDown {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ── SECTION 공통 ── */
+section { padding: 88px 6%; }
+.section-eyebrow {
+  font-size: 11px; font-weight: 700;
+  color: var(--amber);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  margin-bottom: 16px;
+}
+.section-desc {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 560px;
+}
+
+/* ── WHO 섹션 ── */
+.who-section { background: var(--surface); }
+.who-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+}
+.who-cards {
+  display: flex; flex-direction: column; gap: 14px;
+}
+.who-card {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 18px 20px;
+  background: var(--bg);
+  border-radius: 10px;
+  border-left: 3px solid transparent;
+  transition: border-color .2s, transform .2s;
+}
+.who-card:hover { border-left-color: var(--amber); transform: translateX(4px); }
+.who-card.active { border-left-color: var(--amber); }
+.who-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: rgba(224,123,57,0.1);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+}
+.who-card h3 { font-size: 13.5px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.who-card p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+/* ── PILLARS 섹션 ── */
+.pillars-section { background: var(--bg); }
+.pillars-inner { max-width: 1080px; margin: 0 auto; }
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 48px;
+}
+.pillar-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+  border: 1px solid var(--border);
+}
+.pillar-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(45,58,92,0.1); }
+.pillar-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 48px; font-weight: 700;
+  color: rgba(45,58,92,0.06);
+  position: absolute; top: 16px; right: 20px;
+  line-height: 1;
+}
+.pillar-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.tag-diag { background: rgba(45,58,92,0.1); color: var(--navy); }
+.tag-ai { background: rgba(224,123,57,0.12); color: var(--amber); }
+.tag-invest { background: rgba(29,158,117,0.12); color: var(--green); }
+.pillar-card h3 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.pillar-card p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+.pillar-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.pillar-items li {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; color: var(--text);
+}
+.pillar-items li::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+}
+.diag-items li::before { background: var(--navy); }
+.ai-items li::before { background: var(--amber); }
+.invest-items li::before { background: var(--green); }
+.pillar-footer {
+  margin-top: 24px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11.5px; color: var(--muted);
+  font-style: italic;
+}
+
+/* ── MERGE 섹션 ── */
+.merge-section {
+  background: var(--navy);
+  position: relative; overflow: hidden;
+}
+.merge-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(224,123,57,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+.merge-inner { max-width: 860px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+.merge-inner .section-title { color: #fff; }
+.merge-inner .section-desc { color: rgba(255,255,255,0.6); margin: 0 auto 48px; max-width: 520px; }
+.merge-flow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.merge-step {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; padding: 20px 24px;
+}
+.merge-step-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.ic-diag { background: rgba(255,255,255,0.1); }
+.ic-ai { background: rgba(224,123,57,0.2); }
+.ic-inv { background: rgba(29,158,117,0.2); }
+.merge-step span { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500; }
+.merge-arrow {
+  font-size: 20px; color: rgba(255,255,255,0.2);
+  padding: 0 4px; margin-bottom: 24px;
+}
+.merge-result {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 24px 32px;
+  display: inline-block;
+}
+.merge-result p {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px; color: #fff;
+  line-height: 1.6;
+}
+.merge-result strong { color: var(--amber); }
+
+/* ── INSTRUCTOR 섹션 ── */
+.instructor-section { background: var(--bg); }
+.instructor-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start;
+}
+.instructor-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 32px 28px;
+  border: 1px solid var(--border);
+  text-align: center;
+  position: sticky; top: 80px;
+}
+.instructor-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--amber);
+}
+.instructor-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--navy); margin-bottom: 4px;
+}
+.instructor-role { font-size: 12.5px; color: var(--muted); margin-bottom: 20px; }
+.instructor-tags {
+  display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+  margin-bottom: 20px;
+}
+.itag {
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 10.5px; font-weight: 500;
+  background: rgba(45,58,92,0.08); color: var(--navy);
+}
+.instructor-contact {
+  font-size: 12px; color: var(--muted);
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.instructor-contact a { color: var(--amber); text-decoration: none; }
+
+.instructor-bio { display: flex; flex-direction: column; gap: 28px; }
+.bio-block {}
+.bio-block h3 {
+  font-size: 13px; font-weight: 700;
+  color: var(--navy); margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.bio-timeline { display: flex; flex-direction: column; gap: 10px; }
+.bio-item {
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.bio-year {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px; font-weight: 600;
+  color: var(--amber); min-width: 64px; padding-top: 2px;
+}
+.bio-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.cert-grid {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.cert-chip {
+  padding: 5px 12px;
+  background: var(--bg);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-size: 12px; color: var(--text);
+}
+
+/* ── CTA 섹션 ── */
+.cta-section {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, #2a3c6a 100%);
+  text-align: center;
+  padding: 96px 6%;
+}
+.cta-inner { max-width: 600px; margin: 0 auto; }
+.cta-inner .section-title { color: #fff; margin-bottom: 16px; }
+.cta-inner p { color: rgba(255,255,255,0.6); font-size: 15px; margin-bottom: 40px; line-height: 1.7; }
+.cta-form {
+  display: flex; gap: 10px;
+  max-width: 440px; margin: 0 auto 16px;
+}
+.cta-form input[type=email] {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 13.5px;
+  font-family: 'Noto Sans KR', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+}
+.cta-form input[type=email]::placeholder { color: rgba(255,255,255,0.35); }
+.cta-form input[type=email]:focus { border-color: var(--amber); }
+.cta-note { font-size: 11.5px; color: rgba(255,255,255,0.3); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy-dark);
+  padding: 40px 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-brand {
+  display: flex; align-items: center; gap: 10px;
+}
+.footer-brand span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.7);
+}
+.footer-links { display: flex; gap: 20px; list-style: none; }
+.footer-links a { font-size: 12px; color: rgba(255,255,255,0.35); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+.footer-copy { font-size: 11.5px; color: rgba(255,255,255,0.25); }
+
+/* ── 반응형 ── */
+@media (max-width: 768px) {
+  nav { padding: 0 4%; }
+  .nav-links { display: none; }
+  section { padding: 64px 4%; }
+  .who-inner, .instructor-inner { grid-template-columns: 1fr; gap: 36px; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .instructor-card { position: static; }
+  .cta-form { flex-direction: column; }
+  .merge-flow { gap: 0; }
+  footer { flex-direction: column; text-align: center; }
+}
+
+/* ── scroll reveal ── */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-icon">
+      <svg viewBox="0 0 18 18" fill="none">
+        <path d="M9 2L15 5.5V12.5L9 16L3 12.5V5.5L9 2Z" stroke="white" stroke-width="1.3" fill="none"/>
+        <circle cx="9" cy="9" r="2.5" fill="white"/>
+      </svg>
+    </div>
+    <span class="nav-name">Vision Campus</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#who">이런 분께</a></li>
+    <li><a href="#pillars">세 가지 축</a></li>
+    <li><a href="#instructor">강사 소개</a></li>
+    <li><a href="#subscribe" class="nav-cta">소식 받기</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      <span>2034년 론칭 준비 중</span>
+    </div>
+    <h1>
+      당신은 지금<br>
+      <em>무엇을 위해</em><br>
+      일하고 있나요?
+    </h1>
+    <p class="hero-sub">
+      20년 가까이 열심히 달려왔는데,<br>
+      <strong>정작 내가 뭘 잘하고 뭘 원하는지</strong> 모르겠다면.<br>
+      나를 알고, 할수록 힘이 나는 나만의 일을 찾아<br>
+      죽을 때까지 재미있게 — 그게 비전캠퍼스가 만들어지는 이유입니다.
+    </p>
+    <div class="hero-actions">
+      <a href="#pillars" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 1v12M1 7h12"/></svg>
+        프로그램 보기
+      </a>
+      <a href="#subscribe" class="btn-secondary">론칭 소식 받기 →</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="who-section" id="who">
+  <div class="who-inner">
+    <div class="reveal">
+      <p class="section-eyebrow">이런 분께</p>
+      <h2 class="section-title">전환점 앞에 서 있는 당신에게</h2>
+      <p class="section-desc">
+        비전캠퍼스는 40~55세,<br>
+        커리어의 절반을 지나온 분들을 위해 설계됩니다.<br><br>
+        퇴직 전이든, 퇴직 후든 — 지금이 가장 좋은 시점입니다.
+      </p>
+    </div>
+    <div class="who-cards reveal">
+      <div class="who-card active">
+        <div class="who-icon">🔍</div>
+        <div>
+          <h3>내가 뭘 잘하는지 모르겠어요</h3>
+          <p>20년 경력이 있는데도 "저는 이게 강점입니다"라는 말이 안 나오는 분</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">⏰</div>
+        <div>
+          <h3>언제까지 이렇게 살 수는 없는데</h3>
+          <p>조직 안에서 안전하게 있지만, 10년 후가 불안하게 느껴지는 분</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">💡</div>
+        <div>
+          <h3>AI 시대에 내 자리가 걱정돼요</h3>
+          <p>AI를 쓰긴 쓰는데, 어떻게 활용해야 내 가치가 올라가는지 모르겠는 분</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🌱</div>
+        <div>
+          <h3>지금부터라도 준비하고 싶어요</h3>
+          <p>퇴직 후를 너무 늦지 않게, 하지만 너무 조급하지 않게 설계하고 싶은 분</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars-section" id="pillars">
+  <div class="pillars-inner">
+    <div class="reveal" style="text-align:center;margin-bottom:8px;">
+      <p class="section-eyebrow">세 가지 축</p>
+      <h2 class="section-title">진단 · AI · 투자</h2>
+      <p class="section-desc" style="margin:0 auto;">
+        하나씩 배우고, 올라갈수록 합쳐집니다.<br>
+        이 셋이 만나는 자리에 당신만의 커리어 설계도가 그려집니다.
+      </p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <span class="pillar-num">01</span>
+        <span class="pillar-tag tag-diag">진단</span>
+        <h3>나를 이해하는 힘</h3>
+        <p>버크만 공인 프로파일링을 기반으로, 흥미·행동·욕구의 패턴을 객관적으로 읽는 법을 배웁니다.</p>
+        <ul class="pillar-items diag-items">
+          <li>내 강점과 에너지 패턴 파악</li>
+          <li>버크만 프로파일 해석</li>
+          <li>직업·역할과의 핏 분석</li>
+          <li>주변과의 관계 패턴 이해</li>
+        </ul>
+        <div class="pillar-footer">강사: 버크만 공인강사, KPC 전문코치</div>
+      </div>
+      <div class="pillar-card reveal" style="transition-delay:.1s">
+        <span class="pillar-num">02</span>
+        <span class="pillar-tag tag-ai">AI</span>
+        <h3>도구를 손에 쥐는 힘</h3>
+        <p>AI를 그냥 써보는 게 아니라, 내 일과 정체성에 맞게 활용하는 법을 설계합니다.</p>
+        <ul class="pillar-items ai-items">
+          <li>바이브코딩 — 코딩 없이 만들기</li>
+          <li>AI 에이전트 설계·운영</li>
+          <li>업무 자동화 루틴 구축</li>
+          <li>나만의 AI 워크플로우</li>
+        </ul>
+        <div class="pillar-footer">강사: AI-POT 1급, ADsP 보유</div>
+      </div>
+      <div class="pillar-card reveal" style="transition-delay:.2s">
+        <span class="pillar-num">03</span>
+        <span class="pillar-tag tag-invest">투자</span>
+        <h3>시간을 자산으로 만드는 힘</h3>
+        <p>일하는 시간 외에도 돈이 흐르는 구조를 이해하고, 나만의 자립 기반을 설계합니다.</p>
+        <ul class="pillar-items invest-items">
+          <li>투자 원칙과 자기 기준 세우기</li>
+          <li>퇴직 후 현금흐름 설계</li>
+          <li>IRP·연금·세금 기초</li>
+          <li>나의 골든타임 찾기</li>
+        </ul>
+        <div class="pillar-footer">기반 도서: 『내 인생의 골든타임』 (출간 예정)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MERGE -->
+<section class="merge-section">
+  <div class="merge-inner reveal">
+    <p class="section-eyebrow" style="color:rgba(224,123,57,0.8)">통합 과정</p>
+    <h2 class="section-title">세 축이 만나는 자리</h2>
+    <p class="section-desc">각론을 익힌 후, 통합과정에서 하나로 합쳐집니다. 이것이 비전캠퍼스의 최종 목적지입니다.</p>
+    <div class="merge-flow">
+      <div class="merge-step">
+        <div class="merge-step-icon ic-diag">🔍</div>
+        <span>나를 안다</span>
+      </div>
+      <div class="merge-arrow">＋</div>
+      <div class="merge-step">
+        <div class="merge-step-icon ic-ai">🤖</div>
+        <span>도구를 쥔다</span>
+      </div>
+      <div class="merge-arrow">＋</div>
+      <div class="merge-step">
+        <div class="merge-step-icon ic-inv">📈</div>
+        <span>자립 기반을 만든다</span>
+      </div>
+    </div>
+    <div class="merge-result">
+      <p>
+        <strong>"할수록 힘이 나는 나만의 일"</strong>을 찾아<br>
+        죽을 때까지 재미있게 일하는 삶의 설계도
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTOR -->
+<section class="instructor-section" id="instructor">
+  <div class="instructor-inner">
+    <div class="instructor-card reveal">
+      <div class="instructor-avatar">F</div>
+      <div class="instructor-name">최민욱 (Fidel)</div>
+      <div class="instructor-role">강사 · 작가 · 비전캠퍼스 설계자</div>
+      <div class="instructor-tags">
+        <span class="itag">버크만 공인강사</span>
+        <span class="itag">KPC 전문코치</span>
+        <span class="itag">AI-POT 1급</span>
+        <span class="itag">ADsP</span>
+        <span class="itag">MBTI</span>
+        <span class="itag">eDISC</span>
+      </div>
+      <div class="instructor-contact">
+        문의: <a href="mailto:minook@kakao.com">minook@kakao.com</a>
+      </div>
+    </div>
+    <div class="instructor-bio reveal">
+      <div class="bio-block">
+        <h3>커리어</h3>
+        <div class="bio-timeline">
+          <div class="bio-item">
+            <span class="bio-year">2003~2004</span>
+            <span class="bio-text">LG전자 입사 — 초콜릿폰·샤인폰 R&D</span>
+          </div>
+          <div class="bio-item">
+            <span class="bio-year">2010년대</span>
+            <span class="bio-text">브라질·중남미 스마트폰 마케팅 (연 120만 대 판매 달성)</span>
+          </div>
+          <div class="bio-item">
+            <span class="bio-year">2020년대</span>
+            <span class="bio-text">생산기술원 조직문화 설계, DX Academy AI인증 과정, HRD 총괄</span>
+          </div>
+          <div class="bio-item">
+            <span class="bio-year">2026~</span>
+            <span class="bio-text">프리랜서 강사·작가 독립. 기업·기관 AI 교육, 버크만 코칭, 비전캠퍼스 설계 중</span>
+          </div>
+        </div>
+      </div>
+      <div class="bio-block">
+        <h3>자격·전문성</h3>
+        <div class="cert-grid">
+          <span class="cert-chip">버크만 공인강사</span>
+          <span class="cert-chip">KPC 전문코치</span>
+          <span class="cert-chip">AI-POT 1급</span>
+          <span class="cert-chip">ADsP</span>
+          <span class="cert-chip">MBTI 강사</span>
+          <span class="cert-chip">eDISC</span>
+          <span class="cert-chip">Gallup 강점코치</span>
+          <span class="cert-chip">사회복지사</span>
+          <span class="cert-chip">GITC 조직위원 15년</span>
+        </div>
+      </div>
+      <div class="bio-block">
+        <h3>한 마디</h3>
+        <p style="font-size:14px;color:var(--text);line-height:1.8;padding:20px;background:var(--bg);border-radius:10px;border-left:3px solid var(--amber);">
+          "22년을 LG에서 일했습니다. 퇴직 후 처음으로 '내가 진짜 뭘 잘하지?'라는 질문이 무서워지더군요. 버크만을 만나고, AI를 써보고, 투자를 공부하면서 — 세 개가 합쳐질 때 비로소 두렵지 않아졌습니다. 그 과정을 함께 걷고 싶어 비전캠퍼스를 만들고 있습니다."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / SUBSCRIBE -->
+<section class="cta-section" id="subscribe">
+  <div class="cta-inner reveal">
+    <p class="section-eyebrow" style="color:rgba(224,123,57,0.8)">소식 받기</p>
+    <h2 class="section-title">론칭 전 가장 먼저 알려드릴게요</h2>
+    <p>비전캠퍼스는 2034년 공식 론칭을 목표로 준비 중입니다.<br>얼리버드 소식, 무료 콘텐츠, 파일럿 과정 안내를 먼저 받아보세요.</p>
+    <div class="cta-form">
+      <input type="email" placeholder="이메일 주소를 입력하세요" id="email-input">
+      <button class="btn-primary" onclick="handleSubscribe()">구독하기</button>
+    </div>
+    <p class="cta-note">스팸 없이, 중요한 소식만 드립니다.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="nav-icon" style="width:26px;height:26px;">
+      <svg viewBox="0 0 18 18" fill="none" style="width:14px;height:14px;">
+        <path d="M9 2L15 5.5V12.5L9 16L3 12.5V5.5L9 2Z" stroke="white" stroke-width="1.3" fill="none"/>
+        <circle cx="9" cy="9" r="2.5" fill="white"/>
+      </svg>
+    </div>
+    <span>Vision Campus</span>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#who">소개</a></li>
+    <li><a href="#pillars">프로그램</a></li>
+    <li><a href="#instructor">강사</a></li>
+    <li><a href="mailto:minook@kakao.com">문의</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 Vision Campus · Fidel Choe</span>
+</footer>
+
+<script>
+// scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// 구독 처리 (실제 연동 전 임시)
+function handleSubscribe() {
+  const email = document.getElementById('email-input').value.trim();
+  if(!email || !email.includes('@')) {
+    alert('올바른 이메일 주소를 입력해주세요.');
+    return;
+  }
+  // TODO: 실제 뉴스레터 서비스(스티비, 메일침프 등) 연동
+  alert('✓ 등록되었습니다! 론칭 소식을 가장 먼저 알려드릴게요.');
+  document.getElementById('email-input').value = '';
+}
+
+// enter key
+document.getElementById('email-input').addEventListener('keydown', e => {
+  if(e.key === 'Enter') handleSubscribe();
+});
+</script>
+</body>
+</html>

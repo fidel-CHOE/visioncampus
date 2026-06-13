@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision Campus — Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+  :root {
+    --navy: #2D3A5C;
+    --navy-dark: #1e2840;
+    --amber: #E07B39;
+    --green: #1D9E75;
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --text: #1A1A2E;
+    --muted: #7A7A8C;
+    --border: #E2E0D8;
+    --nav-w: 220px;
+    --nav-bg: #1e2840;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ── 사이드 네비게이션 ── */
+  .sidebar {
+    width: var(--nav-w);
+    background: var(--nav-bg);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100vh;
+  }
+
+  .sidebar-header {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--amber);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .brand-icon svg { width: 18px; height: 18px; }
+
+  .brand-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .brand-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .nav-section {
+    padding: 16px 12px 8px;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 8px 8px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.6);
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: all 0.15s;
+    text-decoration: none;
+    margin-bottom: 2px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-item:hover {
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.9);
+  }
+
+  .nav-item.active {
+    background: rgba(224,123,57,0.18);
+    color: #fff;
+  }
+
+  .nav-item .icon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  .nav-item.active .icon { opacity: 1; }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    margin-left: auto;
+    display: none;
+  }
+
+  .nav-item.active .dot { display: block; }
+
+  .sidebar-footer {
+    padding: 16px 12px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    background: none;
+    border: none;
+    width: 100%;
+    transition: all 0.15s;
+  }
+
+  .logout-btn:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
+
+  /* ── 메인 콘텐츠 ── */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .topbar {
+    height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .page-badge {
+    font-size: 11px;
+    background: rgba(29,158,117,0.12);
+    color: var(--green);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .content-frame {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .content-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--muted);
+    gap: 12px;
+  }
+
+  .placeholder svg { opacity: 0.3; }
+  .placeholder p { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- 사이드바 -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <a href="#" class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 18 18" fill="none">
+          <path d="M9 2L15 5.5V12.5L9 16L3 12.5V5.5L9 2Z" stroke="white" stroke-width="1.2" fill="none"/>
+          <circle cx="9" cy="9" r="2" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Vision Campus</div>
+        <div class="brand-sub">Admin Dashboard</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">내 로드맵</div>
+
+    <button class="nav-item active" onclick="loadPage('roadmap.html', '인생 로드맵', this)">
+      <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 14L6 10L9 13L13 7L16 10"/>
+        <path d="M2 4h14M2 8h8"/>
+      </svg>
+      인생 로드맵
+      <span class="dot"></span>
+    </button>
+
+    <!-- 나중에 추가될 메뉴들 (비활성) -->
+    <div class="nav-label" style="margin-top:16px">준비 중</div>
+
+    <button class="nav-item" style="opacity:0.4;cursor:default">
+      <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="14" height="14" rx="3"/>
+        <path d="M6 9h6M9 6v6"/>
+      </svg>
+      강의 트래커
+    </button>
+
+    <button class="nav-item" style="opacity:0.4;cursor:default">
+      <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9 2L11 7h5l-4 3 1.5 5L9 12l-4.5 3L6 10 2 7h5z"/>
+      </svg>
+      비전캠퍼스 KPI
+    </button>
+
+    <button class="nav-item" style="opacity:0.4;cursor:default">
+      <svg class="icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 13V7M8 13V4M12 13V9M16 13V6"/>
+      </svg>
+      수입 현황
+    </button>
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn" onclick="logout()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M5 2H2v10h3M10 4l3 3-3 3M13 7H6"/>
+      </svg>
+      로그아웃
+    </button>
+  </div>
+</nav>
+
+<!-- 메인 -->
+<div class="main">
+  <div class="topbar">
+    <span class="page-title" id="top-title">인생 로드맵</span>
+    <span class="page-badge" id="top-badge">WBS v2</span>
+  </div>
+  <div class="content-frame">
+    <iframe id="main-frame" src="roadmap.html" title="인생 로드맵"></iframe>
+  </div>
+</div>
+
+<script>
+  // 인증 체크
+  if (sessionStorage.getItem('vc_auth') !== '1') {
+    window.location.href = 'admin.html';
+  }
+
+  function loadPage(url, title, el) {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('top-title').textContent = title;
+    document.getElementById('main-frame').src = url;
+  }
+
+  function logout() {
+    sessionStorage.removeItem('vc_auth');
+    window.location.href = 'admin.html';
+  }
+</script>
+</body>
+</html>

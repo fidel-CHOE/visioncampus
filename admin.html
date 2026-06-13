@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision Campus — Admin</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+  :root {
+    --navy: #2D3A5C;
+    --amber: #E07B39;
+    --green: #1D9E75;
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --text: #1A1A2E;
+    --muted: #7A7A8C;
+    --border: #E2E0D8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gate {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 52px 48px;
+    width: 380px;
+    box-shadow: 0 2px 24px rgba(45,58,92,0.08);
+    text-align: center;
+  }
+
+  .logo-mark {
+    width: 52px;
+    height: 52px;
+    background: var(--navy);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+  }
+
+  .logo-mark svg { width: 28px; height: 28px; }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 36px;
+  }
+
+  .input-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  input[type="password"] {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+    letter-spacing: 3px;
+  }
+
+  input[type="password"]:focus {
+    border-color: var(--navy);
+    background: #fff;
+  }
+
+  input[type="password"].error {
+    border-color: #E24B4A;
+    animation: shake 0.3s ease;
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .err-msg {
+    font-size: 12px;
+    color: #E24B4A;
+    margin-top: 6px;
+    display: none;
+  }
+
+  .err-msg.show { display: block; }
+
+  button {
+    width: 100%;
+    padding: 13px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 4px;
+  }
+
+  button:hover { background: #3a4a74; }
+  button:active { transform: scale(0.98); }
+
+  .back-link {
+    display: block;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .back-link:hover { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="gate">
+  <div class="logo-mark">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 4L22 9V19L14 24L6 19V9L14 4Z" stroke="white" stroke-width="1.5" fill="none"/>
+      <circle cx="14" cy="14" r="3" fill="#E07B39"/>
+    </svg>
+  </div>
+  <h1>Vision Campus</h1>
+  <p class="subtitle">관리자 전용 공간입니다</p>
+
+  <div class="input-wrap">
+    <input type="password" id="pw" placeholder="비밀번호 입력" autocomplete="current-password">
+    <p class="err-msg" id="err">비밀번호가 올바르지 않습니다</p>
+  </div>
+
+  <button onclick="login()">입장</button>
+  <a href="index.html" class="back-link">← 메인으로 돌아가기</a>
+</div>
+
+<script>
+  const HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
+
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  document.getElementById('pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') login();
+  });
+
+  async function login() {
+    const val = document.getElementById('pw').value;
+    const hash = await sha256(val);
+    const inp = document.getElementById('pw');
+    const err = document.getElementById('err');
+
+    if (hash === HASH) {
+      sessionStorage.setItem('vc_auth', '1');
+      window.location.href = 'dashboard.html';
+    } else {
+      inp.classList.add('error');
+      err.classList.add('show');
+      setTimeout(() => {
+        inp.classList.remove('error');
+        inp.value = '';
+        inp.focus();
+      }, 800);
+    }
+  }
+
+  // 이미 로그인된 경우 바로 이동
+  if (sessionStorage.getItem('vc_auth') === '1') {
+    window.location.href = 'dashboard.html';
+  }
+</script>
+</body>
+</html>

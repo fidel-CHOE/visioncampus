@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>인생 로드맵 WBS</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{--navy:#2D3A5C;--navy2:#3a4a74;--amber:#E07B39;--green:#1D9E75;--bg:#F7F6F2;--surface:#fff;--text:#1A1A2E;--muted:#7A7A8C;--border:#E2E0D8;--red:#C0392B;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);font-size:13px;}
+
+.page-header{background:var(--surface);border-bottom:1px solid var(--border);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.header-left h2{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--navy);}
+.header-left p{font-size:11px;color:var(--muted);margin-top:1px;}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.header-stats{display:flex;gap:14px;}
+.stat{text-align:center;}
+.stat-val{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:var(--navy);line-height:1;}
+.stat-val.a{color:var(--amber);}.stat-val.g{color:var(--green);}
+.stat-lbl{font-size:9.5px;color:var(--muted);margin-top:2px;}
+.hbtn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;border:none;font-size:11.5px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.hbtn.navy{background:var(--navy);color:#fff;}.hbtn.navy:hover{background:var(--navy2);}
+.hbtn.green{background:var(--green);color:#fff;}.hbtn.green:hover{background:#178c66;}
+.hbtn.outline{background:var(--surface);color:var(--navy);border:1.5px solid var(--border);}.hbtn.outline:hover{border-color:var(--navy);}
+
+.guardrails{background:rgba(45,58,92,.03);border-bottom:1px solid var(--border);padding:7px 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.gr-lbl{font-size:9.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
+.gtag{display:inline-flex;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap;}
+.gtag.n{background:rgba(45,58,92,.1);color:var(--navy);}
+.gtag.a{background:rgba(224,123,57,.12);color:var(--amber);}
+.gtag.g{background:rgba(29,158,117,.12);color:var(--green);}
+.gtag.r{background:rgba(192,57,43,.1);color:var(--red);}
+
+.content{padding:14px 18px;}
+
+/* Phase */
+.phase-card{margin-bottom:14px;border-radius:10px;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.06);}
+.phase-hdr{display:flex;align-items:center;gap:9px;padding:10px 14px;cursor:pointer;user-select:none;transition:filter .15s;}
+.phase-hdr:hover{filter:brightness(.94);}
+.ph-toggle{font-size:10px;color:rgba(255,255,255,.6);transition:transform .2s;flex-shrink:0;}
+.phase-card.ph-collapsed>.phase-body{display:none;}
+.phase-card.ph-collapsed .ph-toggle{transform:rotate(-90deg);}
+.ph-num{font-family:'Space Grotesk',sans-serif;font-size:9.5px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:1px;}
+.ph-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:#fff;flex:1;}
+.ph-period{font-size:10px;color:rgba(255,255,255,.48);}
+.ph-bar-wrap{display:flex;align-items:center;gap:7px;margin-left:8px;}
+.ph-bar{width:72px;height:3px;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden;}
+.ph-bar-fill{height:100%;background:rgba(255,255,255,.75);border-radius:2px;transition:width .4s;}
+.ph-pct{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:600;color:rgba(255,255,255,.8);min-width:28px;text-align:right;}
+.ph-edit-btn{padding:3px 8px;border-radius:5px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:10px;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.ph-edit-btn:hover{background:rgba(255,255,255,.2);color:#fff;}
+
+/* Section */
+.phase-body{background:var(--surface);}
+.sec-card{border-bottom:1px solid #ECEAE4;}
+.sec-card:last-child{border-bottom:none;}
+.sec-hdr{display:flex;align-items:center;gap:7px;padding:7px 14px;background:#F5F4F0;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.sec-hdr:hover{background:#EDECEA;}
+.sec-toggle{font-size:9.5px;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+.sec-card.sc-collapsed .sec-rows{display:none;}
+.sec-card.sc-collapsed .sec-toggle{transform:rotate(-90deg);}
+.sec-label{font-size:11px;font-weight:700;color:var(--navy);flex:1;}
+.sec-actions{display:flex;align-items:center;gap:6px;}
+.sec-bar-wrap{display:flex;align-items:center;gap:5px;}
+.sec-bar{width:52px;height:3px;background:#E2E0D8;border-radius:2px;overflow:hidden;}
+.sec-bar-fill{height:100%;background:var(--amber);border-radius:2px;transition:width .3s;}
+.sec-pct{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;color:var(--muted);min-width:26px;}
+.sec-btn{padding:2px 7px;border-radius:4px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:10px;cursor:pointer;transition:all .12s;}
+.sec-btn:hover{border-color:var(--navy);color:var(--navy);background:rgba(45,58,92,.04);}
+.sec-btn.danger:hover{border-color:var(--red);color:var(--red);}
+
+/* Table */
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;table-layout:fixed;}
+col.c-wbs{width:68px;}col.c-ms{width:185px;}col.c-done{width:150px;}col.c-note{width:120px;}col.c-prog{width:82px;}col.c-month{width:60px;}col.c-act{width:36px;}
+thead tr{background:#F9F8F5;border-bottom:1px solid var(--border);}
+th{padding:5px 7px;font-size:9px;font-weight:600;color:var(--muted);text-align:left;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;border-right:1px solid var(--border);}
+th:last-child{border-right:none;}
+th.mh{text-align:center;font-size:8.5px;padding:5px 2px;background:rgba(45,58,92,.03);}
+tbody tr.tr{border-bottom:1px solid #F0EEE8;transition:background .1s;}
+tbody tr.tr:hover{background:#FAFAF7;}
+tbody tr.tr.key-row{background:rgba(224,123,57,.03);}
+tbody tr.tr.key-row:hover{background:rgba(224,123,57,.07);}
+td{padding:7px 7px;vertical-align:top;border-right:1px solid #F0EEE8;font-size:12px;}
+td:last-child{border-right:none;}
+.wbs-code{font-family:'Space Grotesk',sans-serif;font-size:10px;color:var(--muted);}
+.ms-label{font-weight:500;color:var(--text);line-height:1.4;}
+.done-txt,.note-txt{font-size:11px;color:var(--muted);line-height:1.4;}
+/* 진행률 */
+.prog-cell{text-align:center;vertical-align:middle;cursor:pointer;}
+.prog-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.prog-num{font-family:'Space Grotesk',sans-serif;font-size:11.5px;font-weight:700;color:var(--navy);}
+.prog-mini{width:48px;height:3px;background:#EDE9E0;border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:2px;transition:width .3s;}
+.f0{background:#D5D2C8;}.flow{background:var(--amber);}.fmid{background:#4F9CF0;}.fhi{background:var(--green);}.fdone{background:var(--green);}
+/* 월 셀 */
+.mc{padding:3px 2px;text-align:center;vertical-align:top;border-right:1px solid #F0EEE8;}
+.me{display:flex;flex-direction:column;gap:2px;min-height:20px;}
+.chip{display:inline-block;background:rgba(45,58,92,.08);color:var(--navy);font-size:9px;padding:2px 4px;border-radius:3px;line-height:1.3;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:54px;transition:background .1s;}
+.chip:hover{background:rgba(45,58,92,.15);}
+.chip.done{background:rgba(29,158,117,.12);color:var(--green);}
+.chip.issue{background:rgba(192,57,43,.1);color:var(--red);}
+.add-chip-btn{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:3px;border:1px dashed #C8C5BC;color:#C8C5BC;font-size:11px;cursor:pointer;background:none;transition:all .12s;margin-top:1px;line-height:1;}
+.add-chip-btn:hover{border-color:var(--navy);color:var(--navy);}
+/* 액션 셀 */
+.act-cell{vertical-align:middle;text-align:center;}
+.row-edit-btn{width:22px;height:22px;border-radius:4px;border:none;background:none;color:#C8C5BC;font-size:13px;cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;justify-content:center;}
+.row-edit-btn:hover{background:rgba(45,58,92,.08);color:var(--navy);}
+/* 섹션 하단 추가 행 */
+.add-task-row td{padding:5px 7px;background:rgba(45,58,92,.02);}
+.add-task-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:5px;border:1px dashed var(--border);background:none;color:var(--muted);font-size:11px;cursor:pointer;transition:all .15s;}
+.add-task-btn:hover{border-color:var(--navy);color:var(--navy);background:rgba(45,58,92,.04);}
+/* 섹션 추가 */
+.add-section-wrap{padding:8px 14px;background:rgba(45,58,92,.02);border-top:1px dashed var(--border);}
+.add-section-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:6px;border:1px dashed var(--border);background:none;color:var(--muted);font-size:11px;cursor:pointer;transition:all .15s;}
+.add-section-btn:hover{border-color:var(--navy);color:var(--navy);background:rgba(45,58,92,.04);}
+
+/* AI 패널 */
+.ai-panel{position:fixed;right:0;top:0;bottom:0;width:370px;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:200;transform:translateX(100%);transition:transform .25s ease;}
+.ai-panel.open{transform:translateX(0);}
+.ai-phdr{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;}
+.ai-phdr h3{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);flex:1;}
+.ai-close{background:none;border:none;font-size:17px;color:var(--muted);cursor:pointer;padding:2px 5px;border-radius:4px;}
+.ai-close:hover{background:var(--bg);}
+.ai-tabs{display:flex;border-bottom:1px solid var(--border);}
+.ai-tab{flex:1;padding:8px;font-size:11.5px;font-weight:500;text-align:center;cursor:pointer;color:var(--muted);border:none;border-bottom:2px solid transparent;background:none;transition:all .15s;}
+.ai-tab.active{color:var(--navy);border-bottom-color:var(--navy);}
+.ai-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;}
+.msg{padding:9px 11px;border-radius:8px;font-size:12px;line-height:1.6;}
+.msg.user{background:var(--navy);color:#fff;align-self:flex-end;max-width:88%;}
+.msg.ai{background:#F4F3EF;color:var(--text);align-self:flex-start;max-width:96%;}
+.msg.ai.loading{color:var(--muted);font-style:italic;}
+.msg.sys{background:rgba(29,158,117,.08);color:var(--green);font-size:11px;}
+.ai-input-area{padding:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:7px;}
+.ai-qbtns{display:flex;gap:5px;flex-wrap:wrap;}
+.qbtn{padding:4px 9px;border-radius:14px;border:1px solid var(--border);background:var(--bg);color:var(--navy);font-size:10.5px;cursor:pointer;transition:all .12s;white-space:nowrap;}
+.qbtn:hover{border-color:var(--navy);background:rgba(45,58,92,.04);}
+.ai-row{display:flex;gap:7px;}
+.ai-row textarea{flex:1;padding:7px 9px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text);background:var(--bg);outline:none;resize:none;height:56px;line-height:1.5;transition:border-color .2s;}
+.ai-row textarea:focus{border-color:var(--navy);background:#fff;}
+.send-btn{width:38px;height:56px;border:none;border-radius:7px;background:var(--navy);color:#fff;font-size:15px;cursor:pointer;transition:background .15s;flex-shrink:0;}
+.send-btn:hover{background:var(--navy2);}
+.send-btn:disabled{background:#ccc;cursor:default;}
+
+/* 모달 */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.36);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;pointer-events:none;transition:opacity .2s;}
+.overlay.show{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border-radius:11px;padding:22px;width:420px;max-width:94vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.14);transform:translateY(8px);transition:transform .2s;}
+.overlay.show .modal{transform:translateY(0);}
+.m-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.m-sub{font-size:11px;color:var(--muted);margin-bottom:16px;}
+.modal label{display:block;font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+.modal input[type=text],.modal textarea,.modal select{width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:12.5px;font-family:'Noto Sans KR',sans-serif;color:var(--text);background:var(--bg);outline:none;margin-bottom:11px;transition:border-color .2s;}
+.modal input:focus,.modal textarea:focus,.modal select:focus{border-color:var(--navy);background:#fff;}
+.modal textarea{resize:vertical;min-height:56px;}
+.prog-row{display:flex;align-items:center;gap:9px;margin-bottom:13px;}
+.prog-row label{margin-bottom:0;white-space:nowrap;}
+.prog-row input[type=range]{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:#EDE9E0;cursor:pointer;outline:none;padding:0;margin:0;border:none;}
+.prog-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--navy);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.prog-disp{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--navy);min-width:34px;text-align:right;}
+.m-checkbox-row{display:flex;align-items:center;gap:8px;margin-bottom:13px;}
+.m-checkbox-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;}
+.m-checkbox-row span{font-size:12px;color:var(--text);}
+.m-actions{display:flex;gap:7px;justify-content:flex-end;margin-top:4px;}
+.btn-del{padding:7px 11px;border-radius:7px;border:1px solid rgba(192,57,43,.3);background:rgba(192,57,43,.06);color:var(--red);font-size:12px;cursor:pointer;margin-right:auto;}
+.btn-del:hover{background:rgba(192,57,43,.12);}
+.btn-cancel{padding:7px 15px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:12.5px;cursor:pointer;}
+.btn-cancel:hover{border-color:var(--navy);color:var(--navy);}
+.btn-save{padding:7px 18px;border-radius:7px;border:none;background:var(--navy);color:#fff;font-size:12.5px;font-weight:500;cursor:pointer;}
+.btn-save:hover{background:var(--navy2);}
+.m-divider{height:1px;background:var(--border);margin:12px 0;}
+.m-section-title{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="header-left">
+    <h2>기사 대운 점화 로드맵 v2</h2>
+    <p>공부는 끝났다. 책 한 권, 레퍼런스 한 줄, 시스템 하나 — 그 위에 캠퍼스를 짓는다.</p>
+  </div>
+  <div class="header-right">
+    <div class="header-stats">
+      <div class="stat"><div class="stat-val" id="st-total">0</div><div class="stat-lbl">전체</div></div>
+      <div class="stat"><div class="stat-val g" id="st-done">0</div><div class="stat-lbl">완료</div></div>
+      <div class="stat"><div class="stat-val a" id="st-pct">0%</div><div class="stat-lbl">진행률</div></div>
+    </div>
+    <button class="hbtn green" onclick="openAI('update')">✏️ 진행 업데이트</button>
+    <button class="hbtn navy" onclick="openAI('analysis')">🔍 AI 분석</button>
+  </div>
+</div>
+<div class="guardrails">
+  <span class="gr-lbl">가드레일</span>
+  <span class="gtag n">G1 가격시금석</span>
+  <span class="gtag r">G2 인풋 동결</span>
+  <span class="gtag g">G3 건강</span>
+  <span class="gtag n">G4 운영 위임</span>
+  <span class="gtag a">G5 55세 주2회 상한</span>
+  <span class="gtag r">G7 유튜브 봉인</span>
+</div>
+<div class="content" id="wbs-root"></div>
+
+<!-- AI 패널 -->
+<div class="ai-panel" id="ai-panel">
+  <div class="ai-phdr">
+    <h3 id="ai-ptitle">AI 어시스턴트</h3>
+    <button class="ai-close" onclick="closeAI()">✕</button>
+  </div>
+  <div class="ai-tabs">
+    <button class="ai-tab active" id="tab-update" onclick="switchTab('update')">✏️ 진행 업데이트</button>
+    <button class="ai-tab" id="tab-analysis" onclick="switchTab('analysis')">🔍 현황 분석</button>
+  </div>
+  <div class="ai-msgs" id="ai-msgs"></div>
+  <div class="ai-input-area">
+    <div class="ai-qbtns" id="ai-qbtns"></div>
+    <div class="ai-row">
+      <textarea id="ai-input" placeholder="레오에게 메시지..."></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendAI()">↑</button>
+    </div>
+  </div>
+</div>
+
+<!-- 모달 (다목적) -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal-body"><!-- JS로 채움 --></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// DEFAULT WBS 데이터 (최초 1회만 사용, 이후 스토리지 우선)
+// ══════════════════════════════════════════════════════
+const DEFAULT_WBS = [
+  {id:'p1',phase:1,color:'#2D3A5C',title:'Phase 1 — 값 매기기 + 씨앗 심기',period:'2026 Q3~Q4 · 47~48세',sections:[
+    {id:'s1',label:'2026 Q3 (7~9월)',tasks:[
+      {id:'1.1.1',ms:'시그니처 과정 B2C 파일럿 1회',done:'유료 참가자 모집→실행→가격·구성 검증',note:'★ B2C 모객 근육 테스트',key:true},
+      {id:'1.1.2',ms:'NCS 보수교육 수료',done:'한기대 온라인(7/1~7/21) 이수',note:'행정'},
+      {id:'1.1.3',ms:'실업급여 정리',done:'고용센터 확인→신청 or 종결',note:'행정, 7월 내'},
+      {id:'1.1.4',ms:'로보스타 후속 제안',done:'강의 후 2주 내 심화 제안서 발송',note:'패키지 175만 유지'},
+      {id:'1.1.5',ms:'DMS 재계약 타진',done:'워크샵 후 후속 과정 제안 1건',note:''},
+      {id:'1.1.6',ms:'개인저서 방향 확정',done:'골든타임 vs 퇴직 책 1권 선택',note:'저자 타이틀+투자 증명'},
+      {id:'1.1.7',ms:'🌱 수강생 자산화 파이프라인',done:'뉴스레터/카카오채널 개설+구독 QR',note:'씨앗 — 비용≈0'},
+    ]},
+    {id:'s2',label:'2026 Q4 (10~12월)',tasks:[
+      {id:'1.2.1',ms:'개인저서 초고 완성',done:'전 챕터 초고 탈고',note:'06:30 집필 루틴'},
+      {id:'1.2.2',ms:'재계약 루프 2곳 확보',done:'연간/시리즈 계약 확정 2곳+',note:'로보스타·DMS·하이프라자·클립스'},
+      {id:'1.2.3',ms:'2027 단가표 확정',done:'패키지 가격표 1장 (시간당 표기 금지)',note:'G1'},
+      {id:'1.2.4',ms:'인풋 동결 선언',done:'2027~2028 신규 자격증 0건 원칙',note:'G2'},
+      {id:'1.2.5',ms:'🌱 브랜드 보호',done:'비전캠퍼스 상표 출원+도메인 확보',note:'씨앗'},
+    ]}
+  ]},
+  {id:'p2',phase:2,color:'#3a4a74',title:'Phase 2 — 이름 새기기',period:'2027 · 49세',sections:[
+    {id:'s3',label:'2027 Q1',tasks:[
+      {id:'2.1.1',ms:'초고 퇴고 완료',done:'장면↑ 감정해설↓ 1차 퇴고',note:''},
+      {id:'2.1.2',ms:'출판사 컨택',done:'기획서+샘플 5곳 투고 or 계약 1건',note:''},
+      {id:'2.1.3',ms:'시그니처 B2B 제안서',done:'기업용 패키지 PPTX 완성',note:'LG BML/KMA 타깃'},
+    ]},
+    {id:'s4',label:'2027 Q2',tasks:[
+      {id:'2.2.1',ms:'출간 계약 확정',done:'계약 체결 (불발 시 독립출판 플랜B)',note:''},
+      {id:'2.2.2',ms:'B2B 영업 라운드',done:'LG BML·KMA·클립스 미팅 3건+',note:''},
+      {id:'2.2.3',ms:'원고 확정+유튜브 준비',done:'편집 일정 진입, 채널 기획안',note:'G7 해제 준비'},
+    ]},
+    {id:'s5',label:'2027 Q3',tasks:[
+      {id:'2.3.1',ms:'개인저서 출간',done:'서점 입고',note:'핵심 ★',key:true},
+      {id:'2.3.2',ms:'유튜브 론칭',done:'출간 동시 개설, 책 기반 시즌1',note:'G7 해제',key:true},
+      {id:'2.3.3',ms:'북토크/강연 3회+',done:'독자→구독자 전환 설계',note:'인생독모 활용'},
+      {id:'2.3.4',ms:'B2B 납품 1건 계약',done:'시그니처 과정 기업 계약',note:'핵심 ★',key:true},
+    ]},
+    {id:'s6',label:'2027 Q4',tasks:[
+      {id:'2.4.1',ms:'단가 인상 적용',done:'저자 반영 신규 단가표 (+20%+)',note:'G1'},
+      {id:'2.4.2',ms:'★ 월 200만원 체크포인트',done:'월평균 강의 수입 200만원 궤도',note:'미달 시 2028 재조정',key:true},
+      {id:'2.4.3',ms:'2028 상품화 기획 착수',done:'온라인 과정/교재 후보 목록',note:''},
+    ]}
+  ]},
+  {id:'p3',phase:3,color:'#E07B39',title:'Phase 3 — 그릇 키우기',period:'2028 · 50세',sections:[
+    {id:'s7',label:'2028 Q1',tasks:[
+      {id:'3.1.1',ms:'상품화 1순위 확정',done:'온라인/교재/위탁 중 1개 선택',note:''},
+      {id:'3.1.2',ms:'제작 설계',done:'커리큘럼·목차·일정 WBS 완성',note:''},
+    ]},
+    {id:'s8',label:'2028 Q2',tasks:[
+      {id:'3.2.1',ms:'콘텐츠 제작 완료',done:'촬영/집필/디자인 완성',note:''},
+      {id:'3.2.2',ms:'★ 비강의 매출 론칭',done:'판매 페이지 오픈, 첫 비강의 매출',note:'핵심 ★',key:true},
+    ]},
+    {id:'s9',label:'2028 Q3',tasks:[
+      {id:'3.3.1',ms:'파트너 위탁 체계',done:'클립스 등 위탁 계약 1건+',note:'위임 경험 축적'},
+      {id:'3.3.2',ms:'가이드북 패키지 판매',done:'기존 산출물 상품화 판매',note:''},
+    ]},
+    {id:'s10',label:'2028 Q4',tasks:[
+      {id:'3.4.1',ms:'2029 수요 대비 정비',done:'강의 상한·가격 체계 확정',note:'번아웃 방어'},
+      {id:'3.4.2',ms:'건강 베이스라인 점검',done:'건강검진+수면 루틴',note:'G3'},
+      {id:'3.4.3',ms:'연료·씨앗 6종 점검',done:'책·레퍼런스·시스템+리스트·모객·브랜드 ✅',note:''},
+    ]}
+  ]},
+  {id:'p4',phase:4,color:'#1D9E75',title:'Phase 4 — 비전캠퍼스 (기사 대운)',period:'2029~2038 · 51~60세',sections:[
+    {id:'s11',label:'2029~2031 점화·각론',tasks:[
+      {id:'4.1.1',ms:'기사 대운 킥오프',done:'2029 연간 목표 수립 (월 300만+)',note:''},
+      {id:'4.1.2',ms:'각론 3과정 독립 검증',done:'진단·AI·투자 각 B2C 단독 개설',note:'투자=책 출간 후'},
+      {id:'4.1.3',ms:'2호 책 집필·출간',done:'2030~31 출간 (캠퍼스 철학서)',note:''},
+      {id:'4.1.4',ms:'★ 통합과정 1기 (2031)',done:'진단→AI→투자 머지 커리큘럼 첫 기수',note:'등뼈 완성',key:true},
+    ]},
+    {id:'s12',label:'2032~2034 론칭',tasks:[
+      {id:'4.2.1',ms:'법인 구조 확정',done:'아내 법인 vs 신규 설립 — 세무 검토',note:'가계 포트폴리오 통합'},
+      {id:'4.2.2',ms:'★ 비전캠퍼스 정식 론칭 (2034)',done:'브랜드·법인·정규 기수 운영 개시',note:'IRP 연금(55세)과 동시',key:true},
+      {id:'4.2.3',ms:'파트너 강사 양성 1기',done:'"강사의 강사" 과정 개설',note:'G4 운영 위임 시작'},
+      {id:'4.2.4',ms:'G5 발동 (55세)',done:'본인 강의 주 2회 상한 적용',note:'미래의 나와 협상 금지'},
+    ]},
+    {id:'s13',label:'2035~2038 자립',tasks:[
+      {id:'4.3.1',ms:'각론 강의 전면 위임',done:'파트너 강사가 각론 운영',note:'피델=통합과정·브랜드만'},
+      {id:'4.3.2',ms:'수료생 커뮤니티=모객 엔진',done:'수료생 추천이 신규 모집 50%+',note:'G4 운영 시스템화'},
+      {id:'4.3.3',ms:'★ 자립 구조 완성 (2038)',done:'피델 없는 달에도 캠퍼스 흑자',note:'"강의 수명" 리스크 소멸',key:true},
+    ]}
+  ]}
+];
+
+// ══════════════════════════════════════════════════════
+// 스토리지 — WBS 구조와 진행 데이터 분리 저장
+// ══════════════════════════════════════════════════════
+const KEY_STRUCT = 'vc_struct';  // WBS 구조 (추가/편집/삭제 반영)
+const KEY_DATA   = 'vc_data';   // 진행 데이터 (task.id 기반)
+
+function loadStruct(){
+  try{ const s=localStorage.getItem(KEY_STRUCT); return s?JSON.parse(s):null; }
+  catch{ return null; }
+}
+function saveStruct(wbs){ localStorage.setItem(KEY_STRUCT,JSON.stringify(wbs)); }
+function loadData(){ try{ return JSON.parse(localStorage.getItem(KEY_DATA)||'{}'); }catch{ return {}; } }
+function saveData(d){ localStorage.setItem(KEY_DATA,JSON.stringify(d)); }
+
+// WBS 구조: 스토리지 우선, 없으면 DEFAULT 사용 후 저장
+let WBS = loadStruct();
+if(!WBS){ WBS = JSON.parse(JSON.stringify(DEFAULT_WBS)); saveStruct(WBS); }
+let DATA = loadData();
+
+function getT(id){ return DATA[id]||{prog:0,entries:{},memo:''}; }
+function setT(id,d){ DATA[id]=d; saveData(DATA); }
+
+// ── 유니크 ID 생성 ──
+function uid(prefix){ return prefix+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+
+// ── 월 목록 ──
+function genMonths(){
+  const r=[];
+  [[2026,7,12],[2027,1,12],[2028,1,12]].forEach(([y,s,e])=>{
+    for(let m=s;m<=e;m++) r.push(`${y}.${String(m).padStart(2,'0')}`);
+  });
+  return r;
+}
+const MONTHS=genMonths();
+const P4_PERIODS=['2029~30','2031','2032~33','2034','2035~37','2038'];
+
+// ══════════════════════════════════════════════════════
+// 렌더
+// ══════════════════════════════════════════════════════
+function fillClass(p){return p===0?'f0':p<30?'flow':p<70?'fmid':p<100?'fhi':'fdone';}
+
+function buildTaskRow(task, periods, phaseId, secId){
+  const td_=getT(task.id);
+  const prog=td_.prog||0;
+  const tr=document.createElement('tr');
+  tr.className='tr'+(task.key?' key-row':'');
+  tr.dataset.tid=task.id;
+  const prefix=task.ms.startsWith('🌱')||task.ms.startsWith('★')?'':(task.key?'★ ':'');
+  // 고정 셀들
+  tr.innerHTML=`
+    <td><span class="wbs-code">${task.id}</span></td>
+    <td><div class="ms-label" title="${task.ms}">${prefix}${task.ms}</div></td>
+    <td><div class="done-txt" title="${task.done}">${task.done}</div></td>
+    <td><div class="note-txt">${task.note||''}</div></td>
+    <td class="prog-cell" title="클릭해서 진행률 수정">
+      <div class="prog-wrap">
+        <span class="prog-num" id="pn-${task.id}">${prog}%</span>
+        <div class="prog-mini"><div class="prog-fill ${fillClass(prog)}" id="pb-${task.id}" style="width:${prog}%"></div></div>
+      </div>
+    </td>`;
+  // 월 셀
+  periods.forEach(period=>{
+    const mtd=document.createElement('td');
+    mtd.className='mc';
+    const entries=(td_.entries&&td_.entries[period])||[];
+    const ediv=document.createElement('div');
+    ediv.className='me';
+    ediv.id=`me-${task.id}-${period.replace(/[\.\~]/g,'_')}`;
+    entries.forEach((e,idx)=>{
+      const chip=document.createElement('span');
+      chip.className='chip'+(e.type?' '+e.type:'');
+      chip.title=e.memo||e.text; chip.textContent=e.text;
+      chip.addEventListener('click',ev=>{ev.stopPropagation();openChipEdit(task.id,period,idx,e);});
+      ediv.appendChild(chip);
+    });
+    const ab=document.createElement('button');
+    ab.className='add-chip-btn'; ab.textContent='+'; ab.title='업데이트 추가';
+    ab.addEventListener('click',ev=>{ev.stopPropagation();openChipAdd(task.id,period,task.ms);});
+    mtd.appendChild(ediv); mtd.appendChild(ab); tr.appendChild(mtd);
+  });
+  // 편집 버튼 셀
+  const actTd=document.createElement('td');
+  actTd.className='act-cell';
+  const editBtn=document.createElement('button');
+  editBtn.className='row-edit-btn'; editBtn.textContent='✎'; editBtn.title='항목 편집';
+  editBtn.addEventListener('click',ev=>{ev.stopPropagation();openTaskEdit(phaseId,secId,task.id);});
+  actTd.appendChild(editBtn);
+  tr.appendChild(actTd);
+  // 행 클릭 → 진행률
+  tr.addEventListener('click',e=>{
+    if(e.target.closest('.add-chip-btn')||e.target.closest('.chip')||e.target.closest('.row-edit-btn'))return;
+    openProgEdit(task.id,task.ms,prog,td_.memo||'');
+  });
+  return tr;
+}
+
+function buildTable(tasks, periods, phaseId, secId){
+  const wrap=document.createElement('div');
+  wrap.className='table-scroll';
+  const tbl=document.createElement('table');
+  const cg=document.createElement('colgroup');
+  ['c-wbs','c-ms','c-done','c-note','c-prog'].forEach(c=>{const col=document.createElement('col');col.className=c;cg.appendChild(col);});
+  periods.forEach(()=>{const col=document.createElement('col');col.className='c-month';cg.appendChild(col);});
+  const actCol=document.createElement('col');actCol.className='c-act';cg.appendChild(actCol);
+  tbl.appendChild(cg);
+  // thead
+  const thead=document.createElement('thead');
+  let th=`<tr><th>WBS</th><th>마일스톤</th><th>완료 기준</th><th>비고</th><th>진행률</th>`;
+  periods.forEach(m=>{th+=`<th class="mh">${m}</th>`;});
+  th+='<th></th></tr>';
+  thead.innerHTML=th; tbl.appendChild(thead);
+  // tbody
+  const tbody=document.createElement('tbody');
+  tasks.forEach(task=>tbody.appendChild(buildTaskRow(task,periods,phaseId,secId)));
+  // 항목 추가 행
+  const addRow=document.createElement('tr');
+  addRow.className='add-task-row';
+  const addTd=document.createElement('td');
+  addTd.colSpan=6+periods.length;
+  const addBtn=document.createElement('button');
+  addBtn.className='add-task-btn';
+  addBtn.innerHTML='+ 항목 추가';
+  addBtn.addEventListener('click',()=>openTaskAdd(phaseId,secId));
+  addTd.appendChild(addBtn);
+  addRow.appendChild(addTd);
+  tbody.appendChild(addRow);
+  tbl.appendChild(tbody);
+  wrap.appendChild(tbl);
+  return wrap;
+}
+
+function buildSection(sec, phaseId, periods){
+  const tasks=sec.tasks||[];
+  const sPct=tasks.length?Math.round(tasks.reduce((a,t)=>a+(getT(t.id).prog||0),0)/tasks.length):0;
+  const secCard=document.createElement('div');
+  secCard.className='sec-card'; secCard.id=sec.id;
+  // 섹션 헤더
+  const sh=document.createElement('div');
+  sh.className='sec-hdr';
+  sh.innerHTML=`
+    <span class="sec-toggle">▾</span>
+    <span class="sec-label">${sec.label}</span>
+    <div class="sec-actions">
+      <div class="sec-bar-wrap">
+        <div class="sec-bar"><div class="sec-bar-fill" id="sb-${sec.id}" style="width:${sPct}%"></div></div>
+        <span class="sec-pct" id="sp-${sec.id}">${sPct}%</span>
+      </div>
+    </div>`;
+  // 섹션 편집/삭제 버튼 (헤더 내)
+  const secActs=sh.querySelector('.sec-actions');
+  const editSecBtn=document.createElement('button');
+  editSecBtn.className='sec-btn'; editSecBtn.textContent='편집';
+  editSecBtn.addEventListener('click',ev=>{ev.stopPropagation();openSecEdit(phaseId,sec.id);});
+  const delSecBtn=document.createElement('button');
+  delSecBtn.className='sec-btn danger'; delSecBtn.textContent='삭제';
+  delSecBtn.addEventListener('click',ev=>{ev.stopPropagation();openSecDelete(phaseId,sec.id,sec.label);});
+  secActs.appendChild(editSecBtn); secActs.appendChild(delSecBtn);
+  sh.addEventListener('click',()=>secCard.classList.toggle('sc-collapsed'));
+  secCard.appendChild(sh);
+  // 섹션 행들
+  const rowsWrap=document.createElement('div');
+  rowsWrap.className='sec-rows';
+  rowsWrap.appendChild(buildTable(tasks, periods, phaseId, sec.id));
+  secCard.appendChild(rowsWrap);
+  return secCard;
+}
+
+function buildPhase(p){
+  const periods=p.phase<=3?MONTHS:P4_PERIODS;
+  const allTasks=p.sections.flatMap(s=>s.tasks||[]);
+  const pPct=allTasks.length?Math.round(allTasks.reduce((a,t)=>a+(getT(t.id).prog||0),0)/allTasks.length):0;
+  const card=document.createElement('div');
+  card.className='phase-card'; card.id=p.id;
+  // Phase 헤더
+  const hdr=document.createElement('div');
+  hdr.className='phase-hdr'; hdr.style.background=p.color;
+  hdr.innerHTML=`
+    <span class="ph-toggle">▾</span>
+    <span class="ph-num">PHASE ${p.phase}</span>
+    <span class="ph-title">${p.title}</span>
+    <span class="ph-period">${p.period}</span>
+    <div class="ph-bar-wrap">
+      <div class="ph-bar"><div class="ph-bar-fill" id="ph-fill-${p.id}" style="width:${pPct}%"></div></div>
+      <span class="ph-pct" id="ph-pct-${p.id}">${pPct}%</span>
+    </div>
+    <button class="ph-edit-btn" title="Phase 정보 편집">편집</button>`;
+  hdr.querySelector('.ph-edit-btn').addEventListener('click',ev=>{ev.stopPropagation();openPhaseEdit(p.id);});
+  hdr.addEventListener('click',e=>{if(!e.target.closest('.ph-edit-btn'))card.classList.toggle('ph-collapsed');});
+  card.appendChild(hdr);
+  // Phase body
+  const body=document.createElement('div');
+  body.className='phase-body';
+  (p.sections||[]).forEach(sec=>body.appendChild(buildSection(sec,p.id,periods)));
+  // 섹션 추가 버튼
+  const addSecWrap=document.createElement('div');
+  addSecWrap.className='add-section-wrap';
+  const addSecBtn=document.createElement('button');
+  addSecBtn.className='add-section-btn';
+  addSecBtn.innerHTML='+ 섹션(분기) 추가';
+  addSecBtn.addEventListener('click',()=>openSecAdd(p.id));
+  addSecWrap.appendChild(addSecBtn);
+  body.appendChild(addSecWrap);
+  card.appendChild(body);
+  return card;
+}
+
+function render(){
+  const root=document.getElementById('wbs-root');
+  root.innerHTML='';
+  WBS.forEach(p=>root.appendChild(buildPhase(p)));
+  updateStats();
+}
+
+function updateStats(){
+  const all=WBS.flatMap(p=>p.sections.flatMap(s=>s.tasks||[]));
+  const tot=all.length;
+  const done=all.filter(t=>(getT(t.id).prog||0)>=100).length;
+  const pct=tot?Math.round(all.reduce((a,t)=>a+(getT(t.id).prog||0),0)/tot):0;
+  document.getElementById('st-total').textContent=tot;
+  document.getElementById('st-done').textContent=done;
+  document.getElementById('st-pct').textContent=pct+'%';
+}
+
+function refreshBars(taskId){
+  WBS.forEach(p=>{
+    p.sections.forEach(sec=>{
+      if(!(sec.tasks||[]).some(t=>t.id===taskId))return;
+      const sPct=sec.tasks.length?Math.round(sec.tasks.reduce((a,t)=>a+(getT(t.id).prog||0),0)/sec.tasks.length):0;
+      const sb=document.getElementById('sb-'+sec.id);const sp=document.getElementById('sp-'+sec.id);
+      if(sb)sb.style.width=sPct+'%';if(sp)sp.textContent=sPct+'%';
+    });
+    const allT=p.sections.flatMap(s=>s.tasks||[]);
+    if(!allT.some(t=>t.id===taskId))return;
+    const pPct=allT.length?Math.round(allT.reduce((a,t)=>a+(getT(t.id).prog||0),0)/allT.length):0;
+    const pf=document.getElementById('ph-fill-'+p.id);const pp=document.getElementById('ph-pct-'+p.id);
+    if(pf)pf.style.width=pPct+'%';if(pp)pp.textContent=pPct+'%';
+  });
+  updateStats();
+}
+
+function refreshChips(tid,period){
+  const key=`me-${tid}-${period.replace(/[\.\~]/g,'_')}`;
+  const div=document.getElementById(key); if(!div)return;
+  const entries=(getT(tid).entries||{})[period]||[];
+  div.innerHTML='';
+  entries.forEach((e,idx)=>{
+    const chip=document.createElement('span');
+    chip.className='chip'+(e.type?' '+e.type:'');
+    chip.title=e.memo||e.text; chip.textContent=e.text;
+    chip.addEventListener('click',ev=>{ev.stopPropagation();openChipEdit(tid,period,idx,e);});
+    div.appendChild(chip);
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// 모달 시스템 (단일 오버레이, 내용은 JS로 주입)
+// ══════════════════════════════════════════════════════
+let _mCtx=null;
+function openOverlay(html,ctx){
+  _mCtx=ctx;
+  document.getElementById('modal-body').innerHTML=html;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('show');
+  _mCtx=null;
+}
+document.getElementById('overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('overlay'))closeModal();
+});
+
+// ── 진행률 편집 ──
+function openProgEdit(tid,ms,prog,memo){
+  openOverlay(`
+    <div class="m-title">진행률 업데이트</div>
+    <div class="m-sub">${ms}</div>
+    <div class="prog-row">
+      <label>진행률</label>
+      <input type="range" id="m-prog" min="0" max="100" step="5" value="${prog}"
+        oninput="document.getElementById('m-prog-disp').textContent=this.value+'%'">
+      <span class="prog-disp" id="m-prog-disp">${prog}%</span>
+    </div>
+    <label>메모</label>
+    <textarea id="m-memo">${memo}</textarea>
+    <div class="m-actions">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="saveProgEdit()">저장</button>
+    </div>`,{type:'prog',tid});
+}
+function saveProgEdit(){
+  const td_=getT(_mCtx.tid);
+  td_.prog=parseInt(document.getElementById('m-prog').value);
+  td_.memo=document.getElementById('m-memo').value;
+  setT(_mCtx.tid,td_);
+  const pn=document.getElementById('pn-'+_mCtx.tid);
+  const pb=document.getElementById('pb-'+_mCtx.tid);
+  if(pn)pn.textContent=td_.prog+'%';
+  if(pb){pb.style.width=td_.prog+'%';pb.className='prog-fill '+fillClass(td_.prog);}
+  refreshBars(_mCtx.tid);
+  closeModal();
+}
+
+// ── 업데이트 칩 추가 ──
+function openChipAdd(tid,period,ms){
+  openOverlay(`
+    <div class="m-title">업데이트 추가</div>
+    <div class="m-sub">${ms} · ${period}</div>
+    <label>내용</label>
+    <input type="text" id="m-text" placeholder="예: 출판사 미팅 완료">
+    <label>유형</label>
+    <select id="m-type">
+      <option value="">진행중</option>
+      <option value="done">완료</option>
+      <option value="issue">이슈</option>
+    </select>
+    <label>메모</label>
+    <textarea id="m-memo" placeholder="상세 내용..."></textarea>
+    <div class="m-actions">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="saveChipAdd()">저장</button>
+    </div>`,{type:'chip-add',tid,period});
+  setTimeout(()=>document.getElementById('m-text')?.focus(),80);
+}
+function saveChipAdd(){
+  const txt=document.getElementById('m-text').value.trim();
+  if(!txt){document.getElementById('m-text').focus();return;}
+  const td_=getT(_mCtx.tid);
+  if(!td_.entries)td_.entries={};
+  if(!td_.entries[_mCtx.period])td_.entries[_mCtx.period]=[];
+  td_.entries[_mCtx.period].push({text:txt,type:document.getElementById('m-type').value,memo:document.getElementById('m-memo').value});
+  setT(_mCtx.tid,td_);
+  refreshChips(_mCtx.tid,_mCtx.period);
+  closeModal();
+}
+
+// ── 업데이트 칩 편집 ──
+function openChipEdit(tid,period,idx,e){
+  openOverlay(`
+    <div class="m-title">업데이트 수정</div>
+    <div class="m-sub">${period}</div>
+    <label>내용</label>
+    <input type="text" id="m-text" value="${e.text}">
+    <label>유형</label>
+    <select id="m-type">
+      <option value="" ${!e.type?'selected':''}>진행중</option>
+      <option value="done" ${e.type==='done'?'selected':''}>완료</option>
+      <option value="issue" ${e.type==='issue'?'selected':''}>이슈</option>
+    </select>
+    <label>메모</label>
+    <textarea id="m-memo">${e.memo||''}</textarea>
+    <div class="m-actions">
+      <button class="btn-del" onclick="deleteChip()">삭제</button>
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="saveChipEdit()">저장</button>
+    </div>`,{type:'chip-edit',tid,period,idx});
+}
+function saveChipEdit(){
+  const txt=document.getElementById('m-text').value.trim(); if(!txt)return;
+  const td_=getT(_mCtx.tid);
+  td_.entries[_mCtx.period][_mCtx.idx]={text:txt,type:document.getElementById('m-type').value,memo:document.getElementById('m-memo').value};
+  setT(_mCtx.tid,td_);
+  refreshChips(_mCtx.tid,_mCtx.period);
+  closeModal();
+}
+function deleteChip(){
+  const td_=getT(_mCtx.tid);
+  td_.entries[_mCtx.period].splice(_mCtx.idx,1);
+  setT(_mCtx.tid,td_);
+  refreshChips(_mCtx.tid,_mCtx.period);
+  closeModal();
+}
+
+// ── 태스크 편집 ──
+function findTask(taskId){
+  for(const p of WBS){for(const s of p.sections){const t=s.tasks.find(t=>t.id===taskId);if(t)return{p,s,t};}}
+  return null;
+}
+function openTaskEdit(phaseId,secId,taskId){
+  const found=findTask(taskId); if(!found)return;
+  const t=found.t;
+  openOverlay(`
+    <div class="m-title">항목 편집</div>
+    <div class="m-sub">${t.id}</div>
+    <label>마일스톤</label>
+    <input type="text" id="m-ms" value="${t.ms}">
+    <label>완료 기준</label>
+    <textarea id="m-done">${t.done}</textarea>
+    <label>비고</label>
+    <input type="text" id="m-note" value="${t.note||''}">
+    <div class="m-checkbox-row">
+      <input type="checkbox" id="m-key" ${t.key?'checked':''}>
+      <span>핵심 마일스톤 (★ 강조)</span>
+    </div>
+    <div class="m-divider"></div>
+    <div class="m-section-title">⚠️ 위험 구역</div>
+    <div class="m-actions" style="margin-top:0;justify-content:space-between;">
+      <button class="btn-del" onclick="deleteTask('${phaseId}','${secId}','${taskId}')">항목 삭제</button>
+      <div style="display:flex;gap:7px;">
+        <button class="btn-cancel" onclick="closeModal()">취소</button>
+        <button class="btn-save" onclick="saveTaskEdit('${phaseId}','${secId}','${taskId}')">저장</button>
+      </div>
+    </div>`,{type:'task-edit'});
+}
+function saveTaskEdit(phaseId,secId,taskId){
+  const p=WBS.find(x=>x.id===phaseId); if(!p)return;
+  const s=p.sections.find(x=>x.id===secId); if(!s)return;
+  const t=s.tasks.find(x=>x.id===taskId); if(!t)return;
+  t.ms=document.getElementById('m-ms').value.trim()||t.ms;
+  t.done=document.getElementById('m-done').value.trim();
+  t.note=document.getElementById('m-note').value.trim();
+  t.key=document.getElementById('m-key').checked;
+  saveStruct(WBS);
+  render();
+  closeModal();
+}
+function deleteTask(phaseId,secId,taskId){
+  if(!confirm('이 항목을 삭제할까요? 진행 데이터(진행률·업데이트)도 함께 삭제됩니다.'))return;
+  const p=WBS.find(x=>x.id===phaseId); if(!p)return;
+  const s=p.sections.find(x=>x.id===secId); if(!s)return;
+  s.tasks=s.tasks.filter(t=>t.id!==taskId);
+  delete DATA[taskId]; saveData(DATA);
+  saveStruct(WBS);
+  render();
+  closeModal();
+}
+
+// ── 태스크 추가 ──
+function openTaskAdd(phaseId,secId){
+  const p=WBS.find(x=>x.id===phaseId);
+  const s=p?.sections.find(x=>x.id===secId);
+  if(!s)return;
+  // 다음 WBS id 자동 제안
+  const ids=s.tasks.map(t=>t.id);
+  const lastId=ids[ids.length-1]||'';
+  const parts=lastId.split('.');
+  let suggestId='';
+  if(parts.length===3){const n=parseInt(parts[2])||0;suggestId=`${parts[0]}.${parts[1]}.${n+1}`;}
+  openOverlay(`
+    <div class="m-title">항목 추가</div>
+    <div class="m-sub">${s.label}</div>
+    <label>WBS ID</label>
+    <input type="text" id="m-newid" value="${suggestId}" placeholder="예: 1.1.8">
+    <label>마일스톤</label>
+    <input type="text" id="m-ms" placeholder="예: 뉴스레터 1,000명 달성">
+    <label>완료 기준</label>
+    <textarea id="m-done" placeholder="완료 기준을 입력하세요"></textarea>
+    <label>비고</label>
+    <input type="text" id="m-note" placeholder="G1, 씨앗 등">
+    <div class="m-checkbox-row">
+      <input type="checkbox" id="m-key">
+      <span>핵심 마일스톤 (★ 강조)</span>
+    </div>
+    <div class="m-actions">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="saveTaskAdd('${phaseId}','${secId}')">추가</button>
+    </div>`,{type:'task-add'});
+  setTimeout(()=>document.getElementById('m-newid')?.focus(),80);
+}
+function saveTaskAdd(phaseId,secId){
+  const newId=document.getElementById('m-newid').value.trim();
+  const ms=document.getElementById('m-ms').value.trim();
+  if(!newId||!ms){alert('ID와 마일스톤은 필수입니다.');return;}
+  // 중복 ID 체크
+  const allIds=WBS.flatMap(p=>p.sections.flatMap(s=>s.tasks.map(t=>t.id)));
+  if(allIds.includes(newId)){alert(`ID "${newId}"는 이미 존재합니다.`);return;}
+  const p=WBS.find(x=>x.id===phaseId);
+  const s=p?.sections.find(x=>x.id===secId); if(!s)return;
+  s.tasks.push({
+    id:newId,
+    ms,
+    done:document.getElementById('m-done').value.trim(),
+    note:document.getElementById('m-note').value.trim(),
+    key:document.getElementById('m-key').checked
+  });
+  saveStruct(WBS);
+  render();
+  closeModal();
+}
+
+// ── 섹션 추가 ──
+function openSecAdd(phaseId){
+  openOverlay(`
+    <div class="m-title">섹션(분기) 추가</div>
+    <div class="m-sub">Phase에 새 섹션을 추가합니다</div>
+    <label>섹션 이름</label>
+    <input type="text" id="m-sec-label" placeholder="예: 2027 Q1 세부 실행계획">
+    <div class="m-actions">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="saveSecAdd('${phaseId}')">추가</button>
+    </div>`,{type:'sec-add'});
+  setTimeout(()=>document.getElementById('m-sec-label')?.focus(),80);
+}
+function saveSecAdd(phaseId){
+  const label=document.getElementById('m-sec-label').value.trim();
+  if(!label){alert('섹션 이름은 필수입니다.');return;}
+  const p=WBS.find(x=>x.id===phaseId); if(!p)return;
+  p.sections.push({id:uid('s'),label,tasks:[]});
+  saveStruct(WBS);
+  render();
+  closeModal();
+}
+
+// ── 섹션 편집 ──
+function openSecEdit(phaseId,secId){
+  const p=WBS.find(x=>x.id===phaseId);
+  const s=p?.sections.find(x=>x.id===secId); if(!s)return;
+  openOverlay(`
+    <div class="m-title">섹션 편집</div>
+    <label>섹션 이름</label>
+    <input type="text" id="m-sec-label" value="${s.label}">
+    <div class="m-actions">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="saveSecEdit('${phaseId}','${secId}')">저장</button>
+    </div>`,{type:'sec-edit'});
+}
+function saveSecEdit(phaseId,secId){
+  const label=document.getElementById('m-sec-label').value.trim(); if(!label)return;
+  const p=WBS.find(x=>x.id===phaseId);
+  const s=p?.sections.find(x=>x.id===secId); if(!s)return;
+  s.label=label;
+  saveStruct(WBS);
+  render();
+  closeModal();
+}
+
+// ── 섹션 삭제 ──
+function openSecDelete(phaseId,secId,label){
+  if(!confirm(`"${label}" 섹션을 삭제할까요?\n포함된 모든 항목과 진행 데이터가 삭제됩니다.`))return;
+  const p=WBS.find(x=>x.id===phaseId); if(!p)return;
+  const s=p.sections.find(x=>x.id===secId);
+  if(s)(s.tasks||[]).forEach(t=>{delete DATA[t.id];});
+  saveData(DATA);
+  p.sections=p.sections.filter(x=>x.id!==secId);
+  saveStruct(WBS);
+  render();
+}
+
+// ── Phase 편집 ──
+function openPhaseEdit(phaseId){
+  const p=WBS.find(x=>x.id===phaseId); if(!p)return;
+  openOverlay(`
+    <div class="m-title">Phase 편집</div>
+    <label>제목</label>
+    <input type="text" id="m-ph-title" value="${p.title}">
+    <label>기간/설명</label>
+    <input type="text" id="m-ph-period" value="${p.period}">
+    <div class="m-actions">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="savePhaseEdit('${phaseId}')">저장</button>
+    </div>`,{type:'phase-edit'});
+}
+function savePhaseEdit(phaseId){
+  const p=WBS.find(x=>x.id===phaseId); if(!p)return;
+  p.title=document.getElementById('m-ph-title').value.trim()||p.title;
+  p.period=document.getElementById('m-ph-period').value.trim();
+  saveStruct(WBS);
+  render();
+  closeModal();
+}
+
+// Enter 저장 (모달 내 input)
+document.getElementById('overlay').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.tagName==='INPUT'){
+    const saveBtn=document.querySelector('#modal-body .btn-save');
+    if(saveBtn)saveBtn.click();
+  }
+});
+
+// ══════════════════════════════════════════════════════
+// AI 패널
+// ══════════════════════════════════════════════════════
+let _aiTab='update', _aiHist=[];
+const QUICK={
+  update:['오늘 한 일 업데이트','이번 주 진행 상황','완료한 항목 기록','막힌 부분 공유'],
+  analysis:['전체 현황 분석해줘','지금 뭘 놓치고 있어?','잘하고 있는 건?','다음 액션 추천']
+};
+function openAI(tab){_aiTab=tab;document.getElementById('ai-panel').classList.add('open');switchTab(tab);}
+function closeAI(){document.getElementById('ai-panel').classList.remove('open');}
+function switchTab(tab){
+  _aiTab=tab;
+  document.getElementById('tab-update').classList.toggle('active',tab==='update');
+  document.getElementById('tab-analysis').classList.toggle('active',tab==='analysis');
+  document.getElementById('ai-ptitle').textContent=tab==='update'?'진행 업데이트 (레오)':'현황 분석 (레오)';
+  const qb=document.getElementById('ai-qbtns'); qb.innerHTML='';
+  QUICK[tab].forEach(q=>{
+    const btn=document.createElement('button');btn.className='qbtn';btn.textContent=q;
+    btn.addEventListener('click',()=>{document.getElementById('ai-input').value=q;sendAI();});
+    qb.appendChild(btn);
+  });
+  if(_aiHist.length===0){
+    document.getElementById('ai-msgs').innerHTML='';
+    addMsg('sys',tab==='update'
+      ?'레오입니다. 오늘 진행한 내용, 완료한 항목, 막힌 부분을 자유롭게 말씀해 주세요. WBS를 자동 업데이트해드릴게요.'
+      :'레오입니다. 현재 WBS 진행 데이터를 바탕으로 분석하겠습니다.');
+  }
+}
+function addMsg(role,text){
+  const div=document.getElementById('ai-msgs');
+  const m=document.createElement('div');m.className='msg '+role;
+  m.innerHTML=text.replace(/\n/g,'<br>');
+  div.appendChild(m);div.scrollTop=div.scrollHeight;
+  return m;
+}
+function buildCtx(){
+  const lines=['=== 피델 WBS 현재 상태 ==='];
+  WBS.forEach(p=>p.sections.forEach(sec=>(sec.tasks||[]).forEach(t=>{
+    const d=getT(t.id);const prog=d.prog||0;
+    const entries=Object.entries(d.entries||{}).map(([k,v])=>v.map(e=>`[${k}]${e.text}${e.type?'('+e.type+')':''}`).join()).join(' / ');
+    lines.push(`${t.id}|${t.ms}|${prog}%|${entries||'없음'}${d.memo?'|'+d.memo:''}`);
+  })));
+  return lines.join('\n');
+}
+async function sendAI(){
+  const inp=document.getElementById('ai-input');
+  const text=inp.value.trim(); if(!text)return;
+  inp.value=''; document.getElementById('send-btn').disabled=true;
+  addMsg('user',text);
+  const loading=addMsg('ai loading','레오가 분석 중...');
+  const sys=_aiTab==='update'
+    ?`당신은 "레오"입니다. 피델(최민욱, 47세, LG전자 22년 후 프리랜서 강사·작가 전환)의 비전캠퍼스 로드맵 AI 어시스턴트입니다.
+핵심 컨텍스트:
+- 목표: 51세(2029) 기사 대운 점화, 55세(2034) 비전캠퍼스 론칭
+- 가드레일: G1(가격 시금석), G2(인풋 동결), G3(건강), G5(55세 주2회 상한), G7(유튜브 출간전 금지)
+- 경계 패턴: "입력 폭발 출력 지연", "후하게 퍼주고 가격 낮춤"
+역할: 피델 말에서 WBS 항목 진행률 변화 파악 후 자연어 응답 + JSON 업데이트 제안.
+JSON 형식: \`\`\`json\n{"updates":[{"id":"1.1.1","prog":80,"memo":"메모"}]}\n\`\`\`
+WBS 상태:\n${buildCtx()}`
+    :`당신은 "레오"입니다. 피델의 비전캠퍼스 로드맵 전략 분석가입니다.
+분석 포인트: ①잘하고 있는 것 ②놓치고 있는 것 ③가드레일 위반 위험 ④지금 가장 중요한 1가지
+냉철하게, 칭찬보다 경고에 무게를. 피델 경계 패턴: "입력 폭발 출력 지연", "후하게 퍼주고 가격 낮춤"
+WBS 상태:\n${buildCtx()}`;
+  try{
+    const msgs=[..._aiHist.slice(-6),{role:'user',content:text}];
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:msgs})
+    });
+    const data=await res.json();
+    const reply=data.content?.find(b=>b.type==='text')?.text||'응답 없음';
+    loading.remove();
+    let display=reply;
+    const jm=reply.match(/```json\s*([\s\S]*?)```/);
+    if(jm&&_aiTab==='update'){
+      try{
+        const parsed=JSON.parse(jm[1]);
+        if(parsed.updates?.length){
+          applyAIUpdates(parsed.updates);
+          display=reply.replace(/```json[\s\S]*?```/,'').trim()+'<br><br><span style="color:var(--green);font-weight:500">✓ WBS 자동 업데이트 완료</span>';
+        }
+      }catch(e){}
+    }
+    addMsg('ai',display);
+    _aiHist.push({role:'user',content:text},{role:'assistant',content:reply});
+  }catch(e){loading.remove();addMsg('ai','⚠️ 연결 오류: '+e.message);}
+  document.getElementById('send-btn').disabled=false;
+}
+function applyAIUpdates(updates){
+  updates.forEach(u=>{
+    if(!u.id||u.prog===undefined)return;
+    const td_=getT(u.id);td_.prog=u.prog;if(u.memo)td_.memo=u.memo;setT(u.id,td_);
+    const pn=document.getElementById('pn-'+u.id);const pb=document.getElementById('pb-'+u.id);
+    if(pn)pn.textContent=u.prog+'%';
+    if(pb){pb.style.width=u.prog+'%';pb.className='prog-fill '+fillClass(u.prog);}
+    refreshBars(u.id);
+  });
+}
+document.getElementById('ai-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}
+});
+
+// 초기 렌더
+render();
+</script>
+</body>
+</html>
