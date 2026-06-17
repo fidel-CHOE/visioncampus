@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한난 강사 콘솔 · DAY 2</title>
+<style>
+  :root{
+    --bg:#0A1A12; --bg2:#0C1F16; --surface:#122A1E; --surface2:#163326;
+    --line:#1F4231; --line2:#2A5740;
+    --ink:#F5F1EA; --mute:#8FA396; --faint:#5C7568;
+    --green:#3DA35D; --gold:#F6C453;
+    --heat1:#FFC9A6; --heat2:#EE7158; --heat3:#E8421F;
+    --mono:ui-monospace,"SF Mono",Consolas,monospace;
+    --sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);min-height:100vh;
+    background:radial-gradient(1100px 560px at 88% -12%, #123322 0%, transparent 60%), var(--bg);}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+  header{display:flex;align-items:center;gap:14px;padding:16px 26px;border-bottom:1px solid var(--line)}
+  header h1{font-size:18px;font-weight:800}
+  header h1 b{color:var(--heat2)}
+  .spacer{flex:1}
+  .tabs{display:flex;gap:8px}
+  .tab{padding:9px 18px;border-radius:11px;border:1px solid var(--line2);color:var(--mute);font-weight:700;font-size:14px;cursor:pointer;background:none}
+  .tab.on{background:var(--surface2);color:var(--ink);border-color:var(--green)}
+  .btn{padding:10px 16px;border-radius:11px;border:1px solid var(--line2);color:var(--mute);font-weight:700;font-size:13px;cursor:pointer;background:var(--surface)}
+  .btn:hover{color:var(--ink);border-color:var(--green)}
+  .btn.warn{border-color:#5a2b22;color:#ff8a6a}
+  .btn.primary{background:var(--heat2);color:#1a0d08;border:none}
+  .btn.primary:hover{background:#f4825f}
+  main{padding:22px 26px 60px;max-width:1080px;margin:0 auto}
+  .bar{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .status{font-size:14px;color:var(--mute)}
+  .status b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .pill{font-family:var(--mono);font-size:11px;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);color:var(--mute)}
+  .pill.live{color:var(--green);border-color:var(--green)}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+  .panel h2{font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .submitted{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{padding:8px 13px;border-radius:10px;border:1px solid var(--line2);font-size:14px;font-weight:700;color:var(--mute)}
+  .chip.in{color:var(--ink);border-color:var(--green);background:rgba(61,163,93,.1)}
+  .chip.in::before{content:"✓ ";color:var(--green)}
+
+  .hidden-note{text-align:center;color:var(--faint);padding:30px;font-size:14px;border:1px dashed var(--line2);border-radius:12px}
+  .reveal-row{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .reveal-row:last-child{border-bottom:none}
+  .rk{font-family:var(--mono);width:30px;color:var(--faint);font-size:14px}
+  .rk.m{font-size:20px}
+  .nm{width:80px;font-weight:800;font-size:16px}
+  .track{flex:1;height:14px;border-radius:999px;background:#0c2017;overflow:hidden;border:1px solid var(--line)}
+  .track>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--heat1),var(--heat2) 55%,var(--heat3));width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .pv{width:64px;text-align:right;font-weight:800;font-variant-numeric:tabular-nums;color:var(--heat2)}
+  .pv .u{font-size:11px;color:var(--mute);font-weight:600}
+
+  /* weights & ai inputs */
+  .cfg{display:flex;gap:18px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--mute);margin-bottom:6px}
+  .cfg label{display:flex;align-items:center;gap:6px}
+  .cfg input{width:70px;padding:8px;border-radius:8px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);font-family:var(--mono);text-align:center}
+  .ai-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:6px}
+  .ai-cell{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--bg2)}
+  .ai-cell span{font-weight:800;width:42px}
+  .ai-cell input{flex:1;padding:9px;border-radius:8px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);font-family:var(--mono);text-align:center;font-size:15px}
+
+  /* final */
+  .final-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:13px;margin-bottom:10px;background:var(--surface2);border:1px solid var(--line)}
+  .final-row.win{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 12px 40px -16px rgba(246,196,83,.4)}
+  .final-row .rk{font-size:22px;width:44px}
+  .final-row .nm{width:90px;font-size:20px}
+  .final-row .break{flex:1;font-size:12px;color:var(--mute);font-family:var(--mono)}
+  .final-row .tot{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--heat2)}
+  .final-row.win .tot{color:var(--gold)}
+  .small{font-size:12px;color:var(--faint);margin-top:8px;line-height:1.6}
+  .err{display:none;background:#2a1512;color:#ff8a6a;border:1px solid #5a2b22;border-radius:11px;padding:12px;font-size:14px;margin-bottom:14px}
+  .err.on{display:block}
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="eyebrow">한국지역난방공사 · DAY 2</div>
+      <h1>강사 콘솔 <b>· 평가 집계</b></h1>
+    </div>
+    <div class="spacer"></div>
+    <span class="pill live" id="conn">● 연결 확인 전</span>
+    <div class="tabs">
+      <button class="tab on" data-round="gate3">GATE 3</button>
+      <button class="tab" data-round="final">최종</button>
+    </div>
+    <button class="btn" id="refresh">↻ 불러오기</button>
+  </header>
+
+  <main>
+    <div class="err" id="err"></div>
+    <div class="bar">
+      <span class="status">제출 현황 <b id="cnt">0</b> / <b id="tot">8</b>조</span>
+      <span class="spacer"></span>
+      <button class="btn warn" id="resetBtn">투표 초기화</button>
+    </div>
+
+    <div class="panel">
+      <h2>📥 제출 현황 <span class="eyebrow" style="margin-left:6px">점수는 공개 전까지 숨김</span></h2>
+      <div class="submitted" id="submitted"></div>
+    </div>
+
+    <div class="panel">
+      <h2>🏁 <span id="revTitle">GATE 3 결과</span></h2>
+      <div class="cfg" id="weights"></div>
+      <div id="revealArea"><div class="hidden-note">아직 비공개입니다. 마감 후 <b style="color:var(--mute)">공개</b>를 누르면 합산 결과가 표시됩니다.</div></div>
+      <div style="margin-top:14px"><button class="btn primary" id="revealBtn">🔓 결과 공개</button></div>
+    </div>
+
+    <!-- 최종 전용: AI 심사 + 합산 -->
+    <div class="panel" id="aiPanel" style="display:none">
+      <h2>🤖 AI 심사 점수 입력 <span class="eyebrow" style="margin-left:6px">AI Studio 심사관 앱의 총점(/100)</span></h2>
+      <div class="ai-grid" id="aiGrid"></div>
+    </div>
+    <div class="panel" id="finalPanel" style="display:none">
+      <h2>🏆 최종 합산</h2>
+      <div class="cfg">
+        <label>동료투표 가중치 <input id="wVote" type="number" value="1" step="0.1"></label>
+        <label>AI 심사 가중치 <input id="wAi" type="number" value="1" step="0.1"></label>
+        <label>히트보드 점수 반영 <input id="wHeat" type="number" value="1" step="0.1"></label>
+        <button class="btn" id="heatToggle">히트보드 점수 직접입력 칸 열기</button>
+      </div>
+      <div class="ai-grid" id="heatGrid" style="display:none"></div>
+      <div id="finalArea" style="margin-top:14px"></div>
+      <button class="btn primary" id="combineBtn" style="margin-top:14px">🏆 최종 순위 합산</button>
+      <div class="small">최종 = 동료투표 점수 × 가중치 + AI 심사 점수 × 가중치 + 히트보드 점수 × 가중치. 가중치로 비중을 조절하세요.</div>
+    </div>
+  </main>
+
+<script>
+(function(){
+  "use strict";
+  // ===== 설정 =====
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbxWE6yicJlCUvV8Pn4vAoEfsv0Nvp5-KxdM7cIWgdgMkJ040g1oZih8ClfkPoXZChfhOA/exec";  // ← vote.html과 동일한 URL
+  var TEAMS = 8;
+  var RESET_PIN = "2488";  // Code.gs의 RESET_PIN과 동일하게
+  var WEIGHTS = { gate3:[30,20,10], final:[250,150,100] };
+
+  var round = "gate3";
+  var votes = [];      // [{round,voter,first,second,third}]
+  var revealed = { gate3:false, final:false };
+  var aiScores = {};   // teamId -> number
+  var heatScores = {}; // teamId -> number
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  // ===== JSONP =====
+  function jsonp(params){
+    return new Promise(function(resolve,reject){
+      var cb="cb_"+Math.random().toString(36).slice(2);
+      var s=document.createElement("script");
+      window[cb]=function(d){ resolve(d); cleanup(); };
+      function cleanup(){ delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+      params.callback=cb;
+      s.src=GAS_URL+"?"+new URLSearchParams(params).toString();
+      s.onerror=function(){ reject(new Error("연결 실패")); cleanup(); };
+      document.body.appendChild(s);
+      setTimeout(function(){ if(window[cb]){ reject(new Error("시간 초과")); cleanup(); } },12000);
+    });
+  }
+
+  function showErr(m){ var e=$("err"); if(!m){ e.classList.remove("on"); return; } e.textContent=m; e.classList.add("on"); }
+
+  function load(){
+    if(GAS_URL.indexOf("http")!==0){ showErr("설정: 코드 상단 GAS_URL에 Apps Script 웹앱 주소를 넣어주세요."); $("conn").textContent="● 미설정"; $("conn").classList.remove("live"); return; }
+    showErr(""); $("conn").textContent="● 불러오는 중";
+    jsonp({action:"list"}).then(function(d){
+      if(d && d.ok){ votes=d.votes||[]; $("conn").textContent="● 연결됨"; $("conn").classList.add("live"); render(); }
+      else { showErr((d&&d.error)||"불러오기 실패"); }
+    }).catch(function(){ showErr("서버 연결 실패. 주소/배포 상태를 확인하세요."); $("conn").textContent="● 연결 실패"; $("conn").classList.remove("live"); });
+  }
+
+  function roundVotes(){ return votes.filter(function(v){ return v.round===round; }); }
+
+  function tally(){
+    var w=WEIGHTS[round], pts={};
+    for(var i=1;i<=TEAMS;i++) pts[i]=0;
+    roundVotes().forEach(function(v){
+      if(v.first)  pts[+v.first]  = (pts[+v.first]||0)  + w[0];
+      if(v.second) pts[+v.second] = (pts[+v.second]||0) + w[1];
+      if(v.third)  pts[+v.third]  = (pts[+v.third]||0)  + w[2];
+    });
+    return pts;
+  }
+
+  function render(){
+    // submitted status
+    var rv=roundVotes();
+    var voted={}; rv.forEach(function(v){ voted[+v.voter]=true; });
+    $("cnt").textContent=Object.keys(voted).length;
+    $("tot").textContent=TEAMS;
+    var sub=$("submitted"); sub.innerHTML="";
+    for(var i=1;i<=TEAMS;i++){
+      var c=document.createElement("span");
+      c.className="chip"+(voted[i]?" in":"");
+      c.textContent=i+"조"+(voted[i]?"":" 대기");
+      sub.appendChild(c);
+    }
+    // weights editor
+    renderWeights();
+    // reveal
+    $("revTitle").textContent = (round==="gate3"?"GATE 3":"최종")+" 결과";
+    if(revealed[round]) renderReveal(); else
+      $("revealArea").innerHTML='<div class="hidden-note">아직 비공개입니다. 마감 후 <b style="color:var(--mute)">공개</b>를 누르면 합산 결과가 표시됩니다.</div>';
+    // final-only panels
+    var isFinal = (round==="final");
+    $("aiPanel").style.display = isFinal?"block":"none";
+    $("finalPanel").style.display = isFinal?"block":"none";
+    if(isFinal){ renderAiGrid(); renderHeatGrid(); }
+  }
+
+  function renderWeights(){
+    var w=WEIGHTS[round], box=$("weights"); box.innerHTML="";
+    ["1등","2등","3등"].forEach(function(lbl,idx){
+      var l=document.createElement("label");
+      l.innerHTML=lbl+' <input type="number" data-wi="'+idx+'" value="'+w[idx]+'">';
+      box.appendChild(l);
+    });
+    box.querySelectorAll("input").forEach(function(inp){
+      inp.addEventListener("change",function(){ WEIGHTS[round][+inp.getAttribute("data-wi")]=parseInt(inp.value,10)||0; if(revealed[round]) renderReveal(); });
+    });
+  }
+
+  function rankSorted(pts){
+    var arr=[]; for(var i=1;i<=TEAMS;i++) arr.push({t:i,p:pts[i]||0});
+    arr.sort(function(a,b){ return b.p-a.p || a.t-b.t; });
+    return arr;
+  }
+
+  function renderReveal(){
+    var pts=tally(), arr=rankSorted(pts), mx=Math.max(1,arr[0].p);
+    var area=$("revealArea"); area.innerHTML="";
+    arr.forEach(function(o,idx){
+      var medal=idx===0?"🥇":idx===1?"🥈":idx===2?"🥉":("0"+(idx+1)).slice(-2);
+      var row=document.createElement("div"); row.className="reveal-row";
+      row.innerHTML='<span class="rk '+(idx<3?"m":"")+'">'+medal+'</span>'+
+        '<span class="nm">'+o.t+'조</span>'+
+        '<span class="track"><i style="width:'+Math.round(o.p/mx*100)+'%"></i></span>'+
+        '<span class="pv">'+o.p+'<span class="u"> 점</span></span>';
+      area.appendChild(row);
+    });
+  }
+
+  function renderAiGrid(){
+    var g=$("aiGrid"); g.innerHTML="";
+    for(var i=1;i<=TEAMS;i++){
+      (function(t){
+        var c=document.createElement("div"); c.className="ai-cell";
+        c.innerHTML='<span>'+t+'조</span><input type="number" min="0" max="100" placeholder="0~100" value="'+(aiScores[t]!=null?aiScores[t]:"")+'">';
+        c.querySelector("input").addEventListener("input",function(e){ aiScores[t]=parseInt(e.target.value,10)||0; });
+        g.appendChild(c);
+      })(i);
+    }
+  }
+  function renderHeatGrid(){
+    var g=$("heatGrid"); g.innerHTML="";
+    for(var i=1;i<=TEAMS;i++){
+      (function(t){
+        var c=document.createElement("div"); c.className="ai-cell";
+        c.innerHTML='<span>'+t+'조</span><input type="number" min="0" placeholder="히트보드 점수" value="'+(heatScores[t]!=null?heatScores[t]:"")+'">';
+        c.querySelector("input").addEventListener("input",function(e){ heatScores[t]=parseInt(e.target.value,10)||0; });
+        g.appendChild(c);
+      })(i);
+    }
+  }
+
+  function renderFinal(){
+    var votePts=tally(); // final round votes
+    var wV=parseFloat($("wVote").value)||0, wA=parseFloat($("wAi").value)||0, wH=parseFloat($("wHeat").value)||0;
+    var arr=[];
+    for(var i=1;i<=TEAMS;i++){
+      var v=votePts[i]||0, a=aiScores[i]||0, h=heatScores[i]||0;
+      arr.push({t:i, v:v, a:a, h:h, total:Math.round(v*wV+a*wA+h*wH)});
+    }
+    arr.sort(function(x,y){ return y.total-x.total || x.t-y.t; });
+    var area=$("finalArea"); area.innerHTML="";
+    arr.forEach(function(o,idx){
+      var medal=idx===0?"🥇":idx===1?"🥈":idx===2?"🥉":("0"+(idx+1)).slice(-2);
+      var row=document.createElement("div"); row.className="final-row"+(idx===0?" win":"");
+      row.innerHTML='<span class="rk">'+medal+'</span><span class="nm">'+o.t+'조</span>'+
+        '<span class="break">투표 '+o.v+' · AI '+o.a+' · 히트 '+o.h+'</span>'+
+        '<span class="tot">'+o.total+'</span>';
+      area.appendChild(row);
+    });
+  }
+
+  // ===== events =====
+  document.querySelectorAll(".tab").forEach(function(t){
+    t.addEventListener("click",function(){
+      document.querySelectorAll(".tab").forEach(function(x){ x.classList.remove("on"); });
+      t.classList.add("on"); round=t.getAttribute("data-round"); render();
+    });
+  });
+  $("refresh").addEventListener("click",load);
+  $("revealBtn").addEventListener("click",function(){ revealed[round]=true; renderReveal(); });
+  $("combineBtn").addEventListener("click",renderFinal);
+  $("heatToggle").addEventListener("click",function(){
+    var g=$("heatGrid"); var open=g.style.display==="none";
+    g.style.display=open?"grid":"none"; this.textContent=open?"히트보드 점수 칸 닫기":"히트보드 점수 직접입력 칸 열기";
+  });
+  $("resetBtn").addEventListener("click",function(){
+    if(!confirm("서버의 모든 투표를 삭제할까요? (되돌릴 수 없음)")) return;
+    jsonp({action:"reset", pin:RESET_PIN}).then(function(d){
+      if(d&&d.ok){ votes=[]; revealed={gate3:false,final:false}; render(); alert("초기화 완료"); }
+      else alert("실패: "+((d&&d.error)||"")); 
+    }).catch(function(){ alert("연결 실패"); });
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

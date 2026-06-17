@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>한난 조별 평가</title>
+<style>
+  :root{
+    --green:#1B5E20; --green2:#2E7D32; --green-l:#E8F1E9;
+    --coral:#EE7158; --ink:#1d2521; --mute:#6b776f; --line:#dfe6e0; --bg:#F4F7F4; --white:#fff;
+    --sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh;padding:20px 16px 40px}
+  .wrap{max-width:520px;margin:0 auto}
+  header{text-align:center;margin:8px 0 22px}
+  .eyebrow{font-size:12px;letter-spacing:.1em;color:var(--green2);font-weight:700}
+  h1{font-size:24px;margin-top:6px}
+  .round{display:inline-block;margin-top:10px;padding:6px 14px;border-radius:999px;background:var(--green);color:#fff;font-size:14px;font-weight:700}
+  .step{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 6px 24px -16px rgba(0,0,0,.25)}
+  .step.dim{opacity:.5;pointer-events:none}
+  .step h2{font-size:16px;margin-bottom:4px}
+  .step p{font-size:13px;color:var(--mute);margin-bottom:14px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .team{padding:16px 0;border-radius:14px;border:2px solid var(--line);background:#fff;font-size:17px;font-weight:800;color:var(--ink);text-align:center;cursor:pointer;transition:.12s}
+  .team:active{transform:scale(.96)}
+  .team.me{border-color:var(--green);background:var(--green);color:#fff}
+  .team[disabled]{opacity:.3;cursor:not-allowed}
+  .ranks{display:flex;flex-direction:column;gap:12px}
+  .rank{display:flex;align-items:center;gap:12px}
+  .badge{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0}
+  .b1{background:#F6B73C}.b2{background:#9AA7B0}.b3{background:#C58B5B}
+  select{flex:1;padding:14px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:16px;font-family:inherit;color:var(--ink);appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b776f' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center}
+  .submit{width:100%;padding:18px;border:none;border-radius:14px;background:var(--coral);color:#fff;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:4px}
+  .submit:disabled{background:#cdd5ce;cursor:not-allowed}
+  .submit:active:not(:disabled){transform:scale(.99)}
+  .note{font-size:12px;color:var(--mute);text-align:center;margin-top:14px;line-height:1.6}
+  /* done */
+  .done{display:none;text-align:center;padding:50px 20px}
+  .done.on{display:block}
+  .check{width:96px;height:96px;border-radius:50%;background:var(--green);color:#fff;font-size:52px;display:grid;place-items:center;margin:0 auto 22px}
+  .done h2{font-size:26px;margin-bottom:8px}
+  .done p{color:var(--mute);font-size:15px;margin-bottom:28px}
+  .done .who{color:var(--green);font-weight:800}
+  .ghost{padding:12px 22px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:14px;font-weight:700;color:var(--mute);font-family:inherit;cursor:pointer}
+  .err{display:none;background:#fbeae7;color:#a3392a;border-radius:12px;padding:14px;font-size:14px;text-align:center;margin-top:12px}
+  .err.on{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="form">
+    <header>
+      <div class="eyebrow">한국지역난방공사 · 전직원 AI 교육</div>
+      <h1>조별 평가</h1>
+      <div class="round" id="roundLabel">평가</div>
+    </header>
+
+    <div class="step" id="step1">
+      <h2>1. 우리 조를 선택하세요</h2>
+      <p>먼저 본인 조를 누르면, 그 조는 평가 대상에서 빠집니다.</p>
+      <div class="grid" id="teamGrid"></div>
+    </div>
+
+    <div class="step dim" id="step2">
+      <h2>2. 가장 좋았던 조 1·2·3등</h2>
+      <p>우리 조를 제외하고, 다른 조 중에서 고르세요.</p>
+      <div class="ranks">
+        <div class="rank"><div class="badge b1">1등</div><select id="r1"></select></div>
+        <div class="rank"><div class="badge b2">2등</div><select id="r2"></select></div>
+        <div class="rank"><div class="badge b3">3등</div><select id="r3"></select></div>
+      </div>
+      <div class="err" id="err"></div>
+      <button class="submit" id="submitBtn" disabled>제출하기</button>
+      <div class="note">제출 후에도 마감 전이면 다시 고쳐 제출할 수 있어요.</div>
+    </div>
+  </div>
+
+  <div class="done" id="done">
+    <div class="check">✓</div>
+    <h2>제출 완료!</h2>
+    <p><span class="who" id="doneWho"></span> · <span id="donePick"></span></p>
+    <button class="ghost" id="redo">다시 제출하기</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // ===== 설정 =====
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbxWE6yicJlCUvV8Pn4vAoEfsv0Nvp5-KxdM7cIWgdgMkJ040g1oZih8ClfkPoXZChfhOA/exec";   // ← 배포 후 URL 붙여넣기
+  var qs = new URLSearchParams(location.search);
+  var ROUND = qs.get("round") || "gate3";                 // ?round=gate3 또는 ?round=final
+  var TEAMS = parseInt(qs.get("teams"),10) || 8;          // ?teams=8
+  var ROUND_LABEL = { gate3:"GATE 3 · 중간 평가", final:"최종 평가" }[ROUND] || "평가";
+
+  var STKEY = "hannam-vote-"+ROUND;
+  var me = null;
+
+  document.getElementById("roundLabel").textContent = ROUND_LABEL;
+
+  // build team buttons
+  var grid = document.getElementById("teamGrid");
+  for(var i=1;i<=TEAMS;i++){
+    var b=document.createElement("button");
+    b.className="team"; b.textContent=i+"조"; b.setAttribute("data-t",i);
+    grid.appendChild(b);
+  }
+  grid.addEventListener("click",function(e){
+    var b=e.target.closest(".team"); if(!b) return;
+    me=+b.getAttribute("data-t");
+    grid.querySelectorAll(".team").forEach(function(x){ x.classList.toggle("me", +x.getAttribute("data-t")===me); });
+    buildSelects();
+    document.getElementById("step2").classList.remove("dim");
+  });
+
+  var r1=document.getElementById("r1"), r2=document.getElementById("r2"), r3=document.getElementById("r3");
+  function opt(v,t){ var o=document.createElement("option"); o.value=v; o.textContent=t; return o; }
+  function buildSelects(){
+    [r1,r2,r3].forEach(function(sel){
+      sel.innerHTML=""; sel.appendChild(opt("","— 선택 —"));
+      for(var i=1;i<=TEAMS;i++){ if(i!==me) sel.appendChild(opt(i, i+"조")); }
+    });
+    validate();
+  }
+  [r1,r2,r3].forEach(function(s){ s.addEventListener("change",validate); });
+
+  function validate(){
+    var v=[r1.value,r2.value,r3.value].filter(Boolean);
+    var uniq = new Set(v);
+    var ok = (me!==null && v.length===3 && uniq.size===3);
+    var err=document.getElementById("err");
+    if(v.length===3 && uniq.size<3){ err.textContent="1·2·3등을 서로 다른 조로 골라주세요."; err.classList.add("on"); }
+    else err.classList.remove("on");
+    document.getElementById("submitBtn").disabled=!ok;
+  }
+
+  // JSONP
+  function jsonp(params){
+    return new Promise(function(resolve,reject){
+      var cb="cb_"+Math.random().toString(36).slice(2);
+      var s=document.createElement("script");
+      window[cb]=function(d){ resolve(d); cleanup(); };
+      function cleanup(){ delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+      params.callback=cb;
+      s.src=GAS_URL+"?"+new URLSearchParams(params).toString();
+      s.onerror=function(){ reject(new Error("연결 실패")); cleanup(); };
+      document.body.appendChild(s);
+      setTimeout(function(){ if(window[cb]){ reject(new Error("시간 초과")); cleanup(); } },12000);
+    });
+  }
+
+  var submitBtn=document.getElementById("submitBtn");
+  submitBtn.addEventListener("click",function(){
+    if(GAS_URL.indexOf("http")!==0){ showErr("설정 오류: 강사용 서버 주소가 입력되지 않았습니다."); return; }
+    submitBtn.disabled=true; submitBtn.textContent="제출 중...";
+    jsonp({ action:"vote", round:ROUND, voter:me, first:r1.value, second:r2.value, third:r3.value })
+      .then(function(d){
+        if(d && d.ok){ showDone(); localStorage.setItem(STKEY, JSON.stringify({me:me,p:[r1.value,r2.value,r3.value]})); }
+        else { showErr((d&&d.error)||"제출에 실패했습니다. 다시 시도해주세요."); }
+      })
+      .catch(function(){ showErr("연결이 불안정합니다. 다시 제출해주세요."); })
+      .then(function(){ submitBtn.disabled=false; submitBtn.textContent="제출하기"; validate(); });
+  });
+  function showErr(m){ var e=document.getElementById("err"); e.textContent=m; e.classList.add("on"); }
+  function showDone(){
+    document.getElementById("form").style.display="none";
+    document.getElementById("done").classList.add("on");
+    document.getElementById("doneWho").textContent=me+"조 제출";
+    document.getElementById("donePick").textContent="1등 "+r1.value+"조 · 2등 "+r2.value+"조 · 3등 "+r3.value+"조";
+  }
+  document.getElementById("redo").addEventListener("click",function(){
+    document.getElementById("done").classList.remove("on");
+    document.getElementById("form").style.display="block";
+  });
+
+  // restore previous submission (resubmit convenience)
+  try{
+    var prev=JSON.parse(localStorage.getItem(STKEY));
+    if(prev && prev.me){
+      me=prev.me;
+      grid.querySelectorAll(".team").forEach(function(x){ x.classList.toggle("me", +x.getAttribute("data-t")===me); });
+      buildSelects();
+      document.getElementById("step2").classList.remove("dim");
+      r1.value=prev.p[0]; r2.value=prev.p[1]; r3.value=prev.p[2]; validate();
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
