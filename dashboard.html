@@ -69,6 +69,28 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);height:100vh;dis
 .tree-children{display:none;padding-left:14px;}
 .tree-children.open{display:block;}
 
+/* ── 드래그앤드롭 ── */
+.drag-handle{
+  width:14px;height:20px;display:flex;align-items:center;justify-content:center;
+  cursor:grab;flex-shrink:0;opacity:0;transition:opacity .12s;
+  color:rgba(255,255,255,.3);font-size:11px;padding-left:2px;
+}
+.tree-row:hover .drag-handle{opacity:1;}
+.drag-handle:active{cursor:grabbing;}
+.tree-node.dragging{opacity:.35;}
+/* 드롭 위치 인디케이터 */
+.drop-line{
+  height:2px;background:var(--amber);border-radius:1px;
+  margin:1px 4px;display:none;pointer-events:none;
+}
+.drop-line.show{display:block;}
+/* 폴더 드롭 대상 강조 */
+.tree-row.drop-target{
+  background:rgba(224,123,57,.15) !important;
+  outline:1px dashed rgba(224,123,57,.4);
+  border-radius:5px;
+}
+
 /* 푸터 */
 .sidebar-footer{padding:10px 6px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;}
 .footer-btn{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:6px;cursor:pointer;color:rgba(255,255,255,.32);font-size:11px;background:none;border:none;width:100%;transition:all .13s;}
@@ -275,35 +297,69 @@ function buildNode(node, depth){
   const wrap=document.createElement('div');
   wrap.className='tree-node';
   wrap.dataset.id=node.id;
+  wrap.dataset.depth=depth;
+
+  // 드롭 인디케이터 (위)
+  const dropAbove=document.createElement('div');
+  dropAbove.className='drop-line';
+  dropAbove.dataset.dropPos='above';
+  dropAbove.dataset.targetId=node.id;
+  wrap.appendChild(dropAbove);
 
   const row=document.createElement('div');
   row.className='tree-row'+(node.id===_activeId?' active-row':'');
   row.style.paddingLeft=(depth*10)+'px';
+  row.draggable=true;
+  row.dataset.nodeId=node.id;
+
+  // 드래그 핸들
+  const handle=document.createElement('span');
+  handle.className='drag-handle';
+  handle.innerHTML='⠿';
+  handle.title='드래그하여 이동';
+  row.appendChild(handle);
 
   if(node.type==='folder'){
-    row.innerHTML=`
-      <button class="node-btn" onclick="toggleFolder('${node.id}')">
+    const inner=document.createElement('div');
+    inner.style.cssText='display:flex;align-items:center;gap:6px;flex:1;min-width:0;';
+    inner.innerHTML=`
+      <button class="node-btn" style="padding:5px 4px;" onclick="toggleFolder('${node.id}')">
         <span class="node-chevron${node.open?' open':''}">▶</span>
         <span class="node-icon">${node.icon||'📁'}</span>
         <span class="node-label">${esc(node.label)}</span>
-      </button>
-      <div class="node-actions">
-        <button class="na-btn" title="하위 항목 추가" onclick="openAddChild('${node.id}')">+</button>
-        <button class="na-btn" title="편집" onclick="openEdit('${node.id}')">✎</button>
-        <button class="na-btn del" title="삭제" onclick="deleteNode('${node.id}')">✕</button>
-      </div>`;
+      </button>`;
+    const actions=document.createElement('div');
+    actions.className='node-actions';
+    actions.innerHTML=`
+      <button class="na-btn" title="하위 항목 추가" onclick="openAddChild('${node.id}')">+</button>
+      <button class="na-btn" title="편집" onclick="openEdit('${node.id}')">✎</button>
+      <button class="na-btn del" title="삭제" onclick="deleteNode('${node.id}')">✕</button>`;
+    row.appendChild(inner);
+    row.appendChild(actions);
   } else {
-    row.innerHTML=`
-      <button class="node-btn" onclick="loadFile('${node.id}','${esc(node.label)}','${esc(node.url||'')}')">
+    const inner=document.createElement('div');
+    inner.style.cssText='display:flex;align-items:center;gap:6px;flex:1;min-width:0;';
+    inner.innerHTML=`
+      <button class="node-btn" style="padding:5px 4px;" onclick="loadFile('${node.id}','${esc(node.label)}','${esc(node.url||'')}')">
         <span style="width:12px;flex-shrink:0;"></span>
         <span class="file-dot"></span>
         <span class="node-label">${esc(node.label)}</span>
-      </button>
-      <div class="node-actions">
-        <button class="na-btn" title="편집" onclick="openEdit('${node.id}')">✎</button>
-        <button class="na-btn del" title="삭제" onclick="deleteNode('${node.id}')">✕</button>
-      </div>`;
+      </button>`;
+    const actions=document.createElement('div');
+    actions.className='node-actions';
+    actions.innerHTML=`
+      <button class="na-btn" title="편집" onclick="openEdit('${node.id}')">✎</button>
+      <button class="na-btn del" title="삭제" onclick="deleteNode('${node.id}')">✕</button>`;
+    row.appendChild(inner);
+    row.appendChild(actions);
   }
+
+  // 드래그 이벤트
+  row.addEventListener('dragstart', onDragStart);
+  row.addEventListener('dragend',   onDragEnd);
+  row.addEventListener('dragover',  onDragOver);
+  row.addEventListener('dragleave', onDragLeave);
+  row.addEventListener('drop',      onDrop);
 
   wrap.appendChild(row);
 
@@ -315,10 +371,174 @@ function buildNode(node, depth){
     wrap.appendChild(children);
   }
 
+  // 드롭 인디케이터 (아래)
+  const dropBelow=document.createElement('div');
+  dropBelow.className='drop-line';
+  dropBelow.dataset.dropPos='below';
+  dropBelow.dataset.targetId=node.id;
+  wrap.appendChild(dropBelow);
+
   return wrap;
 }
 
 function esc(s){ return String(s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ══════════════════════════════
+// 드래그앤드롭
+// ══════════════════════════════
+let _dragId = null;          // 드래그 중인 노드 ID
+let _folderHoverTimer = null; // 폴더 자동 열기 타이머
+
+function onDragStart(e){
+  _dragId = e.currentTarget.dataset.nodeId;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', _dragId);
+  // 드래그 시작 후 약간 딜레이 주어 ghosting 처리
+  setTimeout(()=>{
+    const node = e.currentTarget.closest('.tree-node');
+    if(node) node.classList.add('dragging');
+  }, 0);
+}
+
+function onDragEnd(e){
+  _dragId = null;
+  clearFolderHover();
+  // 모든 시각 피드백 초기화
+  document.querySelectorAll('.dragging').forEach(el=>el.classList.remove('dragging'));
+  document.querySelectorAll('.drop-line.show').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('.drop-target').forEach(el=>el.classList.remove('drop-target'));
+}
+
+function onDragOver(e){
+  e.preventDefault();
+  if(!_dragId) return;
+  const row = e.currentTarget;
+  const targetId = row.dataset.nodeId;
+  if(targetId === _dragId) return;
+
+  // 자기 자신의 자손인지 체크
+  if(isDescendant(_dragId, targetId)) return;
+
+  clearVisuals();
+
+  const rect = row.getBoundingClientRect();
+  const y = e.clientY - rect.top;
+  const h = rect.height;
+  const targetR = findNode(targetId, TREE);
+  if(!targetR) return;
+
+  if(targetR.node.type === 'folder'){
+    // 폴더: 상단 25% → 위에 삽입, 하단 25% → 아래에 삽입, 중간 → 폴더 안으로
+    if(y < h * 0.25){
+      showDropLine(targetId, 'above');
+    } else if(y > h * 0.75){
+      showDropLine(targetId, 'below');
+    } else {
+      row.classList.add('drop-target');
+      // 폴더 자동 열기 (0.6초 호버)
+      if(!_folderHoverTimer){
+        _folderHoverTimer = setTimeout(()=>{
+          const r=findNode(targetId,TREE);
+          if(r&&!r.node.open){ r.node.open=true; saveTree(); renderTree(); }
+        }, 600);
+      }
+    }
+  } else {
+    // 파일: 상반부 → 위, 하반부 → 아래
+    if(y < h * 0.5) showDropLine(targetId, 'above');
+    else showDropLine(targetId, 'below');
+  }
+  e.dataTransfer.dropEffect = 'move';
+}
+
+function onDragLeave(e){
+  const row = e.currentTarget;
+  // 자식 요소로 이동한 경우는 무시
+  if(row.contains(e.relatedTarget)) return;
+  clearFolderHover();
+  row.classList.remove('drop-target');
+}
+
+function onDrop(e){
+  e.preventDefault();
+  if(!_dragId) return;
+  const row = e.currentTarget;
+  const targetId = row.dataset.nodeId;
+  if(targetId === _dragId || isDescendant(_dragId, targetId)) return;
+
+  const rect = row.getBoundingClientRect();
+  const y = e.clientY - rect.top;
+  const h = rect.height;
+  const targetR = findNode(targetId, TREE);
+  if(!targetR) return;
+
+  let dropAction; // 'before' | 'after' | 'into'
+  if(targetR.node.type === 'folder'){
+    if(y < h * 0.25) dropAction = 'before';
+    else if(y > h * 0.75) dropAction = 'after';
+    else dropAction = 'into';
+  } else {
+    dropAction = y < h * 0.5 ? 'before' : 'after';
+  }
+
+  moveNode(_dragId, targetId, dropAction);
+  clearVisuals();
+}
+
+function showDropLine(targetId, pos){
+  document.querySelectorAll('.drop-line').forEach(l=>{
+    l.classList.toggle('show',
+      l.dataset.targetId===targetId && l.dataset.dropPos===pos);
+  });
+}
+
+function clearVisuals(){
+  document.querySelectorAll('.drop-line.show').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('.drop-target').forEach(el=>el.classList.remove('drop-target'));
+}
+
+function clearFolderHover(){
+  if(_folderHoverTimer){ clearTimeout(_folderHoverTimer); _folderHoverTimer=null; }
+}
+
+// 노드가 다른 노드의 자손인지 확인
+function isDescendant(ancestorId, checkId){
+  const r = findNode(ancestorId, TREE);
+  if(!r || r.node.type !== 'folder' || !r.node.children) return false;
+  function check(nodes){
+    return nodes.some(n => n.id===checkId || (n.children&&check(n.children)));
+  }
+  return check(r.node.children);
+}
+
+// 실제 이동 처리
+function moveNode(dragId, targetId, action){
+  // 원본에서 노드 제거
+  const dragR = findNode(dragId, TREE);
+  if(!dragR) return;
+  const dragNode = JSON.parse(JSON.stringify(dragR.node));
+  dragR.parentArr.splice(dragR.idx, 1);
+
+  // 대상 위치에 삽입 (원본 제거 후 다시 찾기)
+  const targetR = findNode(targetId, TREE);
+  if(!targetR){ // 실패 시 원위치
+    dragR.parentArr.splice(dragR.idx, 0, dragNode);
+    return;
+  }
+
+  if(action === 'into'){
+    if(!targetR.node.children) targetR.node.children = [];
+    targetR.node.children.push(dragNode);
+    targetR.node.open = true;
+  } else {
+    const arr = targetR.parentArr;
+    const tIdx = targetR.idx;
+    arr.splice(action==='before' ? tIdx : tIdx+1, 0, dragNode);
+  }
+
+  saveTree();
+  renderTree();
+}
 
 // ── 폴더 토글 ──
 function toggleFolder(id){
