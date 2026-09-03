@@ -4,328 +4,390 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>피델 · 강의 소개</title>
+<title>피델 · 최민욱 — 강의 포트폴리오</title>
+<meta name="description" content="HRD 설계자 · AI 강사 피델(최민욱)의 22개 표준 강의 과정 — AI 실무·리더십·진단·HRD·ESG">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#1a1a17;--ink-soft:#5a584f;--ink-faint:#908d80;
-    --paper:#f6f4ec;--paper-card:#fffdf7;
-    --line:#ddd8c8;--line-soft:#e8e4d8;
-    --accent:#b5451d;--accent-soft:#f0e4dc;
-    --blue:#2d5d8a;--blue-soft:#e4ecf3;
-    --teal:#1d7a5e;--teal-soft:#ddeee7;
-    --amber:#a8690a;--amber-soft:#f4e9d4;
-    --purple:#5a4a8c;--purple-soft:#e8e3f2;
-    --gray-tag:#6b6960;--gray-soft:#e6e3d8;
-    --green:#2e6b30;--green-soft:#deeddf;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'IBM Plex Sans KR',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;padding:0 24px 80px;}
-  .wrap{max-width:860px;margin:0 auto;}
+:root{
+  --ink:#15150f; --ink-soft:#55534c; --ink-faint:#8b887f;
+  --paper:#faf9f5; --paper-card:#ffffff;
+  --line:#dedad0; --line-soft:#ebe8e0;
+  --accent:#1c1b17; --accent-soft:#e8e6dd;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'IBM Plex Sans KR',sans-serif;background:var(--paper);color:var(--ink);
+     line-height:1.7;-webkit-font-smoothing:antialiased;padding:0 24px 80px;}
+.wrap{max-width:960px;margin:0 auto;}
 
-  /* ── Top nav ── */
-  .top-nav{display:flex;gap:0;padding-top:28px;border-bottom:2px solid var(--ink);position:sticky;top:0;background:var(--paper);z-index:20;}
-  .top-btn{appearance:none;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;padding:14px 26px 12px 0;font-family:'Gowun Batang',serif;font-size:17px;font-weight:700;color:var(--ink-faint);cursor:pointer;transition:color .2s;letter-spacing:-.01em;white-space:nowrap;}
-  .top-btn:hover{color:var(--ink-soft);}
-  .top-btn.active{color:var(--ink);border-bottom-color:var(--accent);}
+/* ── 색상 옵션 ── */
+.theme-bar{display:flex;align-items:center;gap:10px;padding:14px 0 0;justify-content:flex-end;}
+.theme-bar .tb-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);}
+.sw{width:19px;height:19px;border-radius:50%;border:1px solid rgba(0,0,0,.18);cursor:pointer;
+  padding:0;appearance:none;transition:transform .15s,box-shadow .15s;}
+.sw:hover{transform:scale(1.12);}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--paper),0 0 0 3.5px var(--ink);}
 
-  /* ── Sub nav (과정 탭) ── */
-  .course-nav{display:none;gap:0;border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:53px;z-index:19;flex-wrap:wrap;}
-  .course-nav.active{display:flex;}
-  .tab{appearance:none;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:14px 18px 12px 0;margin-right:4px;font-family:'IBM Plex Sans KR',sans-serif;font-size:13.5px;font-weight:500;color:var(--ink-faint);cursor:pointer;transition:color .2s;display:flex;align-items:baseline;gap:7px;white-space:nowrap;}
-  .tab .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);}
-  .tab:hover{color:var(--ink-soft);}
-  .tab.active{color:var(--ink);border-bottom-color:var(--accent);}
-  .tab.active .num{color:var(--accent);}
+/* ── 상단 내비 ── */
+.top-nav{display:flex;gap:0;padding-top:10px;border-bottom:2px solid var(--ink);
+  position:sticky;top:0;background:var(--paper);z-index:20;overflow-x:auto;}
+.top-btn{appearance:none;background:none;border:none;border-bottom:3px solid transparent;
+  margin-bottom:-2px;padding:13px 24px 11px 0;font-family:'Gowun Batang',serif;font-size:16.5px;
+  font-weight:700;color:var(--ink-faint);cursor:pointer;transition:color .2s;letter-spacing:-.01em;white-space:nowrap;}
+.top-btn .cat-key{font-family:'JetBrains Mono',monospace;font-size:11px;margin-right:6px;color:var(--ink-faint);}
+.top-btn:hover{color:var(--ink-soft);}
+.top-btn.active{color:var(--ink);border-bottom-color:var(--accent);}
+.top-btn.active .cat-key{color:var(--accent);}
 
-  /* ── Panels ── */
-  .panel{display:none;}
-  .panel.active{display:block;}
-  .card{display:none;animation:fade .4s ease;padding-top:40px;}
-  .card.active{display:block;}
-  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* ── 과정 탭 ── */
+.course-nav{display:none;gap:0;border-bottom:1px solid var(--line);background:var(--paper);
+  position:sticky;top:50px;z-index:19;flex-wrap:wrap;}
+.course-nav.active{display:flex;}
+.tab{appearance:none;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;
+  padding:12px 16px 10px 0;margin-right:4px;font-family:'IBM Plex Sans KR',sans-serif;font-size:13px;
+  font-weight:500;color:var(--ink-faint);cursor:pointer;transition:color .2s;display:flex;
+  align-items:baseline;gap:6px;white-space:nowrap;}
+.tab .num{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-faint);}
+.tab:hover{color:var(--ink-soft);}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent);}
+.tab.active .num{color:var(--accent);}
 
-  /* ════════════════════════
-     PROFILE PANEL
-  ════════════════════════ */
-  .profile-panel{padding-top:44px;}
+.panel{display:none;}
+.panel.active{display:block;}
+.card{display:none;animation:fade .35s ease;padding-top:38px;}
+.card.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-  .profile-header{border-bottom:1px solid var(--line);padding-bottom:32px;margin-bottom:36px;}
-  .p-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
-  .profile-header h1{font-family:'Gowun Batang',serif;font-size:42px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-bottom:10px;}
-  .profile-header .p-role{font-size:16px;color:var(--ink-soft);margin-bottom:18px;}
-  .p-links{display:flex;gap:18px;flex-wrap:wrap;}
-  .p-link{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue);text-decoration:none;}
-  .p-link:hover{text-decoration:underline;}
+/* ── 공통 소제목 ── */
+.shead{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+.shead::after{content:'';flex:1;height:1px;background:var(--line);}
 
-  /* 강의 영역 */
-  .teach-area{margin-bottom:36px;}
-  .teach-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-  .t-tag{font-size:13px;padding:7px 16px;border-radius:2px;border:1px solid var(--line);background:var(--paper-card);color:var(--ink-soft);}
-  .t-tag.main{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:500;font-size:13.5px;}
+/* ── 카드 헤더 ── */
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
+  color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:2px;margin-bottom:14px;}
+.card h2{font-family:'Gowun Batang',serif;font-size:30px;font-weight:700;line-height:1.22;
+  letter-spacing:-.01em;margin-bottom:22px;}
+.meta{display:grid;grid-template-columns:1fr 300px;border:1px solid var(--line);border-radius:4px;
+  overflow:hidden;margin-bottom:30px;}
+.meta>div{padding:15px 18px;background:var(--paper-card);}
+.meta>div:first-child{border-right:1px solid var(--line-soft);}
+.meta-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px;}
+.meta-val{font-size:13.5px;color:var(--ink);}
+.meta-val div+div{margin-top:2px;}
+.meta-val .big{font-family:'Gowun Batang',serif;font-size:21px;font-weight:700;}
+.meta-val .sub{font-size:12.5px;color:var(--ink-faint);margin-left:2px;}
 
-  /* 경력 타임라인 */
-  .career{margin-bottom:36px;}
-  .career-list{margin-top:12px;}
-  .c-item{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:13px 0;border-bottom:1px solid var(--line-soft);align-items:start;}
-  .c-item:first-child{border-top:1px solid var(--line);}
-  .c-period{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);padding-top:3px;line-height:1.5;}
-  .c-body .c-title{font-size:14px;font-weight:500;}
-  .c-body .c-desc{font-size:13px;color:var(--ink-soft);margin-top:2px;}
+/* ── 교육 목표 ── */
+.objs{margin-bottom:30px;}
+.obj{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:14px;}
+.obj:last-child{border-bottom:none;}
+.obj .o-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:500;
+  flex-shrink:0;padding-top:3px;}
 
-  /* 자격·전문성 — 메인 */
-  .certs{margin-bottom:36px;}
-  .cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
-  .cert-block{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:18px 20px;}
-  .cert-block h4{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;}
-  .cert-tags{display:flex;flex-wrap:wrap;gap:6px;}
-  .ctag{font-size:12.5px;padding:5px 12px;border-radius:2px;font-weight:500;}
-  .ctag.diag{background:var(--purple-soft);color:var(--purple);border:1px solid #cdc5e8;}
-  .ctag.ai{background:var(--blue-soft);color:var(--blue);border:1px solid #bdd0e5;}
-  .ctag.hrd{background:var(--teal-soft);color:var(--teal);border:1px solid #b0d8cb;}
-  .ctag.etc{background:var(--gray-soft);color:var(--gray-tag);border:1px solid #ccc9bc;}
+/* ── 교육 특징 ── */
+ul.feats,ul.notes{list-style:none;margin:0;}
+ul.feats li,ul.notes li{position:relative;padding:7px 0 7px 17px;font-size:13.5px;color:var(--ink-soft);}
+ul.feats li::before,ul.notes li::before{content:'';position:absolute;left:2px;top:16px;width:5px;height:1px;background:var(--accent);}
+ul.feats{margin-bottom:30px;}
+ul.feats li:last-child{color:var(--ink);font-weight:500;}
 
-  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;}
-  .stat-chip{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:14px 20px;text-align:center;flex:1;min-width:120px;}
-  .stat-chip .s-num{font-family:'Gowun Batang',serif;font-size:28px;font-weight:700;color:var(--accent);line-height:1;}
-  .stat-chip .s-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--ink-faint);margin-top:5px;}
+/* ── 모듈 표 ── */
+.curr{margin-bottom:32px;}
+.mrow{display:grid;grid-template-columns:186px 1fr 84px 56px;gap:14px;padding:13px 0;
+  border-bottom:1px solid var(--line-soft);align-items:start;}
+.mrow.mhead{border-top:1px solid var(--ink);border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);padding:9px 0;}
+.m-name{font-size:13.5px;font-weight:500;line-height:1.45;}
+.m-tool{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-faint);
+  display:block;margin-top:4px;letter-spacing:.01em;}
+.m-body{font-size:13px;color:var(--ink-soft);}
+.m-body div{position:relative;padding-left:11px;}
+.m-body div::before{content:'·';position:absolute;left:1px;color:var(--ink-faint);}
+.m-how,.m-min{font-size:12px;color:var(--ink-soft);}
+.m-min{font-family:'JetBrains Mono',monospace;text-align:right;}
 
-  /* 저술 — 맨 아래, 작게 */
-  .writing{margin-bottom:0;}
-  .books-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
-  .book-link{display:flex;gap:9px;align-items:center;background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:10px 12px;text-decoration:none;color:inherit;transition:border-color .2s;flex:1;min-width:180px;}
-  .book-link:hover{border-color:var(--accent);}
-  .book-link img{width:34px;border-radius:1px;box-shadow:1px 2px 6px rgba(0,0,0,.14);flex-shrink:0;}
-  .book-link .b-info .b-title{font-family:'Gowun Batang',serif;font-size:13px;font-weight:700;line-height:1.3;color:var(--ink);}
-  .book-link .b-info .b-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);margin-top:2px;}
-  .writing-note{display:flex;align-items:center;gap:9px;margin-top:10px;background:var(--amber-soft);border:1px solid var(--amber);border-radius:4px;padding:11px 16px;font-size:13.5px;}
-  .writing-note .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pulse 1.8s infinite;flex-shrink:0;}
-  @keyframes pulse{50%{opacity:.35}}
+/* ── 하단 보조 블록 ── */
+.react{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:20px 24px;margin-top:14px;}
+.react .shead::after{display:none;}
+.scores{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.score-chip{border:1px solid var(--line);border-radius:4px;padding:8px 16px;text-align:center;}
+.score-chip .s-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:2px;}
+.score-chip .s-num{font-family:'Gowun Batang',serif;font-size:23px;font-weight:700;color:var(--accent);}
+.score-chip .s-max{font-size:12px;color:var(--ink-faint);}
+.quote{font-family:'Gowun Batang',serif;font-size:15px;line-height:1.65;padding:7px 0 7px 16px;
+  border-left:2px solid var(--line);}
+.quote::before{content:'\201C';color:var(--accent);margin-right:2px;}
+.quote::after{content:'\201D';color:var(--accent);margin-left:1px;}
+.react-src{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);margin-top:12px;}
 
-  /* ════════════════════════
-     COURSE CARDS (공통)
-  ════════════════════════ */
-  .shead{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;display:flex;align-items:center;gap:12px;}
-  .shead::after{content:'';flex:1;height:1px;background:var(--line);}
-  .badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:2px;margin-bottom:16px;}
-  .badge.diag{color:var(--purple);background:var(--purple-soft);}
-  .badge.job{color:var(--green);background:var(--green-soft);}
-  .card h2{font-family:'Gowun Batang',serif;font-size:30px;font-weight:700;line-height:1.2;letter-spacing:-.01em;margin-bottom:10px;}
-  .tagline{font-size:15.5px;color:var(--ink-soft);font-style:italic;font-family:'Gowun Batang',serif;margin-bottom:28px;padding-left:14px;border-left:3px solid var(--accent);}
-  .dev-flag{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--amber);background:var(--amber-soft);padding:6px 13px;border-radius:2px;margin-bottom:26px;letter-spacing:.02em;}
-  .dev-flag .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:pulse 1.8s infinite;}
-  .meta{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:30px;}
-  .meta>div{padding:16px 18px;background:var(--paper-card);}
-  .meta>div:first-child{border-right:1px solid var(--line-soft);}
-  .meta-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
-  .meta-val{font-size:13.5px;color:var(--ink);}
-  .meta-hours-row{display:flex;align-items:baseline;gap:10px;}
-  .meta-hours-row .big{font-family:'Gowun Batang',serif;font-size:22px;font-weight:700;}
-  .meta-hours-row .sub{font-size:12.5px;color:var(--ink-faint);}
-  .objs{margin-bottom:32px;}
-  .obj{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line-soft);font-size:14px;}
-  .obj:last-child{border-bottom:none;}
-  .obj .o-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:500;flex-shrink:0;padding-top:3px;}
-  .curr{margin-bottom:32px;}
-  .mod{display:grid;grid-template-columns:150px 88px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--line-soft);align-items:start;}
-  .mod:first-of-type{border-top:1px solid var(--line);}
-  .mod .m-name{font-size:13.5px;font-weight:500;}
-  .mod .m-name .m-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);display:block;margin-bottom:2px;}
-  .mod .m-desc{font-size:13px;color:var(--ink-soft);}
-  .domain{font-family:'IBM Plex Sans KR',sans-serif;font-size:11px;font-weight:500;padding:3px 8px;border-radius:2px;white-space:nowrap;display:inline-block;}
-  .d-gray{color:var(--gray-tag);background:var(--gray-soft);}
-  .d-blue{color:var(--blue);background:var(--blue-soft);}
-  .d-teal{color:var(--teal);background:var(--teal-soft);}
-  .d-amber{color:var(--amber);background:var(--amber-soft);}
-  .d-purple{color:var(--purple);background:var(--purple-soft);}
-  .d-accent{color:var(--accent);background:var(--accent-soft);}
-  .d-green{color:var(--green);background:var(--green-soft);}
-  .react{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:22px 24px;}
-  .react .shead::after{display:none;}
-  .scores{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
-  .score-chip{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:9px 16px;text-align:center;}
-  .score-chip .s-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;}
-  .score-chip .s-num{font-family:'Gowun Batang',serif;font-size:24px;font-weight:700;color:var(--accent);}
-  .score-chip .s-max{font-size:12px;color:var(--ink-faint);}
-  .quote{font-family:'Gowun Batang',serif;font-size:15px;line-height:1.65;color:var(--ink);padding:8px 0 8px 16px;border-left:2px solid var(--line);margin-bottom:4px;}
-  .quote:last-of-type{margin-bottom:0;}
-  .quote::before{content:'\201C';color:var(--accent);margin-right:2px;}
-  .quote::after{content:'\201D';color:var(--accent);margin-left:1px;}
-  .react-src{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);margin-top:12px;}
-  .strength-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:32px;}
-  .stag{font-size:12px;padding:4px 11px;border-radius:2px;border:1px solid var(--line);background:var(--paper-card);color:var(--ink-soft);}
-  .stag.highlight{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:500;}
-  .brain-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px;}
-  .brain-block{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:16px 18px;}
-  .brain-block h4{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;}
-  .brain-bars{display:flex;flex-direction:column;gap:10px;}
-  .b-row{display:flex;align-items:center;gap:10px;}
-  .b-label{font-size:13px;font-weight:500;width:32px;flex-shrink:0;}
-  .b-bar-wrap{flex:1;background:var(--line-soft);border-radius:2px;height:8px;overflow:hidden;}
-  .b-bar{height:100%;border-radius:2px;}
-  .b-bar.rest{background:#5a8a6e;}
-  .b-bar.focus{background:#2d5d8a;}
-  .b-bar.conc{background:#5a4a8c;}
-  .b-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);width:42px;flex-shrink:0;}
-  .brain-note{font-size:12px;color:var(--ink-soft);padding:9px 12px;background:var(--amber-soft);border-radius:3px;border-left:3px solid var(--amber);margin-top:12px;}
-  .ws-block{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:18px 20px;}
-  .ws-block h4{font-family:'Gowun Batang',serif;font-size:15px;font-weight:700;margin-bottom:14px;}
-  .ws-steps{display:flex;flex-direction:column;gap:11px;}
-  .ws-step{display:flex;gap:12px;align-items:flex-start;}
-  .ws-step .step-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:500;padding-top:2px;flex-shrink:0;}
-  .ws-step .step-body{font-size:13.5px;}
-  .ws-step .step-q{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
+/* ── 뇌파 / 강점 보조 블록 ── */
+.strength-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;}
+.stag{font-size:12px;padding:4px 11px;border-radius:2px;border:1px solid var(--line);
+  background:var(--paper-card);color:var(--ink-soft);}
+.stag.highlight{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:500;}
+.brain-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
+.brain-block,.ws-block{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:17px 19px;}
+.brain-block h4{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;}
+.brain-bars{display:flex;flex-direction:column;gap:10px;}
+.b-row{display:flex;align-items:center;gap:10px;}
+.b-label{font-size:13px;font-weight:500;width:32px;flex-shrink:0;}
+.b-bar-wrap{flex:1;background:var(--line-soft);border-radius:2px;height:8px;overflow:hidden;}
+.b-bar{height:100%;border-radius:2px;background:var(--accent);}
+.b-bar.focus{opacity:.72;} .b-bar.conc{opacity:.5;}
+.b-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);width:46px;flex-shrink:0;text-align:right;}
+.brain-note{font-size:12px;color:var(--ink-soft);padding:9px 12px;background:var(--accent-soft);
+  border-radius:3px;border-left:3px solid var(--accent);margin-top:12px;}
+.ws-block h4{font-family:'Gowun Batang',serif;font-size:15px;font-weight:700;margin-bottom:13px;}
+.ws-steps{display:flex;flex-direction:column;gap:11px;}
+.ws-step{display:flex;gap:12px;align-items:flex-start;}
+.ws-step .step-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);
+  font-weight:500;padding-top:2px;flex-shrink:0;}
+.ws-step .step-q{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
 
-  footer{margin-top:52px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+/* ════ 약력 ════ */
+.profile-panel{padding-top:40px;}
+.profile-header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:34px;}
+.p-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:13px;}
+.profile-header h1{font-family:'Gowun Batang',serif;font-size:42px;font-weight:700;
+  letter-spacing:-.01em;line-height:1.15;margin-bottom:10px;}
+.profile-header .p-role{font-size:16px;color:var(--ink-soft);margin-bottom:18px;}
+.p-links{display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+.p-link{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);text-decoration:none;}
+.p-link:hover{text-decoration:underline;}
+.sec{margin-bottom:34px;}
+.t-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.t-tag{font-size:13.5px;padding:8px 17px;border-radius:2px;border:1px solid var(--line);
+  background:var(--paper-card);color:var(--ink-soft);}
+.t-tag .k{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-right:7px;}
+.stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;}
+.stat-chip{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;
+  padding:15px 20px;text-align:center;flex:1;min-width:130px;}
+.stat-chip .s-num{font-family:'Gowun Batang',serif;font-size:28px;font-weight:700;color:var(--accent);line-height:1;}
+.stat-chip .s-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;
+  color:var(--ink-faint);margin-top:6px;}
+.cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+.cert-block{background:var(--paper-card);border:1px solid var(--line);border-radius:4px;padding:17px 19px;}
+.cert-block h4{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;}
+.cert-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.ctag{font-size:12.5px;padding:5px 12px;border-radius:2px;font-weight:500;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink-soft);}
+.ctag.key{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+.career-list{margin-top:4px;}
+.c-item{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:13px 0;
+  border-bottom:1px solid var(--line-soft);align-items:start;}
+.c-item:first-child{border-top:1px solid var(--line);}
+.c-period{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);padding-top:3px;line-height:1.5;}
+.c-title{font-size:14px;font-weight:500;}
+.c-desc{font-size:13px;color:var(--ink-soft);margin-top:2px;}
+.books-row{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap;}
+.book-link{display:flex;gap:9px;align-items:center;background:var(--paper-card);border:1px solid var(--line);
+  border-radius:4px;padding:10px 12px;text-decoration:none;color:inherit;transition:border-color .2s;flex:1;min-width:180px;}
+.book-link:hover{border-color:var(--accent);}
+.book-link img{width:34px;border-radius:1px;box-shadow:1px 2px 6px rgba(0,0,0,.14);flex-shrink:0;}
+.book-link .b-title{font-family:'Gowun Batang',serif;font-size:13px;font-weight:700;line-height:1.3;color:var(--ink);}
+.book-link .b-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);margin-top:2px;}
+.writing-note{display:flex;align-items:center;gap:9px;margin-top:10px;background:var(--accent-soft);
+  border:1px solid var(--accent);border-radius:4px;padding:11px 16px;font-size:13.5px;}
+.writing-note .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);
+  animation:pulse 1.8s infinite;flex-shrink:0;}
+@keyframes pulse{50%{opacity:.35}}
 
-  @media(max-width:640px){
-    .top-btn{padding:14px 14px 12px 0;font-size:15px;}
-    .card h2{font-size:24px;}
-    .meta{grid-template-columns:1fr;}
-    .meta>div:first-child{border-right:none;border-bottom:1px solid var(--line-soft);}
-    .mod{grid-template-columns:1fr;gap:5px;}
-    .brain-grid{grid-template-columns:1fr;}
-    .cert-grid{grid-template-columns:1fr;}
-    .c-item{grid-template-columns:1fr;gap:3px;}
-    .books-row{flex-direction:column;}
-  }
+footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+@media(max-width:760px){
+  body{padding:0 16px 60px;}
+  .top-btn{padding:13px 14px 11px 0;font-size:15px;}
+  .profile-header h1{font-size:33px;}
+  .card h2{font-size:23px;}
+  .meta{grid-template-columns:1fr;}
+  .meta>div:first-child{border-right:none;border-bottom:1px solid var(--line-soft);}
+  .cert-grid,.brain-grid{grid-template-columns:1fr;}
+  .mrow{grid-template-columns:1fr;gap:7px;padding:15px 0;}
+  .mrow.mhead{display:none;}
+  .m-min{text-align:left;}
+  .m-how::before{content:'방법 · ';color:var(--ink-faint);}
+  .m-min::before{content:'시간 · ';color:var(--ink-faint);}
+  .c-item{grid-template-columns:1fr;gap:4px;}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
+<div class="theme-bar"><span class="tb-label">Accent</span>
+<button class="sw" data-key="ink" title="먹" aria-label="먹" aria-pressed="false" style="background:#1c1b17" onclick="setAccent('ink',true)"></button>
+<button class="sw" data-key="brick" title="벽돌" aria-label="벽돌" aria-pressed="false" style="background:#a8421c" onclick="setAccent('brick',true)"></button>
+<button class="sw" data-key="navy" title="남색" aria-label="남색" aria-pressed="false" style="background:#26456c" onclick="setAccent('navy',true)"></button>
+<button class="sw" data-key="teal" title="청록" aria-label="청록" aria-pressed="false" style="background:#1c6f56" onclick="setAccent('teal',true)"></button>
+<button class="sw" data-key="plum" title="자주" aria-label="자주" aria-pressed="false" style="background:#6a3a58" onclick="setAccent('plum',true)"></button>
+<button class="sw" data-key="olive" title="카키" aria-label="카키" aria-pressed="false" style="background:#565c33" onclick="setAccent('olive',true)"></button>
+</div>
+<div class="top-nav">
+<button class="top-btn active" onclick="showPanel('profile',this)">약력</button>
+<button class="top-btn" onclick="showPanel('ai',this)"><span class="cat-key">A</span>AI 실무 활용 · 업무 자동화</button>
+<button class="top-btn" onclick="showPanel('lead',this)"><span class="cat-key">B</span>AI × 리더십</button>
+<button class="top-btn" onclick="showPanel('diag',this)"><span class="cat-key">C</span>진단 × AI</button>
+<button class="top-btn" onclick="showPanel('hrd',this)"><span class="cat-key">D</span>HRD · 사내강사 역량</button>
+<button class="top-btn" onclick="showPanel('esg',this)"><span class="cat-key">E</span>ESG · 사회공헌</button>
+</div>
+<div class="course-nav" id="nav-ai">
+<button class="tab active" onclick="showCard('c01','ai',this)"><span class="num">01</span>바이브코딩 실전</button>
+<button class="tab" onclick="showCard('c02','ai',this)"><span class="num">02</span>Python 코드 독해</button>
+<button class="tab" onclick="showCard('c03','ai',this)"><span class="num">03</span>전직원 AI 집중</button>
+<button class="tab" onclick="showCard('c04','ai',this)"><span class="num">04</span>신입사원 리터러시</button>
+<button class="tab" onclick="showCard('c05','ai',this)"><span class="num">05</span>우수활용자 심화</button>
+<button class="tab" onclick="showCard('c06','ai',this)"><span class="num">06</span>자동화 진단 워크숍</button>
+<button class="tab" onclick="showCard('c07','ai',this)"><span class="num">07</span>시장데이터 분석</button>
+<button class="tab" onclick="showCard('c08','ai',this)"><span class="num">08</span>마케팅 Value Chain</button>
+</div>
+<div class="course-nav" id="nav-lead">
+<button class="tab active" onclick="showCard('c09','lead',this)"><span class="num">09</span>팀장 AI 리더십</button>
+<button class="tab" onclick="showCard('c10','lead',this)"><span class="num">10</span>지점장 리더십</button>
+<button class="tab" onclick="showCard('c11','lead',this)"><span class="num">11</span>임원 의사결정</button>
+<button class="tab" onclick="showCard('c12','lead',this)"><span class="num">12</span>팀 생산성 향상</button>
+<button class="tab" onclick="showCard('c13','lead',this)"><span class="num">13</span>리더의 변화관리</button>
+</div>
+<div class="course-nav" id="nav-diag">
+<button class="tab active" onclick="showCard('c14','diag',this)"><span class="num">14</span>버크만 × AI</button>
+<button class="tab" onclick="showCard('c15','diag',this)"><span class="num">15</span>멘탈케어 · 뇌파</button>
+<button class="tab" onclick="showCard('c16','diag',this)"><span class="num">16</span>강점혁명</button>
+</div>
+<div class="course-nav" id="nav-hrd">
+<button class="tab active" onclick="showCard('c17','hrd',this)"><span class="num">17</span>ADDIE 과정개발</button>
+<button class="tab" onclick="showCard('c18','hrd',this)"><span class="num">18</span>강의 스킬 향상</button>
+<button class="tab" onclick="showCard('c19','hrd',this)"><span class="num">19</span>AI 교안 · 홍보물</button>
+<button class="tab" onclick="showCard('c20','hrd',this)"><span class="num">20</span>효과적 PT</button>
+</div>
+<div class="course-nav" id="nav-esg">
+<button class="tab active" onclick="showCard('c21','esg',this)"><span class="num">21</span>장애청소년 AI</button>
+<button class="tab" onclick="showCard('c22','esg',this)"><span class="num">22</span>부모 · 교사 AI</button>
+</div>
 
-  <!-- Top nav -->
-  <nav class="top-nav">
-    <button class="top-btn active" onclick="showPanel('profile',this)">약력</button>
-    <button class="top-btn" onclick="showPanel('ai',this)">AI · DX</button>
-    <button class="top-btn" onclick="showPanel('diag',this)">진단 · 강점</button>
-    <button class="top-btn" onclick="showPanel('job',this)">직무</button>
-  </nav>
+<div class="panel active" id="panel-profile">
+  <div class="profile-panel">
 
-  <!-- Sub nav: AI·DX -->
-  <div class="course-nav" id="nav-ai">
-    <button class="tab active" onclick="showCard('vibe','ai',this)"><span class="num">01</span>바이브코딩 실전</button>
-    <button class="tab" onclick="showCard('python','ai',this)"><span class="num">02</span>Python 코드 독해</button>
-    <button class="tab" onclick="showCard('youth','ai',this)"><span class="num">03</span>장애청소년 AI 기초</button>
-    <button class="tab" onclick="showCard('parent','ai',this)"><span class="num">04</span>부모·교사 AI 이해</button>
-    <button class="tab" onclick="showCard('teamleader','ai',this)"><span class="num">05</span>팀장 AI 리더십</button>
-    <button class="tab" onclick="showCard('storemanager','ai',this)"><span class="num">06</span>지점장 AI Powered Leadership</button>
-    <button class="tab" onclick="showCard('handan_ai','ai',this)"><span class="num">07</span>공기업 전직원 AI</button>
-    <button class="tab" onclick="showCard('lxnew','ai',this)"><span class="num">08</span>신입사원 AI 리터러시</button>
-    <button class="tab" onclick="showCard('exec_ai','ai',this)"><span class="num">09</span>임원 워크샵 with AI</button>
-  </div>
+    <div class="profile-header">
+      <div class="p-kicker">Instructor Profile · 2026</div>
+      <h1>피델 · 최민욱</h1>
+      <p class="p-role">HRD 설계자 · AI 강사 · 작가 &nbsp;|&nbsp; 대기업 22년 현장 경험을 강의로</p>
+      <div class="p-links">
+        <a href="https://brunch.co.kr/@fidel" target="_blank" class="p-link">✦ brunch.co.kr/@fidel</a>
+        <a href="mailto:yapoong@gmail.com" class="p-link">✦ yapoong@gmail.com</a>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);">✦ 010-7737-5520</span>
+      </div>
+    </div>
 
-  <!-- Sub nav: 진단·강점 -->
-  <div class="course-nav" id="nav-diag">
-    <button class="tab active" onclick="showCard('birkman','diag',this)"><span class="num">01</span>버크만</button>
-    <button class="tab" onclick="showCard('mbti','diag',this)"><span class="num">02</span>MBTI · 뇌파</button>
-    <button class="tab" onclick="showCard('strengths','diag',this)"><span class="num">03</span>강점발견</button>
-  </div>
+    <div class="sec">
+      <div class="shead">강의 분야</div>
+      <div class="t-tags">
+        <span class="t-tag"><span class="k">A</span>AI 실무 활용 · 업무 자동화</span>
+        <span class="t-tag"><span class="k">B</span>AI × 리더십</span>
+        <span class="t-tag"><span class="k">C</span>진단 × AI</span>
+        <span class="t-tag"><span class="k">D</span>HRD · 사내강사 역량</span>
+        <span class="t-tag"><span class="k">E</span>ESG · 사회공헌</span>
+      </div>
+    </div>
 
-  <!-- Sub nav: 직무 -->
-  <div class="course-nav" id="nav-job">
-    <button class="tab active" onclick="showCard('mda','job',this)"><span class="num">01</span>시장데이터 분석</button>
-    <button class="tab" onclick="showCard('marketing','job',this)"><span class="num">02</span>마케팅 Value Chain</button>
-    <button class="tab" onclick="showCard('lecskill','job',this)"><span class="num">03</span>강의 스킬 향상</button>
-  </div>
+    <div class="sec">
+      <div class="shead">한눈에</div>
+      <div class="stat-row">
+        <div class="stat-chip"><div class="s-num">22년</div><div class="s-label">대기업 현장 경험</div></div>
+        <div class="stat-chip"><div class="s-num">22개</div><div class="s-label">표준 과정 보유</div></div>
+        <div class="stat-chip"><div class="s-num">9.92</div><div class="s-label">최고 만족도 / 10</div></div>
+        <div class="stat-chip"><div class="s-num">3권</div><div class="s-label">공저 · 집필 중 1권</div></div>
+      </div>
+    </div>
 
-  <!-- ===== 약력 패널 ===== -->
-  <div class="panel active" id="panel-profile">
-    <div class="profile-panel">
-
-      <!-- 헤더 -->
-      <div class="profile-header">
-        <div class="p-kicker">Instructor Profile · 2026</div>
-        <h1>피델 · 최민욱</h1>
-        <p class="p-role">HRD 설계자 · AI 강사 · 작가 &nbsp;|&nbsp; 대기업 22년 현장 경험을 강의로</p>
-        <div class="p-links">
-          <a href="https://brunch.co.kr/@fidel" target="_blank" class="p-link">✦ brunch.co.kr/@fidel</a>
-          <a href="mailto:yapoong@gmail.com" class="p-link">✦ yapoong@gmail.com</a>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);">✦ 010-7737-5520</span>
+    <div class="sec">
+      <div class="shead">자격 · 전문성</div>
+      <div class="cert-grid">
+        <div class="cert-block">
+          <h4>진단 · 코칭</h4>
+          <div class="cert-tags">
+            <span class="ctag key">버크만 마스터 FT</span>
+            <span class="ctag key">MBTI 전문강사</span>
+            <span class="ctag">eDISC 전문가</span>
+            <span class="ctag">StrengthsFinder 코치</span>
+            <span class="ctag">뇌교육사</span>
+            <span class="ctag">애니어그램 강사</span>
+            <span class="ctag">코칭 전문가</span>
+            <span class="ctag">액션러닝 전문가</span>
+            <span class="ctag">Facilitator</span>
+          </div>
+        </div>
+        <div class="cert-block">
+          <h4>AI · 데이터 · 기타</h4>
+          <div class="cert-tags">
+            <span class="ctag key">AI-POT 1급</span>
+            <span class="ctag key">ADsP 데이터 준전문가</span>
+            <span class="ctag">GITC 출제위원</span>
+            <span class="ctag">사회복지사</span>
+            <span class="ctag">한동대 전산과학</span>
+            <span class="ctag">SW 개발 5년</span>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- 강의 가능 영역 -->
-      <div style="margin-bottom:36px;">
-        <div class="shead">강의 가능 영역</div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
-          <span style="font-size:13.5px;padding:8px 18px;border-radius:2px;background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);font-weight:500;">AI · DX · 바이브코딩</span>
-          <span style="font-size:13.5px;padding:8px 18px;border-radius:2px;background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);font-weight:500;">진단 · 버크만 · 강점</span>
-          <span style="font-size:13.5px;padding:8px 18px;border-radius:2px;background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);font-weight:500;">HRD · 강의스킬 설계</span>
-          <span style="font-size:13.5px;padding:8px 18px;border-radius:2px;background:var(--blue-soft);border:1px solid #bdd0e5;color:var(--blue);">마케팅 · 시장분석</span>
-          <span style="font-size:13.5px;padding:8px 18px;border-radius:2px;background:var(--teal-soft);border:1px solid #b0d8cb;color:var(--teal);">장애청소년 AI 교육</span>
-          <span style="font-size:13.5px;padding:8px 18px;border-radius:2px;background:var(--purple-soft);border:1px solid #cdc5e8;color:var(--purple);">코칭 · 1on1 · 퍼실리테이션</span>
-        </div>
-      </div>
-
-      <!-- 자격·전문성 — 메인 -->
-      <div class="certs" style="margin-bottom:36px;">
-        <div class="shead">자격 · 전문성</div>
-        <div class="cert-grid">
-          <div class="cert-block">
-            <h4>진단 · 코칭</h4>
-            <div class="cert-tags">
-              <span class="ctag diag">버크만 마스터 FT</span>
-              <span class="ctag diag">MBTI 전문강사</span>
-              <span class="ctag diag">eDISC 전문가</span>
-              <span class="ctag diag">StrengthsFinder 코치</span>
-              <span class="ctag diag">뇌교육사</span>
-              <span class="ctag diag">애니어그램 강사</span>
-              <span class="ctag hrd">코칭 전문가</span>
-              <span class="ctag hrd">액션러닝 전문가</span>
-              <span class="ctag hrd">Facilitator</span>
+    <div class="sec">
+      <div class="shead">경력</div>
+      <div class="career-list">
+        <div class="c-item">
+          <div class="c-period">2026.05–<br>현재</div>
+          <div>
+            <div class="c-title">프리랜서 AI 강사 · 과정개발 PM</div>
+            <div class="c-desc">
+              · 대기업 그룹사 AI 전환 집중과정 — 5개 직무 통합 10일 과정 설계·운영<br>
+              · 생활용품 대기업 AI 우수활용자 심화 과정 (2일 16h)<br>
+              · LG 계열 유통 지점장 AI Powered Leadership (4h × 3회) · 팀장 AI 리더십 (4h × 2회)<br>
+              · 한국지역OO공사 전직원 AI 역량강화 (2일 14h) · LX 계열 종합상사 신입사원 AI 리터러시 (4h)<br>
+              · 중견 제조사 임원 워크샵 with Birkman &amp; AI · 통신 대기업 임원 AI 도입 강의<br>
+              · 대학 연구과제 산업현장 여성R&amp;D인력 'AI 협업·업무 혁신 전략' (4h)<br>
+              · 유통 대기업 AI 자동화 컨설팅 — 월별 역량평가 수작업 자동화 구축<br>
+              · LAB4DX AX School 과정개발 · 클립스컨설팅 파트너강사
             </div>
           </div>
-          <div class="cert-block">
-            <h4>AI · 데이터 · 기타</h4>
-            <div class="cert-tags">
-              <span class="ctag ai">AI-POT 1급</span>
-              <span class="ctag ai">ADsP 데이터 준전문가</span>
-              <span class="ctag ai">GITC 출제위원</span>
-              <span class="ctag etc">사회복지사</span>
-              <span class="ctag etc">한동대 전산과학</span>
-              <span class="ctag etc">SW 개발 5년</span>
-            </div>
-          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-period">2024.02–<br>2026.05</div>
+          <div><div class="c-title">LG전자 러닝센터 · 인재육성담당 (책임)</div>
+          <div class="c-desc">전사 팀장(1,792명) People Leadership 과정 개발·운영 · 임원 코칭 운영 · CEO 타운홀 소통채널 설계 · SAP LMS 도입 TL</div></div>
+        </div>
+        <div class="c-item">
+          <div class="c-period">2017.12–<br>2024.02</div>
+          <div><div class="c-title">LG전자 생산기술원 HR실 (책임)</div>
+          <div class="c-desc">DX 아카데미·AI 인증체계 구축 · 리더십 진단 기반 코칭 · 신입 연구원 3년 16주 조기전력화 체계 수립</div></div>
+        </div>
+        <div class="c-item">
+          <div class="c-period">2013.09–<br>2017.12</div>
+          <div><div class="c-title">LG전자 러닝센터 · 마케팅 교육 담당 (책임)</div>
+          <div class="c-desc">영업·마케팅 신입 4년 22주 육성체계 완성 · 시장데이터 분석 Master 강사 · 국가컨소시엄 글로벌 마케팅학과 운영</div></div>
+        </div>
+        <div class="c-item">
+          <div class="c-period">2009.02–<br>2013.09</div>
+          <div><div class="c-title">LG전자 단말 해외영업·마케팅 (과장)</div>
+          <div class="c-desc">브라질 국가 담당 · PRM 수립 · 중남미 스마트폰 1.2M 판매 달성 Task</div></div>
+        </div>
+        <div class="c-item">
+          <div class="c-period">2004.02–<br>2009.02</div>
+          <div><div class="c-title">LG전자 MC 사업본부 SW 개발 (주임)</div>
+          <div class="c-desc">세계 최초 EDGE 프로젝트 · Chocolate·Shine 폰 개발 참여 · 첫 스마트폰 프로젝트 참여</div></div>
         </div>
       </div>
+    </div>
 
-      <!-- 경력 타임라인 -->
-      <div style="margin-bottom:36px;">
-        <div class="shead">경력</div>
-        <div class="career-list">
-          <div class="c-item">
-            <div class="c-period">2026.05–<br>현재</div>
-            <div class="c-body"><div class="c-title">프리랜서 AI 강사 · 과정개발 PM</div><div class="c-desc">LAB4DX AX School 과정개발 · 바이브코딩·Python 기업강의 · 클립스컨설팅 파트너강사<br>· LG 계열 유통 지점장 AI Powered Leadership 과정 (4h × 3회)<br>· LG 계열 유통 팀장 AI 리더십 역량강화 과정 (4h × 2회)<br>· LX 계열 종합상사 신입사원 AI 역량강화 과정 (4h)<br>· 한국지역OO공사 전직원 AI 역량강화 과정 (2일 14h)<br>· 중견 제조사 임원 워크샵 with Birkman &amp; AI</div></div>
-          </div>
-          <div class="c-item">
-            <div class="c-period">2024.02–<br>2026.05</div>
-            <div class="c-body"><div class="c-title">LG전자 러닝센터 · 인재육성담당 (책임)</div><div class="c-desc">전사 팀장(1,792명) People Leadership 과정 개발·운영 · 임원 코칭 운영 · CEO 타운홀 소통채널 설계 · SAP LMS 도입 TL</div></div>
-          </div>
-          <div class="c-item">
-            <div class="c-period">2017.12–<br>2024.02</div>
-            <div class="c-body"><div class="c-title">LG전자 생산기술원 HR실 (책임)</div><div class="c-desc">DX 아카데미·AI 인증체계 구축 · 리더십 진단 기반 코칭 · 신입 연구원 3년 16주 조기전력화 체계 수립</div></div>
-          </div>
-          <div class="c-item">
-            <div class="c-period">2013.09–<br>2017.12</div>
-            <div class="c-body"><div class="c-title">LG전자 러닝센터 · 마케팅 교육 담당 (책임)</div><div class="c-desc">영업·마케팅 신입 4년 22주 육성체계 완성 · 시장데이터 분석 Master 강사 · 국가컨소시엄 글로벌 마케팅학과 운영</div></div>
-          </div>
-          <div class="c-item">
-            <div class="c-period">2009.02–<br>2013.09</div>
-            <div class="c-body"><div class="c-title">LG전자 단말 해외영업·마케팅 (과장)</div><div class="c-desc">브라질 국가 담당 · PRM 수립 · 중남미 스마트폰 1.2M 판매 달성 Task</div></div>
-          </div>
-          <div class="c-item">
-            <div class="c-period">2004.02–<br>2009.02</div>
-            <div class="c-body"><div class="c-title">LG전자 MC 사업본부 SW 개발 (주임)</div><div class="c-desc">세계 최초 EDGE 프로젝트 · Chocolate·Shine 폰 개발 참여 · 첫 스마트폰 프로젝트 참여</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 저술 — 맨 아래, 작게 -->
-      <div class="writing">
-        <div class="shead">저술 활동</div>
+    <div class="sec" style="margin-bottom:0;">
+      <div class="shead">저술 활동</div>
         <div class="books-row">
           <a href="https://product.kyobobook.co.kr/detail/S000216525119" target="_blank" class="book-link">
             <img src="data:image/png;base64,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" alt="그래도, 오늘은 다르게 살기로 했다">
@@ -349,367 +411,517 @@
             </div>
           </a>
         </div>
-        <div class="writing-note">
-          <span class="dot"></span>
-          <span>개인 저서 <b>「내 인생의 골든타임」</b> 집필 중 &nbsp;·&nbsp; 경제·투자 블로그 연재 중 &nbsp;·&nbsp; 브런치 에세이 발행 중</span>
-        </div>
+      <div class="writing-note">
+        <span class="dot"></span>
+        <span>개인 저서 <b>「내 인생의 골든타임」</b> 집필 중 &nbsp;·&nbsp; 경제·투자 블로그 연재 중 &nbsp;·&nbsp; 브런치 에세이 발행 중</span>
       </div>
-
     </div>
-  </div><!-- /panel-profile -->
 
-  <!-- ===== AI·DX 패널 ===== -->
-  <div class="panel" id="panel-ai">
-    <section id="vibe" class="card active">
-      <div class="badge">기업 AI · DX</div>
-      <h2>비개발자를 위한 바이브코딩 실전</h2>
-      <div class="tagline">코드를 몰라도, AI와 함께 '작동하는 것'을 만든다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">6시간</span><span class="sub">1일 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">개발 경험이 없는 실무자 · 기획/마케팅/운영 직군 · AI를 업무에 적용하려는 구성원</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">생성형 AI를 '검색 도구'가 아닌 '협업 파트너'로 활용하는 실무 역량을 함양한다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>자신의 직무에서 자동화·도구화가 가능한 지점을 스스로 진단할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>AI에게 의도를 구조화해 전달하고, 막힌 상황을 자력으로 풀어낼 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>현업에 바로 적용 가능한 결과물(업무 도구) 1종을 직접 산출한다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">M0</span>오리엔테이션</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">AI와의 첫 대화 실습 — "나를 소개시켜줘" · 오늘의 학습 약속</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>바이브코딩이 뭔데?</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">'말로 만든다'는 것의 의미 · 4가지 기본 기법 시연</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2–M4</span>내 도구 만들기</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">나만의 AI 업무 세트 구성 · 단계별 결과물 완성 · Plan A/B 분기 운영</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M5</span>막혀도 스스로 풀기</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">고급 기법 3종 — 역질문 · 자기검토 · 점진적 완성</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M6</span>현업으로 가져가기</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">결과물 공유 · 내 업무 적용 계획 수립 · Q&A</div></div>
-      </div>
-      <div class="react">
-        <div class="shead">학습자 반응</div>
-        <div class="scores">
-          <div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.4<span class="s-max">/10</span></div></div>
-          <div class="score-chip"><div class="s-label">추천도</div><div class="s-num">9.6<span class="s-max">/10</span></div></div>
-        </div>
-        <div class="quote">코딩은 개발자만 하는 줄 알았는데, 내가 직접 뭔가를 만들 수 있다는 게 놀라웠다</div>
-        <div class="quote">AI를 막연히 두려워했는데, 어떻게 시켜야 하는지 감이 잡혔다</div>
-        <div class="quote">당장 월요일부터 업무에 써먹을 수 있을 것 같다</div>
-        <div class="react-src">— 기업 AX 과정 (2026.05)</div>
-      </div>
-    </section>
-    <section id="python" class="card">
-      <div class="badge">기업 AI · DX</div>
-      <h2>바이브코딩 2.0 — Python 코드 독해</h2>
-      <div class="tagline">문법을 외우지 않는다. AI가 만든 코드를 읽고 고친다</div>
-      <div class="dev-flag"><span class="dot"></span>개발 중 · 바이브코딩 과정 이후 후속 요청으로 설계 중 · 2026.06.25–26 진행 예정</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">11–12시간</span><span class="sub">1박 2일 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">바이브코딩 기초 이수자 · AI 생성 코드를 직접 다뤄야 하는 실무자 · 비전공 현업 담당자</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">코드 '작성'이 아닌 '독해와 수정' 역량을 길러, AI가 만든 결과물을 신뢰성 있게 통제한다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>Python 코드의 구조를 읽고 무엇을 하는 코드인지 설명할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>AI가 생성한 코드의 오류를 진단하고 의도에 맞게 고칠 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>API·자동화 등 실무 시나리오에 코드를 응용할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>왜 외우지 말고 읽나?</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">파이썬은 엑셀 함수의 확장판 · '작성'에서 '독해'로 관점 바꾸기</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2</span>코드 흐름 따라 읽기</div><div><span class="domain d-blue">이해</span></div><div class="m-desc">변수·조건·반복을 직관적으로 이해 · 위에서 아래로 읽어내기</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M3–M4</span>읽고, 고쳐보기</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">AI가 짜준 코드 해석 실습 · 의도대로 수정 · 실제 데이터 다뤄보기</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M5</span>에러랑 친해지기</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">에러 메시지 읽는 법 · AI에게 디버깅 똑똑하게 시키기</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M6</span>진짜 업무에 써먹기</div><div><span class="domain d-accent">심화·적용</span></div><div class="m-desc">API 연동·자동화 시나리오 · n8n 등 도구 연계 (심화 트랙)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M7</span>내 프로젝트 완성</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">개인 과제 완성 · 서로 코드 리뷰 · 현업 적용 계획</div></div>
-      </div>
-      <div class="react"><div class="shead">설계 방향</div>
-        <div class="quote">코드를 외우는 게 아니라 읽는 거라니, 부담이 확 줄겠다</div>
-        <div class="quote">AI가 짜준 코드를 그냥 복붙했었는데, 이제 고칠 수 있게 된다</div>
-        <div class="quote">개발자 소수 + 비전공자 다수가 함께 들어도 격차 없이 따라올 수 있게 설계</div>
-        <div class="react-src">— 2026.06.25–26 진행 예정</div>
-      </div>
-    </section>
-    <section id="youth" class="card">
-      <div class="badge">장애청소년 · AI</div>
-      <h2>장애청소년을 위한 AI 기초</h2>
-      <div class="tagline">AI로 만들고, 엑셀로 정리하고, PPT로 표현한다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">5–6시간</span><span class="sub">1일 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">장애청소년 · GITC e-Combination 참가자 · 디지털 기초 역량을 키우려는 청소년</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">AI를 활용해 실제 결과물을 만들어내는 경험을 통해 자신감과 성취감을 느끼게 한다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>GPT를 활용해 주제에 대한 정보를 검색·정리하고 프롬프트 엔지니어링 5가지 원칙을 적용할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>엑셀을 사용해 조건에 맞는 표와 차트를 직접 작성할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>PPT를 활용해 자신의 생각을 시각적으로 정리하고 표현할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>생성형 AI의 이해</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">GPT란 무엇인가 · 검색과의 차이 · 주요 AI 도구 특징 비교 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2</span>프롬프트 엔지니어링</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">5가지 원칙 학습 · 실제 문제에 적용 · GITC 예선 문제 풀이 (75분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M3</span>엑셀로 표·차트 만들기</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">조건에 맞는 표 · 차트 생성 · 함수 문제 풀이 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M4</span>PPT로 내 생각 정리하기</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">슬라이드 메시지 구조화 · 시각적 표현 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M5</span>실전 연습 · 1:1 코칭</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">실전 문제 개별 풀이 · 강사 1:1 코칭 · 소감 나누기 (90분)</div></div>
-      </div>
-      <div class="react"><div class="shead">운영 특징</div>
-        <div class="quote">GITC e-Combination 출제 위원 경험을 바탕으로 설계된 실전형 커리큘럼</div>
-        <div class="quote">청소년의 속도와 수준에 맞춰 Plan A/B로 분기 운영 — 누구도 뒤처지지 않게</div>
-        <div class="quote">아이스브레이킹부터 실전 문제 풀이까지, 성취감을 중심에 두고 설계</div>
-      </div>
-    </section>
-    <section id="parent" class="card">
-      <div class="badge">장애청소년 · AI</div>
-      <h2>부모·교사를 위한 AI 이해</h2>
-      <div class="tagline">내 아이 옆에서 AI를 함께 쓸 수 있는 어른이 된다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">2–3시간</span><span class="sub">오프라인 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">장애청소년 부모 · 특수교사 · 복지관 교사 · 자녀와 함께 AI를 활용하고 싶은 보호자</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">AI·GPT에 대한 막연한 거리감을 줄이고, 자녀·학생과 함께 AI를 활용할 수 있는 기초 역량과 지도 방법을 갖춘다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>AI/GPT의 기본 개념과 주요 도구의 특징을 설명할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>프롬프트 엔지니어링 기법을 이해하고 간단한 실습을 완료할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>장애청소년 눈높이에 맞춘 AI 활용 지도 방법을 제안할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>AI가 뭔가요?</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">GPT 종류별 특징 · 검색과의 차이 · 기초 용어 정리 (40분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2</span>직접 해봐요</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">프롬프트 기법 실습 · 이메일·뉴스레터·강의안 만들기 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M3</span>우리 아이와 함께</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">장애청소년 AI 활용 지도 포인트 · Q&A · 오늘부터 할 수 있는 것 1가지 (30분)</div></div>
-      </div>
-      <div class="react"><div class="shead">운영 특징</div>
-        <div class="quote">GITC e-Combination 출제 위원 경험과 장애청소년 교육 현장 경험이 결합된 과정</div>
-        <div class="quote">기술 용어 없이, 부모·교사가 바로 이해하고 쓸 수 있는 수준으로 설계</div>
-        <div class="quote">청소년 대상 수업 직전·직후에 병행 운영 가능 (패키지 구성 가능)</div>
-      </div>
-    </section>
+  </div>
+</div><!-- /panel-profile -->
 
-    <!-- 팀장 AI 리더십 -->
-    <section id="teamleader" class="card">
-      <div class="badge">기업 AI · 리더십</div>
-      <h2>팀장을 위한 AI 리더십 역량강화</h2>
-      <div class="tagline">AI로 더 나은 리더가 된다 — 상황 리더십과 AI의 결합</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">4시간</span><span class="sub">집합 / 러닝센터</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">유통 대기업 팀장 51명 · AI 경험 혼재 · 숙명여대 AI 과정 이수자 포함</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">AI 도구 사용법이 아닌, AI를 활용해 팀장의 핵심 역할(코칭·면담·보고)을 더 잘 수행하는 리더십 역량을 기른다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>팀원 특성에 맞는 AI 페르소나 Gem을 직접 만들어 면담·코칭 시뮬레이션에 활용할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>AI를 활용해 목표설정·성과 이슈·시니어 대응 등 리더십 시나리오를 사전 연습할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>NotebookLM으로 리서치→보고서 자동화 파이프라인을 직접 구성할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">오프닝</span>리더십 × AI</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">AI 시대 팀장의 역할 변화 · 오늘의 결과물 예고 (20분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>AI 도구 지형</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">Gemini·Claude·ChatGPT·Copilot 30분 비교 체험 · Gemini Gems 집중 (30분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2</span>팀원 페르소나 Gem 제작</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">실제 팀원 프로필로 AI 코칭 에이전트 생성 · 면담 롤플레이 시뮬레이션 (70분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M3</span>AI 리서치·보고 파이프라인</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">리서치→NotebookLM→보고서 자동화 실습 · OIDE 의사결정 프레임워크 (55분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">마무리</span>현장 적용 계획</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">오늘 만든 Gem을 어떻게 팀에 적용할지 · 후속 과정 안내 (15분)</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="quote">숙대 AI 과정 이수자와 초보자가 동일 교실에 있어도, 경험자를 테이블 앵커로 활용하는 구조 설계</div>
-        <div class="quote">도구 사용법 강의가 아니라 "내 팀원을 더 잘 이해하고 더 잘 코칭하기 위해 AI를 쓴다"는 리더십 프레임</div>
-        <div class="quote">회사 와이파이 차단 환경 사전 검증 — 개인 핫스팟 기반 실습으로 설계</div>
-      </div>
-    </section>
-
-    <!-- 지점장 AI 역량강화 -->
-    <section id="storemanager" class="card">
-      <div class="badge">기업 AI · 리더십</div>
-      <h2>지점장 AI Powered Leadership</h2>
-      <div class="tagline">매장을 이끄는 점장이 AI를 직접 손에 익힌다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">4시간</span><span class="sub">× 3회 운영</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">유통 매장 지점장 30명 · 비개발자 · AI 도구 첫 경험자 다수</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">AI 시대 리더십의 변화를 이해하고, 지점장이 매장 운영에 바로 적용할 수 있는 AI 활용 역량을 손에 익힌다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>AI 시대에 달라지는 리더의 역할을 이해하고, 맡길 일과 직접 판단할 일을 구분할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>Gemini Gems로 매장 운영에 쓰는 나만의 AI 비서를 직접 만들 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>Claude·ChatGPT·Perplexity·Copilot의 차이를 이해하고 상황에 맞게 골라 쓸 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>AI 시대의 리더십</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">AI Powered Leadership — 지점장의 역할은 무엇이 달라지는가</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2</span>Gems 만들기</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">매장 운영 시나리오 기반 나만의 AI 비서(Gem) 직접 제작</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M3</span>AI 도구 지형</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">Claude·ChatGPT·Perplexity·Copilot 비교 체험 · 도구별 강점 정리</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M4</span>현장 적용 다짐</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">오늘 만든 Gem을 매장에서 어떻게 쓸지 정리 · Q&A</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="scores">
-          <div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.92<span class="s-max">/10</span></div></div>
-        </div>
-        <div class="quote">매장 와이파이가 AI 사이트를 차단해도 개인 핫스팟으로 실습이 끊기지 않게 사전 검증한 환경 설계</div>
-        <div class="quote">지점장 30명 대상 4시간 과정을 3회 반복 운영 — 매회 동일한 완성도로 진행</div>
-        <div class="quote">강의가 아니라 "오늘 만든 걸 내일부터 쓴다"는 결과물 중심 구성</div>
-      </div>
-    </section>
-
-    <!-- 공기업 전직원 AI (한국지역난방공사) -->
-    <section id="handan_ai" class="card">
-      <div class="badge">공기업 AI · DX</div>
-      <h2>한국지역OO공사 전직원 AI 역량강화</h2>
-      <div class="tagline">공기업 현장에 맞는, 책임 있는 AI 활용을 가르친다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">14시간</span><span class="sub">2일 / 전직원 대상</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">공기업 전 직원 · 직무·연차 혼합 · 안전·대민 업무 종사자 포함</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">AI를 업무에 적용하되, 안전·대민 공기업에 걸맞게 사람이 최종 판단과 책임을 지는 구조로 활용하는 역량을 기른다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>AI 도구를 활용해 반복 업무(점검보고서·민원·안전체크 등)를 직접 자동화·경량화할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>팀 단위로 AI 활용 산출물을 기획·제작하고, 실제로 작동하는 웹 서비스로 시연할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>AI 결과물의 환각·민감정보 리스크를 인지하고, 사람이 책임지는 지점을 설계에 반영할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">Day1</span>AI 활용 기초</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">생성형 AI 개념 · 프롬프트 기본기 · Gems/맞춤 AI 만들기 실습</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">Day2 게이트0–1</span>팀 프로젝트 기획</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">현업 문제 정의 · 주제 선정 · 누적 스코어보드로 진행 동기 부여</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">Day2 게이트2–3</span>제작 및 라이브 데모</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">드라이버 교대 방식으로 한 산출물을 팀 전체가 완성 · Plan B 키트</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">평가·발표</span>AI 심사 + 동료투표</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">4축 루브릭(동작·현업밀착도·수치근거·책임선 인식)으로 AI가 채점 · 동료투표 합산 · 시상</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="quote">"책임선 인식" 축을 평가에 넣어, 사람이 최종 판단을 남긴 팀이 더 높은 점수를 받도록 설계</div>
-        <div class="quote">여러 명이 따로 만든 결과물이 합쳐지지 않는 문제를, 단일 산출물에 교대로 기여하는 릴레이 구조로 해결</div>
-        <div class="quote">발표는 슬라이드가 아니라 라이브 웹 데모 — "진짜 작동하는가"가 평가 기준</div>
-      </div>
-    </section>
-
-    <!-- 신입사원 AI 리터러시 (LX인터내셔널) -->
-    <section id="lxnew" class="card">
-      <div class="badge">기업 AI · 신입교육</div>
-      <h2>종합상사 신입사원 AI 리터러시</h2>
-      <div class="tagline">AI 시대의 똘똘한 신입 — 내 말투를 가진 비즈니스 메일 비서 만들기</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">4시간</span><span class="sub">신입 온보딩 최종 모듈</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">종합상사 신입사원 13–30명 · 자원개발·해외영업·신사업 등 혼합 직군</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">"학교에서 쓰던 AI ≠ 회사에서 쓰는 AI"를 체감하고, 비즈니스 커뮤니케이션(메일·보고·정리)에 AI를 바로 적용할 수 있는 역량을 갖춘다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>생성형 AI의 원리와 주요 도구를 이해하고, 업무 유형별로 골라 쓸 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>RCTF 프레임워크로 비즈니스 상황에 맞는 프롬프트를 작성하고 결과물을 검토할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>나만의 말투를 반영한 Gemini Gem(비즈니스 메일 비서)을 직접 만들 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">M0</span>오프닝 · 진단</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">멘티미터 AI 경험 진단 · "내 말투 샘플" 수집 · 오늘의 결과물 예고 (15분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>AI 리터러시 개론</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">생성형 AI 원리 · LLM·Agent·Workflow · 업무 변화 사례 (45분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2</span>AI 도구 시연</div><div><span class="domain d-blue">이해</span></div><div class="m-desc">Gemini·ChatGPT·Claude·NotebookLM 비교 · 업무 유형별 선택 가이드 (45분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M3</span>RCTF 프롬프트 실습</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">해외 파트너 메일·보고서·회의록 시나리오 5가지 · Plan B: 내 말투 Gem 제작 (75분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M4</span>AI 협업과 AX 전략</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">환각 대처·보안·저작권 · AI 시대의 신입 포지셔닝 · Q&A (45분)</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="quote">4시간 내내 "내 말투 메일 비서"라는 하나의 결과물을 향해 달려가는 through-line 구조</div>
-        <div class="quote">앞선 온보딩 모듈(비즈니스 예절·무역·재무) 내용을 AI 실습 소재로 재활용 — 배운 내용이 연결되는 경험</div>
-        <div class="quote">Plan A/B 분기로 속도 차이가 있어도 모두 손에 결과물을 쥐고 퇴장</div>
-      </div>
-    </section>
-
-
-    <!-- 임원 워크샵 with AI -->
-    <section id="exec_ai" class="card">
-      <div class="badge">기업 AI · 임원교육</div>
-      <h2>중견 제조사 임원 워크샵 with Birkman &amp; AI</h2>
-      <div class="tagline">버크만에 반하는 날, 그리고 AI를 만나는 날</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">3시간</span><span class="sub">버크만 2.5h + AI 0.5h</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">CEO 포함 임원진 10~20명 · 워크샵형 오프사이트</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">버크만 진단으로 서로의 평소행동·욕구를 깊이 이해하고, 그 흐름 끝에 AI 에이전트를 직접 만들어보며 가볍게 AI를 경험한다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>나의 평소행동과 욕구, 스트레스 반응 패턴을 이해하고 설명할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>함께한 임원들의 유형을 이해하고, 서로 다름을 인정하는 대화를 경험할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>자신의 버크만 리포트를 AI에 업로드해, 직접 AI 에이전트를 만들어볼 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">OPEN</span>여는 시간</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">오늘은 깊이 배우는 날이 아니라, 버크만에 반하는 날 (15분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">1부</span>버크만 개념</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">버크만 진단의 기본 구조와 해석 방법 (25분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">2부</span>나를 발견</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">평소행동·욕구·스트레스 반응 — 나의 시그니처 리포트 해석 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">3부</span>우리를 발견</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">서로의 유형 비교 · "맞아맞아" 순간 만들기 · 팀 적용 가능성 탐색 (40분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">AI 실습</span>나만의 AI 에이전트</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">버크만 리포트를 AI에 업로드 · 프롬프트 카드로 직접 에이전트 제작 체험 (30분)</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="quote">임원 특성을 고려해 핸즈온은 "딱 하나, 간단하게, 성공 경험만"이라는 원칙으로 설계</div>
-        <div class="quote">워크샵 끝에 자연스럽게 "우리 팀도 해보고 싶다"는 마음이 들도록 흐름을 설계</div>
-        <div class="quote">CEO를 포함한 임원진 워크샵으로, 진단 해석은 신중하고 정중한 화법으로 진행</div>
-      </div>
-    </section>
-
-  </div><!-- /panel-ai -->
-
-  <!-- ===== 진단·강점 패널 ===== -->
-  <div class="panel" id="panel-diag">
-    <section id="birkman" class="card active">
-      <div class="badge diag">진단 · 강점</div>
-      <h2>숨겨진 나와 진짜 나</h2>
-      <div class="tagline">버크만으로 보는 관계의 비밀</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">4시간</span><span class="sub">오프라인 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">커플 · 개인 · 부모자녀 · B2B 조직 구성원</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">나의 평소행동과 욕구를 이해하고, 상대방의 욕구를 발견해 관계 속 다름을 인정하고 소통할 수 있다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>나의 평소행동과 욕구를 알고, 숨겨진 욕구를 설명할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>상대(부부/부모/커플)의 욕구를 읽고, 욕구에 맞는 의사소통을 할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>Doer·Communicator·Thinker·Analyzer 4유형 간 대화를 통해 다름을 이해할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">도입</span>흥미·도입</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">버크만 도형과 색깔에 대한 의미와 해석 방법 만나기 (30분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">모듈1</span>버크만 요소 이해</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">흥미/평소행동/욕구/스트레스행동 이해하고 자신에게 적용 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">모듈2</span>관계요소 탐색</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">관계스타일 · 업무지시스타일 · 의사결정 · 감정관리 · 집중스타일 · 보상시스템 (100분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">랩업</span>오늘의 발견</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">오늘 느낀 점 · 상대와의 다음 한 걸음 · Q&A (20분)</div></div>
-      </div>
-      <div class="react"><div class="shead">학습자 반응</div>
-        <div class="scores">
-          <div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.4<span class="s-max">/10</span></div></div>
-          <div class="score-chip"><div class="s-label">추천도</div><div class="s-num">9.6<span class="s-max">/10</span></div></div>
-        </div>
-        <div class="quote">욕구와 스트레스 행동이 수치와 색깔로 표현되니 명확하고 더 직관적으로 이해할 수 있었다</div>
-        <div class="quote">상대방의 내면을 보는 힘이 필요하다는 걸 알게 됐다</div>
-        <div class="quote">다음에 짝이 생긴다면 같이 검사 해석을 꼭 받아보고 싶다</div>
-      </div>
-    </section>
-    <section id="mbti" class="card">
-      <div class="badge diag">진단 · 강점</div>
-      <h2>나 사용 설명서</h2>
-      <div class="tagline">MBTI와 뇌파로 발견하는 진짜 나</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">4시간</span><span class="sub">오프라인 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">18세 이상 성인 · 직장인 · 진로 고민 중인 개인 · 커플·부부</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">MBTI와 뇌파 측정을 통해 나의 편한 모습과 페르소나를 자각하고, 강점을 살리는 행동을 계획할 수 있다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>MBTI 16유형 해석을 통해 나의 에너지 방향·정보수집·의사결정·생활양식을 설명할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>뇌파 측정 결과(휴식·주의·집중)를 해석하고 보완이 필요한 영역을 파악할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>나만의 '성장 워크시트'를 완성하고, 오늘부터 실행할 Action 1가지를 도출한다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">자기탐색1</span>MBTI 이해</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">MBTI 16유형 · 4가지 선호지표 해석 · 기능/기질 지표 이해 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">자기탐색2</span>뇌파 측정</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">개인별 뇌파 측정 · 좌뇌/우뇌 3D 뇌파 분석 · 휴식/주의/집중 수치 해석 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">나 사용</span>다름 인정·강점 발견</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">MBTI 기반 다름 인정 · 뇌파 기반 강점 발견 · 보완 영역 식별 (50분)</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">랩업</span>성장 워크시트</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">나에 대한 발견 · 변화를 위한 시각화 · 도약을 위한 Action 1가지 (10분)</div></div>
-      </div>
+<div class="panel" id="panel-ai">
+<section id="c01" class="card active">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>비개발자를 위한 바이브코딩 실전</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>개발 경험이 없는 기획·마케팅·운영·관리 직군 실무자</div><div>반복 업무가 많아 자동화 니즈가 명확한 부서</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">6H</span><br><span class="sub">총 360분 · 6개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>AI를 도구가 아닌 협업 파트너로 활용하는 대화 방식을 익힐 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>내 업무에서 자동화가 가능한 지점을 스스로 진단할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>코드를 몰라도 실제로 동작하는 나만의 업무 도구를 완성할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>Lv1~Lv5 활용 레벨 사다리로 현재 위치를 진단한 뒤 다음 한 칸만 올리는 방식으로 설계</li>
+<li>"가능한 것 / 아직 안 되는 것" 대조표를 먼저 제시해 과대 기대와 조기 포기를 동시에 예방</li>
+<li>실습 속도 편차 대비 Plan A/B 분기 운영 — 먼저 끝낸 학습자는 심화 과제로 이동</li>
+<li>산출물: 내 업무 자동화 진단표, 나만의 업무 도구 1종, 실전 프롬프트 세트</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M0. 오프닝과<br>활용 레벨 진단<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>AI 활용 수준을 Lv1~Lv5로 자가 진단하고 목표 지점 정하기</div><div>학습 목표를 "어렵지 않네" 수준으로 합의하고 부담 낮추기</div></div><div class="m-how">강의 &amp; 진단</div><div class="m-min">20M</div></div>
+<div class="mrow"><div class="m-name">M1. 지금 AI로 되는 일과<br>안 되는 일<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>생성형 AI가 실제로 처리할 수 있는 작업 범위 구분하기</div><div>환각·보안·저작권 3대 리스크의 발생 지점 파악하기</div><div>우리 회사 환경(보안·접근 제한)에서의 대안 경로 확인하기</div></div><div class="m-how">강의</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M2. 프롬프트 기초 실습<br>RCTF 프레임워크<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>Role·Context·Task·Format 4요소로 지시문 구성하기</div><div>같은 요청을 다르게 물어 결과 차이를 직접 비교하기</div><div>[개인실습] 내 업무 문서 1건을 AI로 다시 만들어 보기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M3. 현업 케이스 3종과<br>내 과제 선정<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>문서 정리·데이터 집계·반복 발송 3가지 케이스 분해하기</div><div>내 업무에서 시간을 가장 많이 쓰는 반복 작업 찾아내기</div><div>[개인실습] 자동화 진단표를 작성하고 오늘 만들 과제 1개 확정하기</div></div><div class="m-how">실습 &amp; 토의</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M4. 나만의 업무 도구<br>만들기<span class="m-tool">Claude, Google AI Studio</span></div><div class="m-body"><div>설계서를 먼저 쓰고 만들기 — 입력·처리·출력을 문장으로 정의하기</div><div>AI와 대화하며 도구를 만들고 오류를 고쳐 나가기</div><div>실제 업무 데이터를 넣어 동작을 검증하고 다듬기</div><div>[개인실습] 내 업무 도구 1종을 완성해 실행까지 확인하기</div></div><div class="m-how">개인실습</div><div class="m-min">130M</div></div>
+<div class="mrow"><div class="m-name">M5. 실전 Tip과<br>결과물 공유<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>막혔을 때 빠져나오는 질문 패턴 익히기</div><div>[공용실습] 완성 도구를 상영하고 서로의 프롬프트 공유하기</div></div><div class="m-how">실습 &amp; 공유</div><div class="m-min">50M</div></div>
+</div>
+<div class="react"><div class="shead">학습자 반응</div>
+<div class="scores">
+<div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.4<span class="s-max">/10</span></div></div>
+<div class="score-chip"><div class="s-label">추천도</div><div class="s-num">9.6<span class="s-max">/10</span></div></div>
+</div>
+<div class="quote">코딩은 개발자만 하는 줄 알았는데, 내가 직접 뭔가를 만들 수 있다는 게 놀라웠다</div>
+<div class="quote">AI를 막연히 두려워했는데, 어떻게 시켜야 하는지 감이 잡혔다</div>
+<div class="quote">당장 월요일부터 업무에 써먹을 수 있을 것 같다</div>
+<div class="react-src">— 기업 AX 과정 (2026.05)</div>
+</div>
+</section>
+<section id="c02" class="card">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>바이브코딩 2.0 — AI와 함께하는 파이썬 코딩</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>바이브코딩 기초 과정 이수자 및 AI 생성 코드를 다뤄본 비전공 실무자</div><div>자동화 결과물을 부서 자산으로 남기고 싶은 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">7H (1박 2일 11~12H 확장 가능)</span><br><span class="sub">총 420분 · 6개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>AI가 생성한 코드의 구조를 읽고 무엇을 하는 코드인지 설명할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>오류 메시지를 해석해 스스로 원인을 찾고 수정할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>반복 작업을 처리하는 스크립트를 완성하고 무인 실행까지 연결할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>강사 포지셔닝이 "저도 비개발자입니다" — 전공자 시선이 아닌 실무자 시선의 코드 읽기</li>
+<li>사내 PC 신규 설치 환경까지 검증한 트러블슈팅 16종을 사전 배포</li>
+<li>보안 제약(파일 접근·외부 전송 차단) 환경별 대안 아키텍처를 함께 제시</li>
+<li>산출물: 동작하는 자동화 스크립트, 차트·리포트 자동 생성물, 무인 실행 설정</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 코드는 읽는 것이다<br>구조 4요소<span class="m-tool">Python, Claude Code</span></div><div class="m-body"><div>변수·조건·반복·함수 4가지로 코드 전체를 훑어 읽기</div><div>AI에게 "이 코드가 무엇을 하는지" 설명하게 시키고 검증하기</div><div>한글 주석을 자세히 다는 표준 요청 방식 익히기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M2. 데이터 불러오고<br>다루기<span class="m-tool">Python, Claude Code</span></div><div class="m-body"><div>엑셀·CSV를 읽어 필요한 행과 열만 뽑아내기</div><div>컬럼명 불일치·빈 값 등 실무 데이터의 함정 처리하기</div><div>[개인실습] 사내 양식 데이터를 불러와 집계표 만들기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M3. 오류 진단과<br>수정 루틴<span class="m-tool">Python, Claude Code</span></div><div class="m-body"><div>오류 메시지를 읽는 순서 — 마지막 줄부터 거꾸로 읽기</div><div>빈발 오류 16종을 유형별로 분류하고 대응법 정리하기</div><div>[개인실습] 일부러 망가진 코드를 받아 원인 찾아 고치기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M4. 차트·리포트<br>자동 생성<span class="m-tool">Python, Claude Code</span></div><div class="m-body"><div>집계 결과를 차트로 그리고 마무리 5패턴으로 다듬기</div><div>이미지·엑셀·PDF 형태로 결과물을 저장하기</div><div>[개인실습] 주간 보고용 리포트를 한 번에 생성하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M5. 내 업무 스크립트<br>완성하기<span class="m-tool">Python, Claude Code</span></div><div class="m-body"><div>설계서 → 제작 → 테스트 순으로 자기 과제 수행하기</div><div>예외 상황(파일 없음·형식 오류) 처리 넣기</div><div>동료가 이어받을 수 있게 주석과 사용법 정리하기</div><div>[개인실습] 실제 업무 데이터로 끝까지 돌려 보기</div></div><div class="m-how">개인실습</div><div class="m-min">110M</div></div>
+<div class="mrow"><div class="m-name">M6. 무인 실행과 확장<br>스케줄러 · 메일 발송<span class="m-tool">작업스케줄러, n8n</span></div><div class="m-body"><div>작업스케줄러로 정해진 시간에 자동 실행되게 설정하기</div><div>[공용실습] 생성 결과를 메일로 자동 발송하는 흐름 완성하기</div></div><div class="m-how">실습 &amp; 공유</div><div class="m-min">50M</div></div>
+</div>
+<div class="react"><div class="shead">설계 방향</div>
+<div class="quote">코드를 외우는 게 아니라 읽는 거라니, 부담이 확 줄겠다</div>
+<div class="quote">AI가 짜준 코드를 그냥 복붙했었는데, 이제 고칠 수 있게 된다</div>
+<div class="react-src">— 개발자 소수 + 비전공자 다수가 함께 들어도 격차 없이 따라올 수 있게 설계</div>
+</div>
+</section>
+<section id="c03" class="card">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>전 직원 AI 역량강화 집중과정</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>직무·연차가 혼합된 전 직원 (공기업·대기업 전사 교육)</div><div>AI 활용 수준 편차가 커서 단일 커리큘럼 운영이 어려운 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">14H (2일)</span><br><span class="sub">총 840분 · 6개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>직무·연차가 달라도 각자 자기 업무의 반복 지점을 찾아 AI로 줄일 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>팀 단위로 하나의 업무 개선 결과물을 기획하고 완성할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>환각·저작권·개인정보 리스크를 스스로 점검하는 기준을 가질 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>Gate 0~3 단계별 통과 구조 — 게이트를 통과해야 다음 단계로 진행해 몰입도 유지</li>
+<li>팀 내 드라이버 로테이션(릴레이) 방식으로 관망자 없이 전원이 손을 움직이게 설계</li>
+<li>AI 심사 Agent + 동료 투표를 결합한 4축 루브릭(기능성·업무적합성·정량근거·책임선)</li>
+<li>산출물: 팀별 업무개선 결과물 1건, 개인별 현업 적용계획서, 전사 공유용 사례 카드</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">Day 1 | M1. AI 트렌드와<br>우리 회사의 출발선<span class="m-tool">ChatGPT, Gemini</span></div><div class="m-body"><div>직무별로 AI가 실제 쓰이는 장면 확인하기</div><div>개인 활용 수준을 진단하고 조별 편차 파악하기</div><div>이틀간 만들 결과물의 기준과 평가 방식 합의하기</div></div><div class="m-how">강의 &amp; 진단</div><div class="m-min">90M</div></div>
+<div class="mrow"><div class="m-name">Day 1 | M2. 반복 업무<br>자동화 기초 실습<span class="m-tool">ChatGPT, Gemini</span></div><div class="m-body"><div>문서 요약·데이터 정리·메일 작성 기본기 다지기</div><div>지시문을 고쳐 결과를 개선하는 루프 반복하기</div><div>[개인실습] 내 업무 1건을 AI로 처리해 시간 절감 측정하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">150M</div></div>
+<div class="mrow"><div class="m-name">Day 1 | M3. Gate 0~1<br>과제 정의와 데이터 점검<span class="m-tool">ChatGPT, Gemini</span></div><div class="m-body"><div>팀 과제를 한 문장으로 정의하고 성공 기준 정하기</div><div>쓸 수 있는 데이터와 보안상 못 쓰는 데이터 구분하기</div><div>[팀실습] 과제 정의서를 작성해 Gate 1 통과 심사 받기</div></div><div class="m-how">팀실습 &amp; 심사</div><div class="m-min">180M</div></div>
+<div class="mrow"><div class="m-name">Day 2 | M4. Gate 2<br>제작 릴레이<span class="m-tool">ChatGPT, Google AI Studio</span></div><div class="m-body"><div>드라이버를 20분마다 교대하며 전원이 직접 제작하기</div><div>중간 점검에서 막힌 지점을 팀 간 교차 지원으로 해결하기</div><div>[팀실습] 동작하는 결과물 초안을 완성해 Gate 2 통과하기</div></div><div class="m-how">팀실습</div><div class="m-min">200M</div></div>
+<div class="mrow"><div class="m-name">Day 2 | M5. 환각·리스크<br>관리와 책임선 설계<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>결과물의 사실 오류를 걸러내는 검증 절차 만들기</div><div>누가 최종 확인하는지 책임선을 문서에 명시하기</div></div><div class="m-how">강의 &amp; 점검</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">Day 2 | M6. Gate 3<br>AI 심사 + 동료 투표<span class="m-tool">AI 심사 Agent</span></div><div class="m-body"><div>4축 루브릭으로 AI 심사 결과를 받고 즉시 보완하기</div><div>[공용실습] 전 팀 발표 후 동료 투표로 최종 평가하기</div><div>개인별 현업 적용계획서를 작성해 제출하기</div></div><div class="m-how">발표 &amp; 평가</div><div class="m-min">160M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>"책임선 인식" 축을 평가에 넣어, 사람이 최종 판단을 남긴 팀이 더 높은 점수를 받도록 설계</li>
+<li>여러 명이 따로 만든 결과물이 합쳐지지 않는 문제를, 단일 산출물에 교대로 기여하는 릴레이 구조로 해결</li>
+<li>발표는 슬라이드가 아니라 라이브 웹 데모 — "진짜 작동하는가"가 평가 기준</li>
+</ul></div>
+</section>
+<section id="c04" class="card">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>신입사원 AI 리터러시</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>신입·저연차 사원 (직무 혼합 편성 가능, 13~30명 단위)</div><div>입문 교육 패키지에 AI 모듈을 편성하려는 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>생성형 AI의 작동 원리와 한계를 자기 언어로 설명할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>RCTF 프레임워크로 원하는 결과를 얻는 지시문을 작성할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>자기 말투를 학습시킨 비즈니스 메일 비서 Agent를 완성할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>첫 결과물을 "내 말투 그대로 쓰는 메일 비서"로 잡아 입사 직후 바로 쓰이게 설계</li>
+<li>결과 비교 → 지시문 수정 → 다시 생성의 개선 루프를 반복해 프롬프트 감각을 체득</li>
+<li>AI가 대신 고쳐주지 않도록 프롬프트를 통제 — 수정은 학습자가 직접 수행</li>
+<li>산출물: 나만의 메일 비서 Agent, RCTF 프롬프트 카드, 직무별 활용 아이디어 목록</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 생성형 AI<br>원리와 한계<span class="m-tool">ChatGPT, Gemini</span></div><div class="m-body"><div>AI가 답을 만드는 방식과 틀리는 이유 이해하기</div><div>신입사원이 특히 조심해야 할 사용 경계 확인하기</div></div><div class="m-how">강의</div><div class="m-min">30M</div></div>
+<div class="mrow"><div class="m-name">M2. RCTF 프레임워크<br>실습<span class="m-tool">Gemini</span></div><div class="m-body"><div>Role·Context·Task·Format 4요소로 지시문 만들기</div><div>같은 업무 요청을 3가지 방식으로 물어 결과 비교하기</div><div>[개인실습] 내 지시문을 고쳐 결과가 달라지는 것 확인하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M3. 신입 업무 3장면<br>적용하기<span class="m-tool">Gemini</span></div><div class="m-body"><div>회의록 정리 — 녹취를 요약해 액션 아이템 뽑기</div><div>자료 조사 — 출처를 확인하며 정리하는 절차 익히기</div><div>[개인실습] 보고 자료 초안을 만들고 사실관계 검증하기</div></div><div class="m-how">개인실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M4. 내 말투 메일 비서<br>Agent 만들기<span class="m-tool">Gemini, Gems</span></div><div class="m-body"><div>내가 쓴 메일 샘플을 학습시켜 말투를 반영하기</div><div>상황별(요청·거절·사과·공유) 응답 규칙 설정하기</div><div>[개인실습] 실제 상황을 넣어 메일 초안 생성하고 다듬기</div></div><div class="m-how">개인실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M5. 상호 점검과<br>개선 루프<span class="m-tool">Gemini</span></div><div class="m-body"><div>동료 결과물을 뽑아 점검하고 개선점 전달하기</div><div>[공용실습] 지적받은 부분을 직접 고쳐 다시 생성하기</div></div><div class="m-how">실습 &amp; 공유</div><div class="m-min">30M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>4시간 내내 "내 말투 메일 비서"라는 하나의 결과물을 향해 달려가는 through-line 구조</li>
+<li>앞선 온보딩 모듈(비즈니스 예절·무역·재무) 내용을 AI 실습 소재로 재활용 — 배운 내용이 연결되는 경험</li>
+<li>Plan A/B 분기로 속도 차이가 있어도 모두 손에 결과물을 쥐고 퇴장</li>
+</ul></div>
+</section>
+<section id="c05" class="card">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>AI 업무개선 집중과정 — 우수 활용자 심화</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>사내 AI 우수 활용자 — 이미 쓰고 있으나 다음 단계를 찾지 못한 실무자</div><div>부서별 개선 과제를 안고 있는 조직 (조별 편성 운영)</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">16H (2일)</span><br><span class="sub">총 960분 · 6개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>개인 활용 수준을 넘어 조직 자산이 되는 업무개선 결과물을 설계할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>PRD(요구사항 정의서)를 작성해 AI에게 일을 시킬 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>팀 단위로 에이전트·대시보드 프로토타입을 완성할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>참가자 수준이 이미 높다는 전제 — 기초 설명을 걷어내고 첫 시간부터 제작에 들어감</li>
+<li>Day 1은 참가자 간 암묵지 상호 공유 — 강사가 아닌 동료의 노하우가 최대 교재</li>
+<li>결과물 기준을 완성 시스템이 아닌 "공유 가능한 프로토타입 + 적용계획"으로 명확화</li>
+<li>산출물: 조별 업무개선 설계서·시범 결과물, 개인별 현업 적용계획서</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">Day 1 | M1. 우수 활용자<br>암묵지 상호 공유<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>각자의 실제 활용 사례를 5분씩 공개하고 질문 받기</div><div>쓸 만한 프롬프트·워크플로를 AI로 정리해 조별 공용 자산으로 모으기</div><div>[개인실습] 내 활용 수준을 AI로 진단하고 2일간 해결할 과제 정하기</div></div><div class="m-how">워크샵</div><div class="m-min">90M</div></div>
+<div class="mrow"><div class="m-name">Day 1 | M2. 도구별 킥 기능<br>체험과 선택 기준<span class="m-tool">ChatGPT, Claude, Gemini</span></div><div class="m-body"><div>도구별로 확실히 앞서는 기능 한 가지씩 직접 체험하기</div><div>보안 정책상 우리 회사에서 가능한 경로 확인하기</div><div>과제 유형에 맞는 도구 선택 기준 정리하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">120M</div></div>
+<div class="mrow"><div class="m-name">Day 1 | M3. 내 업무<br>프로그램 만들기<span class="m-tool">Claude, Claude Code</span></div><div class="m-body"><div>실제 업무 데이터를 넣어 동작하는 도구 제작하기</div><div>먼저 끝낸 학습자는 심화 과제로 이동 (Plan A/B 분기)</div><div>[개인실습] 개인 결과물 1종을 완성하고 동료에게 시연하기</div></div><div class="m-how">개인실습</div><div class="m-min">270M</div></div>
+<div class="mrow"><div class="m-name">Day 2 | M4. PRD 작성법<br>AI에게 일을 시키는 문서<span class="m-tool">Claude, Google AI Studio</span></div><div class="m-body"><div>요구사항을 배경·목적·기능·제약·완료조건으로 구조화하기</div><div>PRD를 넣었을 때와 아닐 때의 결과 차이 비교하기</div><div>[팀실습] 조별 과제의 PRD 초안 작성하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">120M</div></div>
+<div class="mrow"><div class="m-name">Day 2 | M5. 에이전트·<br>대시보드 프로토타입<span class="m-tool">Claude Code</span></div><div class="m-body"><div>PRD를 기준으로 제작하고 단계별로 검증하기</div><div>데이터 갱신·오류 처리 등 운영 조건 반영하기</div><div>[팀실습] 조별 시범 결과물 1건을 동작 상태로 완성하기</div></div><div class="m-how">팀실습</div><div class="m-min">240M</div></div>
+<div class="mrow"><div class="m-name">Day 2 | M6. 조직 자산화<br>공유 · 적용계획<span class="m-tool">Claude, Gems</span></div><div class="m-body"><div>다른 사람이 이어받을 수 있게 사용법·한계를 AI로 문서화하기</div><div>[공용실습] 조별 발표 후 전사 공유 형태로 규격 맞추기</div><div>[개인실습] AI와 함께 현업 적용계획서를 작성하고 실행 시점 정하기</div></div><div class="m-how">발표 &amp; 공유</div><div class="m-min">120M</div></div>
+</div>
+</section>
+<section id="c06" class="card">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>업무 자동화 진단·설계 워크숍</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>반복·수작업 업무를 안고 있는 실무팀 및 팀장</div><div>전사 AI 도입 전 "무엇부터 할지"를 정해야 하는 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>수작업 업무를 공정 단위로 분해해 자동화 지점을 찾을 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>자동화 난이도와 효과를 기준으로 우선순위 매트릭스를 작성할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>실행 가능한 자동화 설계서(입력-처리-출력-책임선)를 완성할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>교육이 아니라 진단 워크숍 — 참가자가 실제 자기 업무 자료를 가지고 들어옴</li>
+<li>월별 수작업 평가·집계 업무를 자동화한 실제 컨설팅 사례를 분해해 그대로 따라 설계</li>
+<li>교육 종료 후 구축 단계로 바로 연결할 수 있도록 산출물 형식을 규격화</li>
+<li>산출물: 업무 분해표, 자동화 우선순위 매트릭스, 자동화 설계서 1건, 절감공수 추정치</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 자동화되는 일과<br>안 되는 일의 경계<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>규칙이 있는 일과 판단이 필요한 일 구분하기</div><div>[체험] AI에게 내 업무를 설명하고 자동화 가능 여부를 판정받아 보기</div><div>자동화 실패의 전형적 원인 3가지와 우리 조직 제약 정리하기</div></div><div class="m-how">강의 &amp; 체험</div><div class="m-min">30M</div></div>
+<div class="mrow"><div class="m-name">M2. 내 업무<br>공정 분해하기<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>한 달치 업무를 단계·소요시간·담당자로 쪼개 적기</div><div>손이 가장 많이 가는 구간과 그 이유 찾기</div><div>[개인실습] 업무 분해표를 작성해 병목 3곳 표시하기</div></div><div class="m-how">개인실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M3. 난이도 × 효과<br>우선순위 매트릭스<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>절감 공수와 구현 난이도로 4분면에 배치하기</div><div>AI로 난이도를 재평가받고 내 추정과 어긋난 지점 확인하기</div><div>[조별토의] 서로의 매트릭스를 검증하고 Quick Win 1건 선정하기</div></div><div class="m-how">실습 &amp; 토의</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M4. 자동화 설계서<br>작성하기<span class="m-tool">Claude, Google AI Studio</span></div><div class="m-body"><div>입력(무엇을) - 처리(어떻게) - 출력(어떤 형태로) 정의하기</div><div>예외 상황과 최종 확인 책임선을 문서에 명시하기</div><div>AI로 설계서를 검토받고 빠진 조건 보완하기</div><div>[개인실습] 실행 가능한 설계서 1건 완성하기</div></div><div class="m-how">개인실습</div><div class="m-min">80M</div></div>
+<div class="mrow"><div class="m-name">M5. 상호 리뷰와<br>실행 로드맵<span class="m-tool">Claude</span></div><div class="m-body"><div>[공용실습] 설계서를 교차 리뷰하고 실현 가능성 점검하기</div><div>AI 심사로 빠진 조건을 받아 3개월 실행 로드맵에 반영하기</div></div><div class="m-how">발표 &amp; 공유</div><div class="m-min">40M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>월별 수작업 역량평가·집계 업무를 자동화한 실제 컨설팅 사례를 그대로 분해해 따라 설계</li>
+<li>교육으로 끝나지 않고 진단 → 설계 → 구축 단계로 이어질 수 있게 산출물 형식을 규격화</li>
+<li>참가자가 자기 업무 자료를 직접 가져오는 워크숍 — 예시 데이터로 하는 실습이 아님</li>
+</ul></div>
+</section>
+<section id="c07" class="card">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>시장데이터 분석과 리포팅</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>마케팅·영업·기획 직군 실무자</div><div>데이터는 있으나 해석과 보고 단계에서 시간을 쓰는 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>시장조사 데이터의 구조를 이해하고 필요한 조건으로 추출할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>가격·채널·경쟁사 관점에서 데이터를 해석해 의사결정 논거를 만들 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>AI를 활용해 분석 결과를 보고 가능한 리포트로 정리할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>글로벌 마케팅 현장에서 실제로 쓰던 분석 흐름을 그대로 교육 설계에 반영</li>
+<li>도구 사용법이 아니라 "무엇을 물어볼 것인가"(문제 정의)에서 출발</li>
+<li>경쟁사 분석 자동화 시연 — 2시간 걸리던 작업이 2분으로 줄어드는 과정을 직접 확인</li>
+<li>산출물: 조건별 데이터 추출 세트, 시장 해석 요약본, 1장짜리 보고용 리포트</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 시장 데이터의<br>구조 이해<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>패널·POS·서베이 등 데이터 종류별 성격과 한계 구분하기</div><div>숫자를 보기 전에 질문을 먼저 정하는 순서 익히기</div><div>[개인실습] AI와 함께 이번 분석의 질문 목록 만들기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M2. 조건별 추출과<br>데이터 클렌징<span class="m-tool">Excel, ChatGPT</span></div><div class="m-body"><div>기간·채널·가격대 조건으로 필요한 부분만 뽑아내기</div><div>결측치·중복·단위 불일치 처리하기</div><div>[개인실습] 제공 데이터에서 분석용 표 만들기</div></div><div class="m-how">실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M3. 가격 · 채널 · 경쟁사<br>3축 해석<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>가격 구간별 판매 구조를 읽고 이상 신호 찾기</div><div>채널별 기여도와 성장률을 나눠 보기</div><div>[개인실습] 경쟁사 대비 우리 위치를 한 문장으로 정리하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M4. AI로 리포트<br>자동 정리하기<span class="m-tool">Claude, Gemini</span></div><div class="m-body"><div>분석 결과를 보고용 구조(결론-근거-제언)로 재배치하기</div><div>차트 선택 기준과 오해를 부르는 표현 걸러내기</div><div>[개인실습] 1장짜리 보고 리포트 완성하기</div></div><div class="m-how">개인실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M5. 경쟁사 분석<br>자동화 시연과 적용<span class="m-tool">Claude Code</span></div><div class="m-body"><div>반복 조사·집계를 자동화하는 흐름 시연으로 확인하기</div><div>[공용실습] 우리 부서에 적용할 자동화 후보 정하기</div></div><div class="m-how">시연 &amp; 공유</div><div class="m-min">30M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>마케팅·영업 현장에서 직접 쓴 데이터 분석 경험을 바탕으로 설계된 실무 밀착형 과정</li>
+<li>데이터를 추출하는 법보다, 어떤 질문을 던져야 하는지를 먼저 배운다</li>
+<li>가격전략·채널전략·SCM 등 다양한 실무 시나리오에 맞춰 커스터마이징 가능</li>
+</ul></div>
+</section>
+<section id="c08" class="card">
+<div class="badge">A · AI 실무 활용 · 업무 자동화</div>
+<h2>마케팅 Value Chain × AI</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>마케팅 입문자, 타 직군에서 마케팅으로 이동한 실무자</div><div>협업을 위해 마케팅 전체 그림이 필요한 유관부서(영업·개발·CS)</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>상품기획부터 CS까지 마케팅 Value Chain 전체 흐름을 설명할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>단계별 분석도구(SWOT·STP·ERRC)를 내 업무에 적용할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>각 단계에서 AI가 대신할 작업을 구분해 배치할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>상품기획 → PMS → MD → GTM → MOT → CS 전 과정을 한 장의 지도로 정리</li>
+<li>Goal Setting부터 모니터링까지 7단계 프로세스를 실제 상품 사례로 따라가며 실습</li>
+<li>단계마다 "AI에게 시킬 일 / 사람이 판단할 일"을 구분하는 훈련을 병행</li>
+<li>산출물: 우리 상품 Value Chain 맵, 단계별 분석 시트, AI 배치 계획서</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. Value Chain<br>전체 지도<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>상품기획·PMS·MD·GTM·MOT·CS 각 단계의 역할 구분하기</div><div>단계 간 인수인계에서 문제가 생기는 지점 찾기</div><div>[개인실습] AI로 우리 조직의 실제 흐름을 지도로 그려 보기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M2. 7단계 프로세스와<br>분석도구<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>Goal Setting부터 모니터링까지 순서대로 짚어보기</div><div>SWOT·Gap Analysis·KFS·ERRC·Strategy Canvas 용도 구분하기</div><div>[개인실습] 담당 상품에 SWOT 적용해 보기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M3. 내 상품으로<br>STP · ERRC 작성<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>세분화 기준을 정하고 타깃을 좁히기</div><div>제거·감소·증가·창조 4축으로 차별화 포인트 도출하기</div><div>[개인실습] STP·ERRC 시트를 완성하고 AI로 반론 받기</div></div><div class="m-how">개인실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M4. 단계별 AI 배치<br>설계<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>각 단계에서 AI가 대신할 작업과 사람의 판단 영역 나누기</div><div>[개인실습] AI 배치 계획서를 작성하고 예상 절감 시간 적기</div></div><div class="m-how">실습 &amp; 토의</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M5. 상호 리뷰와<br>정리<span class="m-tool">Claude</span></div><div class="m-body"><div>[공용실습] 결과물을 교차 리뷰하고 빠진 관점 보완하기</div><div>AI에게 반대 입장을 맡겨 계획의 허점 점검하기</div></div><div class="m-how">발표 &amp; 공유</div><div class="m-min">25M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>이론 중심이 아니라 "내가 지금 하고 있는 일이 어디에 해당하는가"를 먼저 찾아가는 구조</li>
+<li>마케팅을 처음 접하는 분도, 경험은 있지만 전체 그림이 없는 분도 함께 들을 수 있게 설계</li>
+<li>글로벌 마케팅 현장 경험을 바탕으로 한 실제 사례 중심 강의</li>
+</ul></div>
+</section>
+</div>
+<div class="panel" id="panel-lead">
+<section id="c09" class="card active">
+<div class="badge">B · AI × 리더십</div>
+<h2>팀장을 위한 AI 리더십 역량강화</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>팀장 및 조직 책임자 (30~50명 규모 집합 운영 가능)</div><div>리더십 교육에 AI를 접목하려는 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>AI 시대에 달라지는 팀장의 역할과 판단 기준을 정리할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>팀원 성향을 반영한 AI 페르소나로 면담을 사전 시뮬레이션할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>팀 자료를 AI로 정리해 회의·보고 준비 시간을 줄일 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>AI 강의가 아니라 리더십 강의 — AI는 리더의 판단을 돕는 도구로만 등장</li>
+<li>팀원 Persona Gem + 면담 롤플레이가 핵심 — 어려운 대화를 미리 연습하고 들어감</li>
+<li>상황 카드 4종(면담 요청·의견 충돌·협조 요청·나쁜 소식 보고)으로 실제 장면 재현</li>
+<li>산출물: 팀원 Persona Gem, 면담 시나리오 스크립트, 팀 자료 요약 노트</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. AI 시대<br>팀장의 역할 재정의<span class="m-tool">Gemini</span></div><div class="m-body"><div>구성원이 AI를 쓰기 시작할 때 리더가 해야 할 일 정리하기</div><div>판단·책임·육성 영역에서 달라지는 것과 그대로인 것 구분하기</div><div>[개인실습] 내 업무 목록을 AI로 분류해 위임·유지 구간 나누기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M2. 나의 리더십<br>상황 진단<span class="m-tool">Gemini</span></div><div class="m-body"><div>지금 우리 팀에서 가장 어려운 대화 상황 꺼내기</div><div>[조별토의] 유사 상황을 묶어 오늘 연습할 장면 정하기</div></div><div class="m-how">진단 &amp; 토의</div><div class="m-min">30M</div></div>
+<div class="mrow"><div class="m-name">M3. 팀원 Persona Gem<br>만들기<span class="m-tool">Gemini, Gems</span></div><div class="m-body"><div>팀원의 일하는 방식·반응 패턴을 문장으로 기술하기</div><div>실제 대화 사례를 넣어 페르소나 정교화하기</div><div>[개인실습] 팀원 Persona Gem 1종 완성하고 반응 검증하기</div></div><div class="m-how">개인실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M4. 면담 롤플레이<br>상황 카드 4종<span class="m-tool">Gemini, Gems</span></div><div class="m-body"><div>갑작스러운 면담 요청 / 회의 중 의견 충돌 상황 연습하기</div><div>유관부서 협조 요청 / 나쁜 소식 보고 상황 연습하기</div><div>[개인실습] 대화를 3회 반복하며 첫 문장을 바꿔 보기</div></div><div class="m-how">롤플레이</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M5. 회의·보고 준비<br>자동화와 마무리<span class="m-tool">Gemini, NotebookLM</span></div><div class="m-body"><div>팀 자료를 한곳에 넣고 질문으로 꺼내 쓰기</div><div>[공용실습] 내일 쓸 면담 시나리오 1건 확정하고 공유하기</div></div><div class="m-how">실습 &amp; 공유</div><div class="m-min">40M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>AI 과정 이수자와 초보자가 같은 교실에 있어도, 경험자를 테이블 앵커로 활용하는 구조 설계</li>
+<li>도구 사용법 강의가 아니라 "내 팀원을 더 잘 이해하고 더 잘 코칭하기 위해 AI를 쓴다"는 리더십 프레임</li>
+<li>회사 와이파이 차단 환경 사전 검증 — 개인 핫스팟 기반 실습으로 설계</li>
+</ul></div>
+</section>
+<section id="c10" class="card">
+<div class="badge">B · AI × 리더십</div>
+<h2>지점장·현장 리더 AI Powered Leadership</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>지점장·영업소장 등 현장 조직 책임자 (20~30명 단위 반복 운영)</div><div>본사와 현장의 정보 격차를 줄여야 하는 유통·서비스 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H × 3회차 (반복 운영)</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>현장 리더가 AI로 무엇을 얻을 수 있는지 자기 언어로 설명할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>주요 AI 도구를 비교 체험하고 현장 상황에 맞는 도구를 선택할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>운영 데이터를 읽고 판단하는 데이터 리터러시 기준을 가질 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>만족도 9.92/10 — 현장 리더 대상 반복 운영으로 검증된 구성</li>
+<li>RCTF 프레임워크와 Gems 제작 6단계로 "오늘 배우고 오늘 쓴다"를 실현</li>
+<li>OIDE 데이터 리터러시 모델로 숫자를 보는 순서를 훈련</li>
+<li>산출물: 지점 운영용 Gem 1종, 데이터 해석 체크리스트, 현장 적용 과제 3가지</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. AI 시대<br>현장 리더의 역할<span class="m-tool">Gemini</span></div><div class="m-body"><div>현장에서 AI가 실제로 쓰이는 장면 확인하기</div><div>본사 지시가 아니라 현장 판단을 돕는 도구로 위치 잡기</div><div>[체험] 오늘 아침 현장 이슈를 AI에 물어보고 답 확인하기</div></div><div class="m-how">강의 &amp; 체험</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M2. 도구 비교 체험<br>같은 질문, 다른 답<span class="m-tool">ChatGPT, Gemini, Claude</span></div><div class="m-body"><div>같은 현장 질문을 3개 도구에 넣고 답을 비교하기</div><div>[개인실습] 내 상황에 맞는 주 사용 도구 정하기</div></div><div class="m-how">실습</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M3. RCTF와<br>Gems 제작 6단계<span class="m-tool">Gemini, Gems</span></div><div class="m-body"><div>Role·Context·Task·Format으로 지시문 구성하기</div><div>6단계 절차를 따라 지점 운영용 Gem 만들기</div><div>[개인실습] 실제 현장 데이터를 넣어 동작 확인하기</div></div><div class="m-how">개인실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M4. OIDE<br>데이터 리터러시<span class="m-tool">Gemini</span></div><div class="m-body"><div>관찰(O)-해석(I)-판단(D)-실행(E) 순서로 숫자 읽기</div><div>평균의 함정과 비교 기준 오류 걸러내기</div><div>[개인실습] 지점 지표를 OIDE로 해석해 한 문장 결론 내기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M5. 현장 적용 계획과<br>공유<span class="m-tool">Gemini</span></div><div class="m-body"><div>[공용실습] AI로 오늘 만든 것을 적용 과제 3가지로 정리하기</div><div>지점 간 활용 사례를 교환하고 벤치마킹 포인트 적기</div></div><div class="m-how">발표 &amp; 공유</div><div class="m-min">40M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<div class="scores">
+<div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.92<span class="s-max">/10</span></div></div>
+</div>
+<ul class="notes">
+<li>매장 와이파이가 AI 사이트를 차단해도 개인 핫스팟으로 실습이 끊기지 않게 사전 검증한 환경 설계</li>
+<li>지점장 30명 대상 4시간 과정을 3회 반복 운영 — 매회 동일한 완성도로 진행</li>
+<li>강의가 아니라 "오늘 만든 걸 내일부터 쓴다"는 결과물 중심 구성</li>
+</ul></div>
+</section>
+<section id="c11" class="card">
+<div class="badge">B · AI × 리더십</div>
+<h2>임원을 위한 AI 도입 의사결정</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>임원 및 최고경영진 (10~30명)</div><div>전사 AI 도입 여부와 범위를 결정해야 하는 의사결정 계층</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H (실습 비중 30% 이하)</span><br><span class="sub">총 240분 · 6개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>AI 도입의 필요성과 효과를 숫자와 사례로 검증해 설명할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>동종 산업 벤치마크를 기준으로 우리 조직의 현재 위치를 판단할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>조직 단위 AI 실행 로드맵의 뼈대를 그릴 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>임원이 직접 조작하는 실습은 30% 이하 — 나머지 AI는 강사 시연으로 눈앞에서 보여줌</li>
+<li>ROI와 성과지표를 도입 기업의 공개 수치로 검증하고 과장된 기대치를 먼저 제거</li>
+<li>실패 사례를 함께 다뤄 "무엇이 있어야 성공하는가"의 조건을 도출</li>
+<li>산출물: 우리 조직 AI 도입 논거 1장, 산업 벤치마크 비교표, 실행 로드맵 초안</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 판이 바뀌었다<br>무엇이 실제로 달라졌나<span class="m-tool">Gemini</span></div><div class="m-body"><div>최근 2년간 실제로 바뀐 것과 과장된 것 구분하기</div><div>[강사 시연] 같은 질문을 예전 모델과 지금 모델에 넣어 차이 보기</div></div><div class="m-how">강의 &amp; 시연</div><div class="m-min">35M</div></div>
+<div class="mrow"><div class="m-name">M2. 숫자로 검증한다<br>ROI와 성과지표<span class="m-tool">Claude</span></div><div class="m-body"><div>도입 기업의 공개 수치로 효과 범위 확인하기</div><div>[강사 시연] 우리 조직 지표를 넣어 회수 시점 시뮬레이션하기</div><div>[조별토의] 측정 가능한 지표 후보 정하기</div></div><div class="m-how">강의 &amp; 토의</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M3. 산업 벤치마크<br>경쟁사는 어디까지 왔나<span class="m-tool">Claude</span></div><div class="m-body"><div>동종 산업·유사 규모 기업의 도입 단계 비교하기</div><div>[강사 시연] 경쟁사 공시·보도자료를 AI로 분석해 그 자리에서 표 만들기</div></div><div class="m-how">강의 &amp; 시연</div><div class="m-min">35M</div></div>
+<div class="mrow"><div class="m-name">M4. 임원이 직접 써 보는<br>AI 4종<span class="m-tool">Gemini</span></div><div class="m-body"><div>보고서 요약과 쟁점 추출을 직접 해 보기</div><div>회의 자료를 넣고 반론을 만들게 시켜 보기</div><div>[개인실습] 내 의사결정 사안 1건을 AI와 검토하기</div></div><div class="m-how">실습</div><div class="m-min">55M</div></div>
+<div class="mrow"><div class="m-name">M5. 실패 사례와<br>성공의 조건<span class="m-tool">Gemini</span></div><div class="m-body"><div>도입이 멈춘 조직에서 공통으로 빠진 것 찾기</div><div>[조별토의] AI에게 우리 조직의 실패 시나리오를 쓰게 하고 검증하기</div></div><div class="m-how">강의 &amp; 토의</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M6. 우리 조직<br>실행 로드맵 스케치<span class="m-tool">Gemini</span></div><div class="m-body"><div>대상·범위·기간·책임 조직을 한 장에 정리하기</div><div>[공용실습] AI로 로드맵 초안을 뽑고 임원들이 직접 수정하기</div></div><div class="m-how">워크샵</div><div class="m-min">35M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>임원 특성을 고려해 핸즈온은 "딱 하나, 간단하게, 성공 경험만"이라는 원칙으로 설계</li>
+<li>ROI·벤치마크는 공개 수치로만 검증 — 과장된 기대치를 먼저 제거하고 시작</li>
+<li>워크샵 끝에 자연스럽게 "우리 조직도 해보자"는 결론이 나오도록 흐름을 설계</li>
+</ul></div>
+</section>
+<section id="c12" class="card">
+<div class="badge">B · AI × 리더십</div>
+<h2>팀 생산성 향상 — 팀을 움직이는 AI</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>팀장 및 팀장 후보자 (차세대 리더 과정 편성 가능)</div><div>협업 비용이 높아 팀 단위 생산성 개선이 필요한 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H</span><br><span class="sub">총 240분 · 4개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>팀의 협업 병목이 어디서 생기는지 일하는 스타일 관점에서 진단할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>구성원 스타일을 반영한 AI 페르소나로 대화를 사전 점검할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>팀 업무 프로세스를 재설계해 생산성 향상 실행안을 만들 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>진단 → 사람 이해 → 실습 → 전략 수립의 4단 구조로 "느낀 것"이 "할 것"까지 이어짐</li>
+<li>별도 검사비 없는 자체 간이 업무 스타일 진단 사용 — 기존 진단 보유자는 결과 병용 가능</li>
+<li>직장 상황 카드 4종으로 실제 협업 장면을 재현해 연습</li>
+<li>산출물: 팀 협업 진단 결과, 나만의 업무 비서 Agent, 팀 생산성 향상 실행안</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 방향<br>협업 혁신 국내외 사례<span class="m-tool">Gemini</span></div><div class="m-body"><div>AI 도입 후 오히려 사람을 다시 늘린 기업 사례 살펴보기</div><div>중소·중견기업 도입 통계로 기회 구간 확인하기</div><div>[강사 시연] "내 말투 메일 비서"를 그 자리에서 만들어 도착점 보여주기</div></div><div class="m-how">강의 &amp; 시연</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M2. 사람 × AI<br>스타일 진단과 페르소나<span class="m-tool">Gemini, Gems</span></div><div class="m-body"><div>간이 업무 스타일 진단으로 나와 팀원의 차이 확인하기</div><div>스타일을 반영한 AI 페르소나 만들기</div><div>[개인실습] 상황 카드 4종으로 대화 시뮬레이션 하기</div></div><div class="m-how">진단 &amp; 실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M3. 나만의 업무 비서<br>만들기<span class="m-tool">Gemini, Gems</span></div><div class="m-body"><div>반복하는 협업 업무를 골라 비서에게 맡길 일 정하기</div><div>우리 팀 용어와 양식을 학습시켜 결과 품질 올리기</div><div>＋심화 과제: 팀 공용 비서로 확장해 보기</div><div>[개인실습] 업무 비서 Agent 완성하고 실제 업무로 검증하기</div></div><div class="m-how">개인실습</div><div class="m-min">80M</div></div>
+<div class="mrow"><div class="m-name">M4. 팀 생산성 향상<br>전략 수립과 상호 개선<span class="m-tool">Gemini</span></div><div class="m-body"><div>병목 구간을 골라 프로세스를 다시 그리기</div><div>AI에게 점검받고 지시문은 본인이 직접 고치기</div><div>[공용실습] 뽑기 → 점검 → 수정 → 재점검 개선 루프 돌리기</div></div><div class="m-how">워크샵 &amp; 공유</div><div class="m-min">50M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>1~2차시 참가자와 3차시 참가자가 달라도 무리 없게, 이전 산출물에 의존하지 않는 독립 설계</li>
+<li>검사비 예산이 없는 조직을 위해 별도 비용 없는 자체 간이 진단으로 구성</li>
+<li>실습 진도 편차 대응으로 모든 모듈에 "＋ 심화 과제"를 공통 형식으로 배치</li>
+</ul></div>
+</section>
+<section id="c13" class="card">
+<div class="badge">B · AI × 리더십</div>
+<h2>리더의 변화관리</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>팀장 이상 조직 책임자 (20명 내외 워크샵형)</div><div>사업 재편·AX 전환·인력 이탈 이슈를 겪고 있는 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H (변화관리 3H + AI 활용 1H)</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>변화관리의 개념과 조직에서 변화가 실패하는 이유를 설명할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>구성원의 저항을 단계별로 읽고 리더로서 개입할 지점을 찾을 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>우리 조직의 변화 과제에 대한 구성원 대화 시나리오를 준비할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>타사 교안 이식이 아니라 해당 조직이 실제 겪는 변화에서 출발해 매번 새로 설계</li>
+<li>공감 리더십 / 성공체험 만들어 주기 / 직무가치 높여주기 3가지를 실행 언어로 전환</li>
+<li>사전 익명 서베이 10문항 결과를 워크샵 재료로 사용해 남의 이야기가 되지 않게 함</li>
+<li>산출물: 우리 조직 변화 지도, 저항 단계별 대응 카드, 구성원 대화 시나리오</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 변화관리란 무엇인가<br>왜 실패하는가</div><div class="m-body"><div>변화관리를 조직 개편·제도 도입과 구분해 정의하기</div><div>변화가 멈추는 전형적 지점 3가지 확인하기</div><div>리더가 흔히 하는 잘못된 개입 사례 살펴보기</div></div><div class="m-how">강의</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M2. 우리 조직의<br>변화 3가지 진단<span class="m-tool">Claude</span></div><div class="m-body"><div>사전 서베이 결과를 함께 읽고 해석하기</div><div>[강사 시연] 자유응답을 AI로 분석해 현장에서 바로 쟁점 뽑아내기</div><div>[조별토의] 지금 우리에게 가장 큰 변화 3가지 합의하기</div></div><div class="m-how">워크샵</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M3. 저항의 단계와<br>리더의 개입<span class="m-tool">Claude</span></div><div class="m-body"><div>부정·저항·탐색·수용 단계별 신호 구분하기</div><div>단계마다 효과 있는 개입과 역효과 나는 개입 나누기</div><div>[조별토의] 구성원 반응을 AI로 단계 판정해 보고 결과를 검증하기</div></div><div class="m-how">강의 &amp; 토의</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M4. 실행 3원칙<br>공감 · 성공체험 · 직무가치<span class="m-tool">Gemini</span></div><div class="m-body"><div>공감을 태도가 아닌 문장과 행동으로 바꾸기</div><div>작은 성공체험을 설계해 주는 방법 익히기</div><div>[개인실습] 팀원 1명의 직무가치를 높일 방법을 AI와 3가지 뽑기</div></div><div class="m-how">워크샵</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M5. AI로 준비하는<br>구성원 대화 시나리오<span class="m-tool">Gemini, Gems</span></div><div class="m-body"><div>구성원 페르소나를 만들어 예상 반응 확인하기</div><div>[개인실습] 실제 대화 시나리오를 작성하고 연습하기</div></div><div class="m-how">개인실습</div><div class="m-min">60M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>타사 교안을 그대로 가져오지 않는다 — 해당 조직이 실제 겪는 변화에서 출발해 매번 새로 설계</li>
+<li>사전 익명 서베이 10문항 결과를 워크샵 재료로 사용해 남의 이야기가 되지 않게 함</li>
+<li>리더십 교육에 AI를 얹은 구성 — AI가 주인공이 아니라 리더의 대화를 준비하는 도구</li>
+</ul></div>
+</section>
+</div>
+<div class="panel" id="panel-diag">
+<section id="c14" class="card active">
+<div class="badge">C · 진단 × AI</div>
+<h2>버크만 해석 × AI 코치 Agent</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>임원 / 팀장 / 일반 구성원 — 대상별 3개 버전으로 운영</div><div>조직 오프사이트 워크샵 및 리더 개발 과정 (10~20명 권장)</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H (3H 압축 운영 가능)</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>평소 행동·내면의 욕구·스트레스 신호를 구분해 이해할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>나와 다른 사람의 차이를 성격이 아닌 욕구의 차이로 해석할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>자기 진단 리포트를 학습시킨 개인 코치 Agent를 완성할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>참가자 전원 사전 검사 + 개인 리포트 제공 — 버크만 마스터 퍼실리테이터 직접 해석</li>
+<li>진단으로 끝나지 않고 리포트를 AI에 학습시켜 교육 이후에도 쓰는 코치를 남김</li>
+<li>AI에는 본인 리포트만 입력 — 타인 리포트는 올리지 않고 유형 설명만 문장으로 사용</li>
+<li>노트북 지참 필수 / 검사비 별도 / 산출물: 개인 리포트, 코치 Agent, 관계 실행 카드</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 진단 오리엔테이션<br>무엇을 보는가<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>행동·욕구·스트레스 3층 구조 이해하기</div><div>진단을 라벨링이 아닌 대화의 도구로 쓰는 기준 세우기</div><div>리포트를 AI에 넣을 때 지켜야 할 정보 취급 원칙 합의하기</div></div><div class="m-how">강의</div><div class="m-min">30M</div></div>
+<div class="mrow"><div class="m-name">M2. 평소 행동과<br>내면의 욕구<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>겉으로 보이는 행동과 속으로 바라는 것의 차이 확인하기</div><div>[개인실습] 내 리포트 지표를 AI에 넣어 업무 장면과 연결해 보기</div><div>[조별워크] 서로의 차이를 확인하고 오해했던 지점 나누기</div></div><div class="m-how">해석 &amp; 실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M3. 스트레스 신호와<br>자기 관리<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>욕구가 채워지지 않을 때 나오는 내 스트레스 행동 확인하기</div><div>[개인실습] AI에게 "어떤 상황에서 내가 무너지는가"를 물어 탐색하기</div><div>나의 스트레스 신호와 회복 방법 정리하기</div></div><div class="m-how">해석 &amp; 실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M4. 관계 요소<br>의사소통 · 감정관리 · 보상<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>관계에서 자주 부딪히는 3가지 축 살펴보기</div><div>[개인실습] 상대 유형을 문장으로만 입력해 대화 시뮬레이션 하기</div><div>[조별워크] 함께 일하기 위한 요청 사항을 서로에게 전달하기</div></div><div class="m-how">워크샵 &amp; 실습</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M5. 내 리포트로<br>코치 Agent 만들기<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>개인 리포트를 학습시키고 코칭 규칙 설정하기</div><div>[개인실습] 실제 고민 1건을 넣어 코칭 대화 검증하기</div></div><div class="m-how">개인실습</div><div class="m-min">50M</div></div>
+</div>
+<div class="react"><div class="shead">학습자 반응</div>
+<div class="scores">
+<div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.4<span class="s-max">/10</span></div></div>
+<div class="score-chip"><div class="s-label">추천도</div><div class="s-num">9.6<span class="s-max">/10</span></div></div>
+</div>
+<div class="quote">욕구와 스트레스 행동이 수치와 색깔로 표현되니 명확하고 더 직관적으로 이해할 수 있었다</div>
+<div class="quote">상대방의 내면을 보는 힘이 필요하다는 걸 알게 됐다</div>
+<div class="quote">다음에 짝이 생긴다면 같이 검사 해석을 꼭 받아보고 싶다</div>
+<div class="react-src">— CEO 포함 임원 워크샵으로도 운영 · 진단 해석은 신중하고 정중한 화법으로 진행</div>
+</div>
+</section>
+<section id="c15" class="card">
+<div class="badge">C · 진단 × AI</div>
+<h2>조직 멘탈케어 — 뇌파와 MBTI로 보는 번아웃 관리</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>번아웃·소진 관리가 필요한 전 직원 및 리더</div><div>EAP·건강경영 연계 (정원 10~12명 / 측정 결과는 의료 진단이 아님)</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">5H (사전 뇌파 측정 1H + 본과정 4H)</span><br><span class="sub">총 300분 · 6개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>자기 스트레스·집중 상태를 뇌파 측정 결과로 객관적으로 확인할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>뇌파 수치와 성격 유형을 AI로 함께 해석해 내 소진 패턴을 알 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>회복 루틴을 설계하고 점검해 주는 셀프케어 Agent를 만들 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>만족도 9.95/10, 추천도 10.0/10 — 공개과정에서 검증된 구성을 기업형으로 재설계</li>
+<li>휴대용 뇌파 장비 3대로 3명씩 순환 측정 — 대기 시간은 AI 셀프체크 실습으로 채움</li>
+<li>뇌파 수치와 성격 유형을 AI에 함께 넣어 "나는 왜 저 상황에서 힘든가"를 설명</li>
+<li>산출물: 개인별 뇌파 리포트, 나의 소진 신호 체크리스트, 셀프케어 Agent</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M0. 사전 뇌파 측정과<br>대기 중 셀프체크<span class="m-tool">뇌파 측정 장비, ChatGPT</span></div><div class="m-body"><div>3명씩 15분 순환으로 좌·우뇌 활성도와 긴장·이완 지표 측정하기</div><div>[개인실습] 대기 시간에 최근 2주 컨디션 로그를 AI로 정리하기</div><div>측정 전 내 상태를 예측해 적어두고 결과와 대조할 준비하기</div></div><div class="m-how">측정 &amp; 실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M1. 번아웃은<br>의지의 문제가 아니다<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>소진이 진행되는 단계와 조직에서 나타나는 신호 구분하기</div><div>성과 저하가 아니라 회복 실패의 문제로 관점 바꾸기</div></div><div class="m-how">강의</div><div class="m-min">35M</div></div>
+<div class="mrow"><div class="m-name">M2. 뇌파 리포트<br>읽기<span class="m-tool">뇌파 3D 분석 리포트</span></div><div class="m-body"><div>좌·우뇌 활성도와 긴장·이완 지표를 개인별로 해석 받기</div><div>내 예측과 실제 수치가 어긋난 지점 확인하기</div><div>[개인실습] 내 수치에서 눈에 띄는 지점 3가지 적기</div></div><div class="m-how">해석 &amp; 워크샵</div><div class="m-min">55M</div></div>
+<div class="mrow"><div class="m-name">M3. MBTI 유형과<br>나의 소진 패턴<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>16유형의 기능 구조를 업무 상황 기준으로 이해하기</div><div>유형별로 에너지가 빠지는 상황과 채워지는 상황 구분하기</div><div>[개인실습] 뇌파 수치와 유형을 AI에 함께 넣어 소진 패턴 정리하기</div></div><div class="m-how">해석 &amp; 실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M4. 회복 루틴 설계<br>셀프케어 Agent<span class="m-tool">ChatGPT, Gems</span></div><div class="m-body"><div>일반적인 권고가 아니라 내 유형에 맞는 회복 방식 고르기</div><div>[개인실습] 회복 루틴을 점검해 주는 셀프케어 Agent 만들기</div></div><div class="m-how">개인실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M5. 팀이 서로를<br>지키는 법<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>[조별워크] 서로의 소진 신호를 공유하고 지원 방식 합의하기</div><div>[공용실습] AI로 팀 업무 관행 개선안 1가지를 문장으로 정리하기</div></div><div class="m-how">워크샵 &amp; 공유</div><div class="m-min">40M</div></div>
+</div>
       <div class="shead">뇌파 측정 결과 예시</div>
       <div class="brain-grid">
         <div class="brain-block">
@@ -730,180 +942,274 @@
           </div>
         </div>
       </div>
-      <div class="react"><div class="shead">학습자 반응</div>
-        <div class="scores">
-          <div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.95<span class="s-max">/10</span></div></div>
-          <div class="score-chip"><div class="s-label">추천도</div><div class="s-num">10.0<span class="s-max">/10</span></div></div>
-        </div>
-        <div class="quote">내가 원하는 삶을 살고 있는가에 대해 깊이 생각해볼 수 있는 좋은 시간이었다</div>
-        <div class="quote">에너지를 내가 잘하는 부분에 초점을 맞춰 나만의 강점으로 만들어야겠다는 생각이 처음으로 들었다</div>
-        <div class="quote">나도 모르게 나의 신경계를 돌봐주는 느낌을 받았다</div>
-      </div>
-    </section>
-    <section id="strengths" class="card">
-      <div class="badge diag">진단 · 강점</div>
-      <h2>위대한 나의 발견 — 강점혁명</h2>
-      <div class="tagline">재능의 내재화를 통해 나다운 나를 찾는다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">3–4시간</span><span class="sub">B2B 집합 / B2C 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">직장인 · 자기계발에 관심 있는 성인 · 강점 기반 팀 개발을 원하는 조직</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">'약점 보완'이 아닌 '강점 집중'으로 패러다임을 전환하고, 갤럽 StrengthsFinder 기반으로 자신만의 5대 재능을 발견해 강점으로 키우는 방향을 설계한다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>재능과 강점의 차이를 이해하고 '재능×투자=강점' 공식을 자신에게 적용할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>StrengthsFinder 34개 테마 중 나의 상위 5개 재능을 설명하고 활용 맥락을 찾을 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>약점에 집중해온 원인을 인식하고 강점 중심으로 자기계발 방향을 재설정할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">들어가며</span>나는 누구인가?</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">나의 대표적 특성 탐색 · 강점에 대한 기존 인식 확인</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">모듈1</span>재능의 힘</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">약점 집중 vs 강점 집중 (네브래스카 연구: 8.28배 차이) · 피터 드러커의 강점론</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">모듈2</span>재능에서 강점으로</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">재능×지식×기술×투자=강점 공식 · 갤럽 10만명 연구 · 개인별 Top 5 확인</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">모듈3</span>강점 지도 만들기</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">팀 전체 강점 비교 · 내 재능이 빛나는 상황 찾기</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">랩업</span>나만의 강점 선언</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">강점 기반 자기소개 완성 · 앞으로의 성장 방향 설계</div></div>
-      </div>
+<div class="react"><div class="shead">학습자 반응</div>
+<div class="scores">
+<div class="score-chip"><div class="s-label">만족도</div><div class="s-num">9.95<span class="s-max">/10</span></div></div>
+<div class="score-chip"><div class="s-label">추천도</div><div class="s-num">10.0<span class="s-max">/10</span></div></div>
+</div>
+<div class="quote">내가 원하는 삶을 살고 있는가에 대해 깊이 생각해볼 수 있는 좋은 시간이었다</div>
+<div class="quote">에너지를 내가 잘하는 부분에 초점을 맞춰 나만의 강점으로 만들어야겠다는 생각이 처음으로 들었다</div>
+<div class="quote">나도 모르게 나의 신경계를 돌봐주는 느낌을 받았다</div>
+</div>
+</section>
+<section id="c16" class="card">
+<div class="badge">C · 진단 × AI</div>
+<h2>위대한 나의 발견 — 강점혁명</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>전 직원, 팀 빌딩이 필요한 조직 단위</div><div>자기계발·경력개발 과정에 진단을 접목하려는 조직 (검사비 별도)</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H (3H 압축 운영 가능)</span><br><span class="sub">총 240분 · 4개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>"재능 × 투자 = 강점" 공식으로 강점 전환 경로를 이해할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>상위 5개 재능 테마를 자기 업무 장면과 연결해 설명할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>약점을 관리 대상으로 재정의하고 팀 안에서 보완 구조를 만들 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>참가자 전원 5.0/5 만점 평가를 받은 구성</li>
+<li>진단 해석에 그치지 않고 "이번 주에 쓸 재능 1개"까지 좁혀서 마침</li>
+<li>팀 단위 운영 시 팀 강점 지도를 만들어 역할 재배치 논의로 연결</li>
+<li>산출물: 개인 강점 리포트 해석본, 강점 활용 계획서, 팀 강점 지도(팀 운영 시)</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 재능 × 투자<br>= 강점<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>재능과 강점의 차이를 구분하고 투자의 의미 이해하기</div><div>약점 보완 중심 사고가 성과를 막는 이유 확인하기</div><div>[개인실습] 내 재능을 의심하게 만든 경험을 AI와 정리하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M2. 나의 상위<br>5개 재능 해석<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>34개 테마 중 상위 5개의 의미를 정확히 읽기</div><div>각 재능이 잘 발휘된 순간과 오작동한 순간 구분하기</div><div>[개인실습] AI를 질문자로 세워 재능별 업무 장면 끌어내기</div><div>[조별워크] 같은 재능을 가진 사람끼리 경험 비교하기</div></div><div class="m-how">해석 &amp; 실습</div><div class="m-min">75M</div></div>
+<div class="mrow"><div class="m-name">M3. 약점 인식의 전환과<br>보완 구조<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>약점을 고칠 것과 관리할 것으로 나누기</div><div>보완 파트너·시스템·회피 3가지 전략 익히기</div><div>[개인실습] AI로 내 약점 관리 시나리오를 3안 뽑아 고르기</div></div><div class="m-how">워크샵 &amp; 실습</div><div class="m-min">55M</div></div>
+<div class="mrow"><div class="m-name">M4. 강점 활용 계획과<br>팀 강점 지도<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>이번 주에 의도적으로 쓸 재능 1개 정하기</div><div>[팀실습] 팀 강점 지도를 그리고 역할 재배치 논의하기</div><div>[공용실습] 서로에게 기대하는 강점을 말로 전달하기</div></div><div class="m-how">실습 &amp; 공유</div><div class="m-min">65M</div></div>
+</div>
       <div class="shead">갤럽 StrengthsFinder 34개 테마</div>
       <div class="strength-tags">
         <span class="stag highlight">성취</span><span class="stag highlight">최상화</span><span class="stag highlight">전략</span>
         <span class="stag">개발</span><span class="stag">개별화</span><span class="stag">공감</span><span class="stag">공정성</span><span class="stag">긍정</span><span class="stag">미래지향</span><span class="stag">발상</span><span class="stag">배움</span><span class="stag">복구</span><span class="stag">분석</span><span class="stag">사교성</span><span class="stag">수집</span><span class="stag">승부</span><span class="stag">신념</span><span class="stag">심사숙고</span><span class="stag">연결성</span><span class="stag">자기확신</span><span class="stag">적응</span><span class="stag">절친</span><span class="stag">정리</span><span class="stag">존재감</span><span class="stag">주도력</span><span class="stag">지적사고</span><span class="stag">집중</span><span class="stag">책임</span><span class="stag">체계</span><span class="stag">커뮤니케이션</span><span class="stag">포용</span><span class="stag">행동</span><span class="stag">화합</span><span class="stag">회고</span>
-      </div>
-      <div class="react"><div class="shead">학습자 반응</div>
-        <div class="scores">
-          <div class="score-chip"><div class="s-label">만족도</div><div class="s-num">5.0<span class="s-max">/5</span></div></div>
-          <div class="score-chip"><div class="s-label">응답</div><div class="s-num">9<span class="s-max">명 전원</span></div></div>
-        </div>
-        <div class="quote">자기가 몰랐던 강점도 발견하게 되고, 아는 것으로 끝나지 않고 스스로 생각하게 이끌어주셔서 좋았다</div>
-        <div class="quote">참석자들 5가지 강점을 한번에 보여주신 것이 인상 깊었다. 서로를 더 잘 알게 되는 공동체에 유의미했다</div>
-        <div class="quote">목소리 톤, 시간 조절, 강의 진행력까지 베테랑이신 게 너무 잘 느껴졌다</div>
-        <div class="react-src">— 강점혁명 과정 (2025.06) · 9명 전원 만점</div>
-      </div>
-    </section>
-  </div><!-- /panel-diag -->
-
-  <!-- ===== 직무 패널 ===== -->
-  <div class="panel" id="panel-job">
-    <section id="lecskill" class="card active">
-      <div class="badge job">직무 · HRD</div>
-      <h2>강의 스킬 향상</h2>
-      <div class="tagline">전문성을 가진 사람이 '잘 가르치는 사람'이 되는 과정</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">4–6시간</span><span class="sub">실습+피드백 포함</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">사내강사 · 강의 경험을 체계화하고 싶은 전문가 · 신규 강사 · HRD 담당자</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">자기 일의 전문성을 넘어, 강의를 통해 학습자를 변화시키고 업무 성과 향상에 기여하는 강사로 성장한다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>강의 준비에 필요한 사항(목표·내용·방법·평가)을 파악하고 계획할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>강의 흐름(도입 10%-전개 70%-종결 20%)을 체계적으로 구조화할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>학습자의 주의집중 특성을 이해하고 효과적인 전달 방법을 구상할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">Part 1</span>강의 준비</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">교육목표 작성법 (내용+행동) · Need to Know 파악 · 내용 구조화 3가지 방식</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">Part 2</span>강의 전달</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">주의집중 시간(20분) 이해 · 도입-전개-종결 흐름 설계 · 소재의 힘</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">Part 3</span>연습 강의 + 피드백</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">개인별 미니 강의 실습 · 상호 피드백 · 나만의 강의 스타일 찾기</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="quote">일방적 수업이 아닌 자기 학습과 상호 토론으로 진행 — 강사가 아닌 Facilitator로 운영</div>
-        <div class="quote">좋은 강의의 핵심은 화려한 스킬이 아니라 좋은 소재 — 실제 사례와 경험이 강의를 만든다</div>
-        <div class="quote">연습 강의와 즉각적인 피드백을 통해, 이론이 아니라 몸에 익히는 구조로 설계</div>
-      </div>
-    </section>
-
-
-    <!-- MDA -->
-    <section id="mda" class="card">
-      <div class="badge job">직무 · 마케팅</div>
-      <h2>시장데이터 분석과 리포팅</h2>
-      <div class="tagline">데이터를 읽는 사람이 전략을 만든다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">3–4시간</span><span class="sub">실습 포함 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">마케팅·영업·기획 직군 실무자 · 시장조사 데이터를 처음 다루는 담당자</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">시장조사 데이터의 구조를 이해하고, 목적에 맞는 데이터를 추출·분석해 전략적 판단에 활용할 수 있는 역량을 기른다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>시장조사 데이터 시스템의 구조와 커버리지를 이해하고 목적에 맞게 활용할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>원하는 조건으로 데이터를 추출하고 리포트별 필요 데이터를 구성할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>가격전략·채널전략·경쟁사 분석 등 실무 시나리오에 데이터를 연결해 인사이트를 도출할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">M1</span>시장조사 데이터 이해</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">주요 데이터 소스의 구조 · Sell-out 데이터의 의미와 한계 · 글로벌/채널별 커버리지</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M2</span>데이터 추출 실습</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">분석 시스템 활용법 · 원하는 데이터 추출 · 조건 설정과 필터링</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M3</span>전략 연결 분석</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">가격 전략 수립용 데이터 분석 · 경쟁사 가격 트렌드 · 채널 포트폴리오 분석</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">M4</span>리포팅 실전</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">리포트 목적별 데이터 구성 · 인사이트 도출 실습 · Q&A</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="quote">마케팅·영업 현장에서 직접 쓴 데이터 분석 경험을 바탕으로 설계된 실무 밀착형 과정</div>
-        <div class="quote">데이터를 추출하는 법보다, 어떤 질문을 던져야 하는지를 먼저 배운다</div>
-        <div class="quote">가격전략·채널전략·SCM 등 다양한 실무 시나리오에 맞춰 커스터마이징 가능</div>
-      </div>
-    </section>
-
-    <!-- 마케팅 Value Chain -->
-    <section id="marketing" class="card">
-      <div class="badge job">직무 · 마케팅</div>
-      <h2>마케팅 Value Chain의 이해</h2>
-      <div class="tagline">마케팅 프로세스 전체를 흐름으로 이해한다</div>
-      <div class="meta">
-        <div><div class="meta-label">교육 시간</div><div class="meta-hours-row"><span class="big">3–4시간</span><span class="sub">강의+토론 / 조정 가능</span></div></div>
-        <div><div class="meta-label">학습 대상</div><div class="meta-val">마케팅 입문자 · 타 직군에서 마케팅으로 이동한 실무자 · 마케팅 전반을 체계화하고 싶은 담당자</div></div>
-      </div>
-      <div class="shead">학습 목적</div>
-      <p style="font-size:15px;color:var(--ink-soft);margin-bottom:30px;">마케팅의 전체 흐름(Value Chain)을 이해하고, 각 단계에서 자신의 역할과 인접 영역 협업 포인트를 파악해 업무 우선순위를 스스로 설정할 수 있다.</p>
-      <div class="shead">학습 목표</div>
-      <div class="objs">
-        <div class="obj"><span class="o-num">01</span><span>Marketing과 Sales의 차이, Needs와 Wants의 구분을 설명할 수 있다</span></div>
-        <div class="obj"><span class="o-num">02</span><span>마케팅 Value Chain 전 단계(상품기획→PMS→MD→GTM→MOT→CS)를 설명하고 핵심을 말할 수 있다</span></div>
-        <div class="obj"><span class="o-num">03</span><span>Goal Setting → 환경분석 → STP → 전략수립 → Action Plan의 마케팅 프로세스를 적용할 수 있다</span></div>
-      </div>
-      <div class="shead">커리큘럼</div>
-      <div class="curr">
-        <div class="mod"><div class="m-name"><span class="m-id">도입</span>마케팅이란?</div><div><span class="domain d-gray">동기유발</span></div><div class="m-desc">Marketing vs Sales · Needs vs Wants · 마케팅에 대한 오해 풀기</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">L1</span>Marketing Value Chain</div><div><span class="domain d-blue">이론·이해</span></div><div class="m-desc">상품기획 → PMS → MD → GTM → MOT관리 → CS as Marketing 전 단계 흐름</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">L2</span>마케팅 프로세스 7단계</div><div><span class="domain d-teal">적용</span></div><div class="m-desc">Goal Setting → 환경분석 → 기회/리스크 정의 → STP → 전략수립 → Action Plan → 모니터링</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">L3</span>환경분석 도구</div><div><span class="domain d-amber">분석</span></div><div class="m-desc">SWOT · Gap Analysis · KFS · ERRC · Strategy Canvas · STP 실습</div></div>
-        <div class="mod"><div class="m-name"><span class="m-id">랩업</span>내 업무에 적용하기</div><div><span class="domain d-purple">종합·전이</span></div><div class="m-desc">마케팅 프로세스에서 내 역할 찾기 · 인접 영역 협업 포인트 정리</div></div>
-      </div>
-      <div class="react"><div class="shead">과정 특징</div>
-        <div class="quote">이론 중심이 아니라 "내가 지금 하고 있는 일이 어디에 해당하는가"를 먼저 찾아가는 구조</div>
-        <div class="quote">마케팅을 처음 접하는 분도, 경험은 있지만 전체 그림이 없는 분도 함께 들을 수 있게 설계</div>
-        <div class="quote">글로벌 마케팅 현장 경험을 바탕으로 한 실제 사례 중심 강의</div>
-      </div>
-    </section>
-
-    </div><!-- /panel-job -->
-
-  <footer>
-    <span>피델 · 최민욱</span>
-    <span>강의 문의 · yapoong@gmail.com</span>
-  </footer>
-
+<div class="react"><div class="shead">학습자 반응</div>
+<div class="scores">
+<div class="score-chip"><div class="s-label">만족도</div><div class="s-num">5.0<span class="s-max">/5</span></div></div>
+<div class="score-chip"><div class="s-label">응답</div><div class="s-num">9<span class="s-max">명 전원</span></div></div>
+</div>
+<div class="quote">자기가 몰랐던 강점도 발견하게 되고, 아는 것으로 끝나지 않고 스스로 생각하게 이끌어주셔서 좋았다</div>
+<div class="quote">참석자들 5가지 강점을 한번에 보여주신 것이 인상 깊었다. 서로를 더 잘 알게 되는 공동체에 유의미했다</div>
+<div class="quote">목소리 톤, 시간 조절, 강의 진행력까지 베테랑이신 게 너무 잘 느껴졌다</div>
+<div class="react-src">— 강점혁명 과정 (2025.06) · 9명 전원 만점</div>
+</div>
+</section>
+</div>
+<div class="panel" id="panel-hrd">
+<section id="c17" class="card active">
+<div class="badge">D · HRD · 사내강사 역량</div>
+<h2>ADDIE 기반 AI Agent 과정개발</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>기업 HRD 담당자, 교육기획자, 사내강사</div><div>과정개발 속도와 품질을 동시에 올려야 하는 교육부서</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">8H (1일) / 16H (2일) / 2H×5세션</span><br><span class="sub">총 480분 · 6개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>ADDIE 5단계에 따라 교육과정을 설계하는 절차를 적용할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>분석·설계 산출물을 AI로 생성하고 검증하는 방식을 익힐 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>과정개발을 반복 수행하는 나만의 AI Agent를 만들어 실제로 돌릴 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>HRD 담당자가 학습자인 과정 — 교육을 만드는 사람의 일 자체를 다룸</li>
+<li>20일 규모 집중과정에서 검증한 설계 흐름을 1~2일 분량으로 압축</li>
+<li>일정 확보가 어려운 조직을 위해 2시간 × 5세션 온·오프 분할 운영 가능</li>
+<li>산출물: 교육과정 제안서 1건, 과정개발 표준 양식 5종, 나만의 과정개발 Agent</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 왜 ADDIE인가<br>감으로 만든 과정의 한계<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>요구 확인 없이 만든 과정이 실패하는 지점 확인하기</div><div>5단계 전체 흐름과 각 단계의 산출물 정리하기</div><div>[강사 시연] AI에게 과정 하나를 만들게 하고 무엇이 빠지는지 보기</div></div><div class="m-how">강의 &amp; 시연</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M2. Analysis<br>요구 · 학습자 · 환경 분석<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>의뢰 요청을 진짜 문제로 다시 정의하기</div><div>설문·인터뷰 문항을 AI로 설계하고 결과 분석하기</div><div>[개인실습] 요구분석서를 작성하고 AI로 반론 받기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">80M</div></div>
+<div class="mrow"><div class="m-name">M3. Design<br>학습목표와 모듈 설계<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>학습목표를 행동 동사 기준으로 작성하기</div><div>시간·인원·환경 제약을 반영해 모듈을 배치하기</div><div>[개인실습] 모듈설계서를 완성하고 시간 배분 검증하기</div></div><div class="m-how">개인실습</div><div class="m-min">90M</div></div>
+<div class="mrow"><div class="m-name">M4. Development<br>교안 · 자료를 AI로 만들기<span class="m-tool">ChatGPT, Claude, Gamma</span></div><div class="m-body"><div>교안 상세 흐름을 활동 단위로 쪼개 작성하기</div><div>슬라이드·워크시트 초안을 생성하고 다듬기</div><div>[개인실습] 1개 모듈의 교안과 자료 완성하기</div></div><div class="m-how">개인실습</div><div class="m-min">90M</div></div>
+<div class="mrow"><div class="m-name">M5. 과정개발 Agent<br>제작<span class="m-tool">Claude, Gems</span></div><div class="m-body"><div>우리 조직의 양식과 톤을 학습시키기</div><div>요구분석 → 설계 → 교안까지 이어지는 절차를 규칙으로 넣기</div><div>[개인실습] 새 주제를 넣어 Agent가 초안을 뽑는지 검증하기</div></div><div class="m-how">개인실습</div><div class="m-min">110M</div></div>
+<div class="mrow"><div class="m-name">M6. Implement · Evaluate<br>계획과 상호 리뷰<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>실행계획서와 Kirkpatrick 기반 평가계획서 작성하기</div><div>[공용실습] 상호 리뷰 후 반영해 제안서 최종본 발표하기</div></div><div class="m-how">발표 &amp; 공유</div><div class="m-min">70M</div></div>
+</div>
+</section>
+<section id="c18" class="card">
+<div class="badge">D · HRD · 사내강사 역량</div>
+<h2>강의 스킬 향상</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>사내강사, 신규 선임 강사, HRD 담당자</div><div>직무 전문가를 사내강사로 전환해야 하는 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">6H (4H 압축 운영 가능)</span><br><span class="sub">총 360분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>교육 목표를 학습자 행동 기준으로 작성할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>도입·전개·종결 구조로 강의 흐름을 설계하고 전달 기술을 교정할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>AI 학습자 시뮬레이터로 돌발 상황 대응을 미리 연습할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>대기업 사내강사 양성과정 강의스킬 Master 강사 이력을 기반으로 구성</li>
+<li>개인별 미니 강의 실습 + 상호 피드백 — 듣는 시간보다 서는 시간이 더 김</li>
+<li>AI 학습자 시뮬레이터로 까다로운 학습자·무관심 학습자를 미리 만나 대응을 연습</li>
+<li>[아래 AI 산출물 과정과 결합 시] 2일 사내강사 AI 양성 패키지로 운영 가능</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 교육 목표 작성과<br>학습자 분석<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>"안다"가 아니라 "할 수 있다"로 목표 쓰기</div><div>[개인실습] 학습자 페르소나를 AI로 만들어 기대와 출발점 확인하기</div><div>[개인실습] 내 강의의 학습목표 3개 작성하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M2. 강의 흐름 구조화<br>도입 · 전개 · 종결<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>도입 훅 6종(통계·속담·질문·기사·권위자·경험) 골라 쓰기</div><div>본론을 주장-근거-보장 구조로 배치하기</div><div>[개인실습] 흐름표를 AI에게 점검받아 늘어지는 구간 찾기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M3. 전달 기술<br>시선 · 목소리 · 자세<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>시선을 등대 불빛처럼 옮기고 무대를 6등분해 움직이기</div><div>평소보다 1.5배 크게 말하기와 침묵 활용하기</div><div>불안 극복 3P(Plant·Pause·Project) 연습하기</div><div>[개인실습] 원고를 AI로 구어체로 바꿔 소리 내어 읽어 보기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M4. AI 학습자 시뮬레이터로<br>까다로운 학습자 대응<span class="m-tool">ChatGPT, Gems</span></div><div class="m-body"><div>집중이 떨어지는 구간을 예측하고 질의응답 4단계 정리하기</div><div>[개인실습] 학습자 시뮬레이터 4종(무관심·반박·과잉질문·이탈) 만들기</div><div>[롤플레이] 시뮬레이터와 실제로 부딪혀 보고 대응 문장 다듬기</div></div><div class="m-how">실습 &amp; 롤플레이</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M5. 미니 강의 실습과<br>상호 피드백<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>[개인실습] 1인 10분 강의 실연하기</div><div>관찰 기준표에 따라 상호 피드백 주고받기</div><div>AI 피드백과 동료 피드백을 대조해 고칠 것 1가지 정하기</div></div><div class="m-how">실습 &amp; 피드백</div><div class="m-min">120M</div></div>
+</div>
+<div class="react"><div class="shead">과정 특징</div>
+<ul class="notes">
+<li>일방적 수업이 아닌 자기 학습과 상호 토론으로 진행 — 강사가 아닌 Facilitator로 운영</li>
+<li>좋은 강의의 핵심은 화려한 스킬이 아니라 좋은 소재 — 실제 사례와 경험이 강의를 만든다</li>
+<li>연습 강의와 즉각적인 피드백을 통해, 이론이 아니라 몸에 익히는 구조로 설계</li>
+</ul></div>
+</section>
+<section id="c19" class="card">
+<div class="badge">D · HRD · 사내강사 역량</div>
+<h2>AI로 만드는 교안 · 홍보물 · 결과보고서</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>HRD 담당자, 교육 운영자, 사내강사</div><div>소수 인원이 기획부터 결과보고까지 전 과정을 담당하는 교육부서</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">8H (1일)</span><br><span class="sub">총 480분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>교육 기획안과 안내문을 AI로 초안 생성하고 다듬을 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>교안과 슬라이드를 AI 도구로 제작해 제작 시간을 줄일 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>홍보물과 결과보고서를 일관된 형식으로 생성할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>HRD 산출물 5종(기획안·안내문·교안·홍보물·결과보고서)을 하루에 전부 다룸</li>
+<li>도구 소개가 아니라 산출물 기준 — 각 모듈이 끝나면 실제로 쓸 파일이 남음</li>
+<li>조직 서식에 맞춰 템플릿을 고정해 다음 차수부터는 채우기만 하면 되게 함</li>
+<li>[위 강의 스킬 향상 과정과 결합 시] 2일 사내강사 AI 양성 패키지로 운영 가능</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 교육 기획안과<br>안내문<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>요청을 기획안 구조(배경·목적·대상·내용·기대효과)로 옮기기</div><div>대상별 톤을 다르게 해 안내문 생성하기</div><div>[개인실습] 다음 과정의 기획안과 안내문 초안 완성하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">80M</div></div>
+<div class="mrow"><div class="m-name">M2. 교안 · 슬라이드<br>제작<span class="m-tool">Claude, Gamma</span></div><div class="m-body"><div>모듈 흐름을 먼저 잡고 슬라이드를 생성하기</div><div>생성 결과에서 반드시 사람이 고쳐야 할 부분 구분하기</div><div>[개인실습] 1개 모듈 분량의 슬라이드 완성하기</div></div><div class="m-how">개인실습</div><div class="m-min">120M</div></div>
+<div class="mrow"><div class="m-name">M3. 홍보물<br>카드뉴스 · 포스터<span class="m-tool">Gemini, Canva</span></div><div class="m-body"><div>한글·로고가 깨지지 않게 텍스트를 분리해 생성하기</div><div>사내 브랜드 가이드를 템플릿으로 고정하기</div><div>[개인실습] 카드뉴스 3장 세트 또는 포스터 1종 제작하기</div></div><div class="m-how">개인실습</div><div class="m-min">90M</div></div>
+<div class="mrow"><div class="m-name">M4. 만족도 조사와<br>결과보고서<span class="m-tool">ChatGPT, Claude</span></div><div class="m-body"><div>설문 문항을 목적에 맞게 설계하고 배포 양식 만들기</div><div>응답 데이터를 분석해 시사점까지 뽑아내기</div><div>[개인실습] 결과보고서를 생성하고 수치 검증하기</div></div><div class="m-how">개인실습</div><div class="m-min">110M</div></div>
+<div class="mrow"><div class="m-name">M5. 우리 부서 템플릿으로<br>고정하기<span class="m-tool">Claude, Gems</span></div><div class="m-body"><div>5종 산출물의 표준 프롬프트 세트 정리하기</div><div>[공용실습] 부서 공용 Agent로 만들어 함께 검증하기</div></div><div class="m-how">실습 &amp; 공유</div><div class="m-min">80M</div></div>
+</div>
+</section>
+<section id="c20" class="card">
+<div class="badge">D · HRD · 사내강사 역량</div>
+<h2>효과적 PT × AI</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>신입·주니어 사원, 보고와 발표 기회가 늘어난 실무자</div><div>구성원 간 발표 편차가 커서 표준화가 필요한 조직</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">4H</span><br><span class="sub">총 240분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>두괄식 구조로 준비 없이도 자기 생각을 말할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>스크립트를 읽는 발표에서 벗어나 청중을 보고 말할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>AI로 발표를 준비하되 그 내용을 자기 것으로 만들어 전달할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>원칙 3가지 — 보고 읽지 않는다 / 언제든 자기 이야기를 한다 / AI가 쓴 말은 내 것으로 만든다</li>
+<li>준비된 발표만이 아니라 예상 못한 질문에 대응하는 즉석 발화 훈련 포함</li>
+<li>내용 전달 / 커뮤니케이션(언어·비언어) 2축 간이 루브릭으로 상호 평가</li>
+<li>산출물: 내 발표 1장 설계서, 돌발 질문 대응 세트, 개인별 피드백 시트</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. 즉석 발화<br>질문 카드 1분 말하기<span class="m-tool">Claude</span></div><div class="m-body"><div>AI가 뽑은 면접 질문 카드로 준비 없이 1분간 말해 보기</div><div>무엇이 어려웠는지 스스로 진단하기</div><div>[개인실습] 같은 질문에 두 번째로 다시 말해 보기</div></div><div class="m-how">실습</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M2. 두괄식 구조<br>만들기<span class="m-tool">Claude</span></div><div class="m-body"><div>결론 → 근거 → 사례 순서를 머릿속에 넣는 훈련하기</div><div>30초·1분·3분 세 가지 길이로 같은 내용 말하기</div><div>[개인실습] AI로 구조를 점검받아 내 발표 1장 설계서 완성하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M3. 전달 기술<br>시선 · 목소리 · 자세<span class="m-tool">Claude</span></div><div class="m-body"><div>시선을 옮기는 방법과 무대 사용법 익히기</div><div>불안 극복 3P(Plant·Pause·Project) 연습하기</div><div>[개인실습] 내 말버릇 목록을 AI로 정리해 체크카드 만들기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M4. AI로 발표 준비하고<br>내 것으로 만들기<span class="m-tool">Claude</span></div><div class="m-body"><div>자료 조사와 구조 초안을 AI로 빠르게 만들기</div><div>AI가 쓴 문장을 내 말로 바꿔 다시 쓰기</div><div>예상 질문과 돌발 질문을 뽑아 대응 세트 만들기</div><div>[개인실습] 발표 원고를 완성하고 소리 내어 연습하기</div></div><div class="m-how">개인실습</div><div class="m-min">60M</div></div>
+<div class="mrow"><div class="m-name">M5. 발표와<br>루브릭 상호 평가<span class="m-tool">Claude</span></div><div class="m-body"><div>[공용실습] 조별 발표 후 2축 루브릭으로 상호 평가하기</div><div>AI 채점 결과와 동료 평가를 대조해 고칠 것 1가지 정하기</div></div><div class="m-how">발표 &amp; 피드백</div><div class="m-min">45M</div></div>
+</div>
+</section>
+</div>
+<div class="panel" id="panel-esg">
+<section id="c21" class="card active">
+<div class="badge">E · ESG · 사회공헌</div>
+<h2>장애청소년을 위한 AI 기초</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>장애청소년 (중·고등 및 전환기 학생)</div><div>기업 사회공헌(ESG) 프로그램 및 복지기관 연계 교육</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">5~6H (1일)</span><br><span class="sub">총 360분 · 5개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>AI로 궁금한 것을 찾고 정리하는 방법을 스스로 해볼 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>원하는 결과를 얻는 질문 방법 5가지를 익힐 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>AI로 문서·발표자료를 만들어 결과물을 완성하는 성취를 경험할 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>목표가 지식 습득이 아니라 성취감 — 누구도 뒤처지지 않게 Plan A/B 분기 운영</li>
+<li>참가자별 속도 차이를 전제로 설계하며 보조 인력 배치 가이드를 함께 제공</li>
+<li>한글·영문 가이드북 제공으로 기관에서 반복 운영 가능</li>
+<li>산출물: 개인별 완성 결과물 1종, 프롬프트 5원칙 카드, 참여 수료 자료</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. AI와<br>인사하기<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>AI가 무엇인지 직접 말을 걸어 보며 확인하기</div><div>오늘 만들 결과물을 미리 보고 목표 정하기</div></div><div class="m-how">강의 &amp; 체험</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M2. 궁금한 것<br>찾고 정리하기<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>관심 있는 주제를 정해 정보 찾아보기</div><div>찾은 내용을 표와 목록으로 정리하기</div><div>[개인실습] 내 주제로 요약 카드 만들기</div></div><div class="m-how">개인실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M3. 질문하는<br>방법 5가지<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>누구에게·무엇을·어떻게·얼마나·어떤 형태로 5원칙 익히기</div><div>질문을 바꿔 답이 달라지는 것 직접 확인하기</div><div>[개인실습] 프롬프트 5원칙 카드 완성하기</div></div><div class="m-how">강의 &amp; 실습</div><div class="m-min">70M</div></div>
+<div class="mrow"><div class="m-name">M4. AI로 문서 ·<br>발표자료 만들기<span class="m-tool">ChatGPT, Canva</span></div><div class="m-body"><div>내 주제로 문서 초안 만들고 다듬기</div><div>발표용 자료로 옮기고 이미지 넣기</div><div>＋먼저 끝낸 학습자는 심화 과제로 이동 (Plan A/B)</div><div>[개인실습] 결과물 1종 완성하기</div></div><div class="m-how">개인실습</div><div class="m-min">110M</div></div>
+<div class="mrow"><div class="m-name">M5. 결과물 발표와<br>마무리<span class="m-tool">ChatGPT</span></div><div class="m-body"><div>[공용실습] 만든 결과물을 소개하고 서로 칭찬하기</div><div>[개인실습] AI에게 오늘 배운 것을 정리해 달라고 해 보기</div><div>다음에 혼자 해볼 것 한 가지 정하기</div></div><div class="m-how">발표 &amp; 공유</div><div class="m-min">70M</div></div>
+</div>
+<div class="react"><div class="shead">운영 특징</div>
+<ul class="notes">
+<li>GITC e-Combination 출제 위원 경험을 바탕으로 설계된 실전형 커리큘럼</li>
+<li>청소년의 속도와 수준에 맞춰 Plan A/B로 분기 운영 — 누구도 뒤처지지 않게</li>
+<li>아이스브레이킹부터 실전 문제 풀이까지, 성취감을 중심에 두고 설계</li>
+</ul></div>
+</section>
+<section id="c22" class="card">
+<div class="badge">E · ESG · 사회공헌</div>
+<h2>부모 · 교사를 위한 AI 이해</h2>
+<div class="meta">
+<div><div class="meta-label">교육 대상</div><div class="meta-val"><div>청소년 자녀를 둔 부모, 특수교사, 복지기관 교사</div><div>임직원 가족 대상 사회공헌·가족친화 프로그램</div></div></div>
+<div><div class="meta-label">교육 시간</div><div class="meta-val"><span class="big">2~3H</span><br><span class="sub">총 180분 · 4개 모듈</span></div></div>
+</div>
+<div class="shead">교육 목표</div><div class="objs">
+<div class="obj"><span class="o-num">01</span><span>생성형 AI의 기본 개념과 한계를 부모·교사의 언어로 이해할 수 있다.</span></div>
+<div class="obj"><span class="o-num">02</span><span>직접 사용해 보며 아이와 함께 쓸 때 생길 문제를 미리 확인할 수 있다.</span></div>
+<div class="obj"><span class="o-num">03</span><span>개인정보·윤리 관점에서 무엇을 지도해야 하는지 기준을 세울 수 있다.</span></div>
+</div>
+<div class="shead">교육 특징</div><ul class="feats">
+<li>강의가 아니라 체험 — 부모가 직접 써 봐야 무엇을 걱정해야 하는지 알게 된다는 관점</li>
+<li>개인정보·윤리·부모 역할 3주제를 나누지 않고 하나의 실습 안에서 함께 다룸</li>
+<li>휴대폰만으로 진행 가능해 PC 세팅 부담 없이 운영</li>
+<li>산출물: "혼자 ○○ 해보기" 안내 카드, 가정용 AI 사용 약속문, 보호자 가이드북</li>
+</ul>
+<div class="shead">교육 상세 내용</div><div class="curr">
+<div class="mrow mhead"><div>주제</div><div>내용</div><div>방법</div><div>시간</div></div>
+<div class="mrow"><div class="m-name">M1. AI가 무엇이고<br>무엇을 못하는가<span class="m-tool">Gemini</span></div><div class="m-body"><div>아이들이 실제로 쓰는 방식부터 확인하기</div><div>틀린 답을 자신 있게 말하는 이유 이해하기</div></div><div class="m-how">강의</div><div class="m-min">40M</div></div>
+<div class="mrow"><div class="m-name">M2. 직접 써 보고<br>문제 찾기<span class="m-tool">Gemini</span></div><div class="m-body"><div>휴대폰으로 직접 질문하고 결과 확인하기</div><div>아이 입장에서 물어봤을 때 생기는 문제 찾아내기</div><div>[개인실습] 위험해 보이는 답변 사례 수집하기</div></div><div class="m-how">실습</div><div class="m-min">50M</div></div>
+<div class="mrow"><div class="m-name">M3. 개인정보와 윤리<br>무엇을 지도할 것인가<span class="m-tool">Gemini</span></div><div class="m-body"><div>입력하면 안 되는 정보의 기준 정하기</div><div>[조별토의] 우리 아이에게 꼭 알려줄 3가지 정하기</div></div><div class="m-how">강의 &amp; 토의</div><div class="m-min">45M</div></div>
+<div class="mrow"><div class="m-name">M4. 우리 집<br>AI 약속문 만들기<span class="m-tool">Gemini</span></div><div class="m-body"><div>[개인실습] 2단 프롬프트로 "혼자 ○○ 해보기" 카드 만들기</div><div>[공용실습] 가정용 AI 사용 약속문을 작성하고 공유하기</div></div><div class="m-how">실습 &amp; 공유</div><div class="m-min">45M</div></div>
+</div>
+<div class="react"><div class="shead">운영 특징</div>
+<ul class="notes">
+<li>GITC e-Combination 출제 위원 경험과 장애청소년 교육 현장 경험이 결합된 과정</li>
+<li>기술 용어 없이, 부모·교사가 바로 이해하고 쓸 수 있는 수준으로 설계</li>
+<li>청소년 대상 수업 직전·직후에 병행 운영 가능 (패키지 구성 가능)</li>
+</ul></div>
+</section>
+</div>
+<footer><span>피델 · 최민욱 &nbsp;|&nbsp; yapoong@gmail.com &nbsp;|&nbsp; 010-7737-5520</span><span>Vision Campus · 2026</span></footer>
 </div>
 <script>
-  function showPanel(id, btn) {
-    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.course-nav').forEach(n=>n.classList.remove('active'));
-    document.querySelectorAll('.top-btn').forEach(b=>b.classList.remove('active'));
-    document.getElementById('panel-'+id).classList.add('active');
-    const nav = document.getElementById('nav-'+id);
-    if(nav) nav.classList.add('active');
-    btn.classList.add('active');
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-  function showCard(id, panel, btn) {
-    const p = document.getElementById('panel-'+panel);
-    p.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
-    document.querySelectorAll('#nav-'+panel+' .tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    btn.classList.add('active');
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
+function showPanel(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.top-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.course-nav').forEach(n=>n.classList.remove('active'));
+  var nav=document.getElementById('nav-'+id); if(nav) nav.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showCard(id, panel, btn){
+  document.querySelectorAll('#panel-'+panel+' .card').forEach(c=>c.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('#nav-'+panel+' .tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+var PAL={ink:['#1c1b17','#e8e6dd'],brick:['#a8421c','#f2e5de'],navy:['#26456c','#e2e8f0'],teal:['#1c6f56','#dcebe5'],plum:['#6a3a58','#efe4ec'],olive:['#565c33','#e9ead9']};
+function setAccent(key,save){
+  var p=PAL[key]||PAL.ink;
+  document.documentElement.style.setProperty('--accent',p[0]);
+  document.documentElement.style.setProperty('--accent-soft',p[1]);
+  document.querySelectorAll('.sw').forEach(function(b){
+    b.setAttribute('aria-pressed', b.dataset.key===key ? 'true':'false');
+  });
+  if(save){ try{ localStorage.setItem('vc-accent',key);}catch(e){} }
+}
+(function(){
+  var k='ink';
+  try{ var s=localStorage.getItem('vc-accent'); if(s&&PAL[s]) k=s; }catch(e){}
+  setAccent(k,false);
+})();
 </script>
-</body>
-</html>
+</body></html>
